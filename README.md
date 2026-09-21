@@ -10,13 +10,6 @@ A fully static, one-page landing site (plus `/imprint` and `/privacy`) for Snugg
 - Playwright and `@axe-core/playwright` for tests
 - Self-hosted Archivo font. No Google Fonts, no CDN
 
-## Setup
-
-```bash
-npm install
-cp .env.example .env        # then fill in the values (see "Environment variables")
-npm run dev                 # http://localhost:4321
-```
 
 Node 22 or newer.
 
