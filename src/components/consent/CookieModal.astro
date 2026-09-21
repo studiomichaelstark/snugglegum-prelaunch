@@ -6,7 +6,10 @@
 import { consentCategories, hasOptionalCategories } from '@/config/consent';
 
 const optionButton =
-  'label-caps h-[52px] cursor-pointer rounded-full border-2 border-green text-sm transition-colors duration-150 hover:bg-lime hover:text-ink';
+  'label-caps h-[52px] cursor-pointer rounded-full border-2 border-green text-sm transition-colors duration-150';
+// Filled button: hover turns it white with the dark green border. Outline buttons are white already, so they keep the lime hover.
+const filled = 'bg-green text-pink hover:bg-white hover:text-green';
+const outline = 'bg-white text-green hover:bg-lime hover:text-ink';
 ---
 
 <dialog
@@ -74,14 +77,14 @@ const optionButton =
     </div>
 
     <div class="mt-6 grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-2.5">
-      <button type="button" data-consent-accept class:list={[optionButton, 'bg-green text-pink']}>Accept all</button>
-      <button type="button" data-consent-reject class:list={[optionButton, 'bg-white text-green']}>Reject all</button>
+      <button type="button" data-consent-accept class:list={[optionButton, filled]}>Accept all</button>
+      <button type="button" data-consent-reject class:list={[optionButton, outline]}>Reject all</button>
       <button
         type="button"
         data-consent-customize
         aria-expanded="false"
         aria-controls="cookie-panel"
-        class:list={[optionButton, 'bg-white text-green']}
+        class:list={[optionButton, outline]}
       >
         <span data-label-customize>Customize</span>
         <span data-label-save hidden>Save choices</span>
