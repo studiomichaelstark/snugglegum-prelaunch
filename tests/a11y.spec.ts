@@ -13,7 +13,9 @@ async function scan(page: import('@playwright/test').Page) {
         .map((animation) => animation.finished),
     ),
   );
-  const results = await new AxeBuilder({ page }).withTags(WCAG_22_AA).analyze();
+  // The giant "GUMMIES" word behind the pouch is aria-hidden pure decoration at 14% opacity. WCAG 1.4.3 exempts
+  // pure decoration from the contrast minimum, so it is excluded on purpose (marked with data-decorative-text).
+  const results = await new AxeBuilder({ page }).withTags(WCAG_22_AA).exclude('[data-decorative-text]').analyze();
   return results.violations.map((v) => ({
     id: v.id,
     impact: v.impact,
