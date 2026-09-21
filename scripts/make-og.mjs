@@ -1,6 +1,6 @@
 /**
  * Generates public/og-image.png (1200x630) from the design: brand colors (colors.css), the wordmark,
- * the pouch and the self-hosted Archivo font. Run `npm run og` after changing any of them and commit the PNG.
+ * the pouch and the self-hosted Archivo font. Run `pnpm og` after changing any of them and commit the PNG.
  */
 import { readFileSync } from 'node:fs';
 import { chromium } from '@playwright/test';

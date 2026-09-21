@@ -2,7 +2,7 @@
 
 **The texts in `/imprint` and `/privacy`, the cookie modal wording and the consent flow are drafts. They are not legal advice and must be reviewed by a qualified lawyer (data protection, e-commerce and, for the US, food and supplement advertising) before launch.**
 
-The pages carry a visible "Legal · draft" marker and a draft notice with a `[[TODO]]`, so the production build fails until you remove them after review.
+The pages carry a visible "Legal · draft" marker and a draft notice. They disappear only when you set `PUBLIC_LEGAL_REVIEWED=true` in `.env` after the review, and the production build fails until then.
 
 ## What the drafts cover
 
@@ -15,7 +15,7 @@ The pages carry a visible "Legal · draft" marker and a draft notice with a `[[T
 | Retention, data subject rights, withdrawal of consent, supervisory authority | `/privacy` sections 10, 11 |
 | Cookies and local storage | `/privacy` section 5, cookie modal |
 
-## Open data (all marked `[[TODO: …]]`)
+## Open data (all set in `.env`, see the README)
 
 Register entry, VAT ID, contact email, phone or second fast contact channel, consumer dispute resolution statement, hosting provider and its data processing agreement, server log retention, current MailerLite contracting entity, whether MailerLite open and click tracking is on, the transfer mechanism in MailerLite's DPA, the competent supervisory authority and its contact details, US state privacy disclosures, date of last update. None of these were invented.
 

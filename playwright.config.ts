@@ -1,4 +1,5 @@
 import { defineConfig, devices, type PlaywrightTestConfig } from '@playwright/test';
+import { placeholderSpecs } from './src/config/placeholders';
 
 const PORT = 4321;
 const baseURL = `http://localhost:${PORT}`;
@@ -35,12 +36,17 @@ export default defineConfig({
     serviceWorkers: 'block',
   },
   webServer: {
-    // The tests run against the real static build. Type checking runs separately (`npm run check`).
-    command: `npx astro build && npx astro preview --port ${PORT} --host localhost --ignore-lock`,
+    // The tests run against the real static build. Type checking runs separately (`pnpm check`).
+    command: `pnpm exec astro build && pnpm exec astro preview --port ${PORT} --host localhost --ignore-lock`,
     url: baseURL,
     timeout: 180_000,
     reuseExistingServer: false,
     env: {
+      // Pin every placeholder and knob to "empty", so the tests do not depend on what is in your .env.
+      ...Object.fromEntries(placeholderSpecs.map((spec) => [spec.env, ''])),
+      PUBLIC_DISCOUNT_LABEL: '',
+      PUBLIC_SUBSCRIBER_COUNT: '',
+      PUBLIC_PROOF_THRESHOLD: '',
       PUBLIC_MAILERLITE_ACCOUNT_ID: process.env.PUBLIC_MAILERLITE_ACCOUNT_ID ?? '2650700',
       PUBLIC_MAILERLITE_FORM_ID: process.env.PUBLIC_MAILERLITE_FORM_ID ?? '199242337324369472',
       PUBLIC_SITE_URL: '',

@@ -1,4 +1,4 @@
-import type { FormState } from './variants';
+import { parseCount, type FormState } from './variants';
 
 /**
  * Typed knobs from the Claude Design prototype, plus site-wide values.
@@ -12,11 +12,11 @@ export interface SiteConfig {
   readonly url: string;
   /** 'live' = working form. 'idle' | 'submitting' | 'success' | 'error' pre-render that state for review. */
   readonly formState: FormState;
-  /** e.g. "15%". Leave empty to hide the discount offer everywhere. */
+  /** e.g. "15%". Empty hides the discount offer everywhere. From PUBLIC_DISCOUNT_LABEL. */
   readonly discountLabel: string;
-  /** Number of confirmed subscribers, shown in the social-proof line once it reaches proofThreshold. */
+  /** Number of confirmed subscribers, shown in the social-proof line once it reaches proofThreshold. From PUBLIC_SUBSCRIBER_COUNT. */
   readonly subscriberCount: number;
-  /** Minimum subscriberCount before the social-proof line renders. */
+  /** Minimum subscriberCount before the social-proof line renders. From PUBLIC_PROOF_THRESHOLD. */
   readonly proofThreshold: number;
 }
 
@@ -25,9 +25,10 @@ export const siteConfig: SiteConfig = {
   locale: 'en-US',
   url: (import.meta.env.SITE ?? 'https://snugglegum.example').replace(/\/+$/, ''),
   formState: 'live',
-  discountLabel: '',
-  subscriberCount: 0,
-  proofThreshold: 250,
+  // Optional. Set PUBLIC_DISCOUNT_LABEL, PUBLIC_SUBSCRIBER_COUNT and PUBLIC_PROOF_THRESHOLD in .env to change them.
+  discountLabel: (import.meta.env.PUBLIC_DISCOUNT_LABEL ?? '').trim(),
+  subscriberCount: parseCount(import.meta.env.PUBLIC_SUBSCRIBER_COUNT, 0),
+  proofThreshold: parseCount(import.meta.env.PUBLIC_PROOF_THRESHOLD, 250),
 };
 
 /**

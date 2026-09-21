@@ -11,28 +11,29 @@ A fully static, one-page landing site (plus `/imprint` and `/privacy`) for Snugg
 - Self-hosted Archivo font. No Google Fonts, no CDN
 
 
-Node 22 or newer.
+Node 22.18 or newer and [pnpm](https://pnpm.io). This project uses pnpm only.
 
 ## Scripts
 
 | Script | What it does |
 |---|---|
-| `npm run dev` | Dev server |
-| `npm run build` | Type check, build, then `check:placeholders`. **Fails on purpose while any `[[TODO]]` or copy-review flag remains.** This is the production build. |
-| `npm run build:draft` | Type check and build, without the placeholder gate. Use it for previews and CI test runs. |
-| `npm run preview` | Serve the built `dist/` |
-| `npm test` | Playwright suite (Chromium, Firefox, WebKit, desktop and mobile) |
-| `npm run test:ui` | Playwright UI mode |
-| `npm run check:placeholders` | Lists every `[[TODO: …]]` marker and every `data-copy-review` flag, exits 1 if any remain |
-| `npm run check:colors` | Fails on any color literal outside `src/styles/colors.css` |
-| `npm run check` | `astro check` only |
-| `npm run og` | Regenerates `public/og-image.png` (needs a fresh build only if the design changes) |
+| `pnpm dev` | Dev server |
+| `pnpm build` | Type check, build, then `check:placeholders`. **Fails on purpose while any `.env` value is missing or any copy-review flag remains.** This is the production build. |
+| `pnpm build:draft` | Type check and build, without the placeholder gate. Use it for previews and CI test runs. |
+| `pnpm preview` | Serve the built `dist/` |
+| `pnpm test` | Playwright suite (Chromium, Firefox, WebKit, desktop and mobile) |
+| `pnpm test:ui` | Playwright UI mode |
+| `pnpm check:placeholders` | Lists every `.env` variable (set, missing or n/a) with a hint for each missing one, hard-coded `[[TODO]]` markers and `data-copy-review` flags, **and checks the built HTML in `dist/`** (see below). Exits 1 if anything is left |
+| `pnpm check:colors` | Fails on any color literal outside `src/styles/colors.css` |
+| `pnpm check` | `astro check` only |
+| `pnpm og` | Regenerates `public/og-image.png` (needs a fresh build only if the design changes) |
 
 ## Folder structure
 
 ```
 src/
-  config/        site.ts (design knobs, MailerLite endpoint), variants.ts (pure helpers), consent.ts
+  config/        site.ts (design knobs, MailerLite endpoint), variants.ts (pure helpers), consent.ts,
+                 placeholders.ts (the list of every value you fill in .env), legal.ts (reads them)
   styles/        colors.css (the only place with color values), global.css (Tailwind, font, keyframes)
   assets/        pouch image, self-hosted font (with its OFL license)
   layouts/       Base.astro (head, SEO, skip link, cookie modal), Legal.astro
@@ -41,12 +42,12 @@ src/
     ui/          ButtonLink, OfferCard, ImagePlaceholder, icons
     forms/       NewsletterForm.astro, NewsletterSuccess.astro
     consent/     CookieModal.astro
-    legal/       OperatorInfo.astro, LegalSection.astro
+    legal/       OperatorInfo.astro, LegalSection.astro, ContactEmail.astro
     sections/    Hero, Offer, HowItWorks, WhatsInside, Audience, Marquee, Faq, FinalCta, Footer, SupplementFacts
   scripts/       newsletter.ts, consent.ts, dialogs.ts
   pages/         index, imprint, privacy, robots.txt.ts, llms.txt.ts, favicon/site.webmanifest.ts
 public/          favicon/, _headers, og-image.png
-scripts/         check-placeholders.mjs, check-colors.mjs, make-og.mjs
+scripts/         check-placeholders.mjs (+ lib/), check-colors.mjs, make-og.mjs
 tests/           Playwright specs (unit/ needs no browser)
 docs/            seo-keywords.md, plan.md, faq-proposal.md, legal-review.md
 ```
@@ -75,13 +76,13 @@ Only behavior values (thresholds, form preview state, IDs) live in `src/config/`
 
 ### Review flags
 
-Copy or numbers that need approval carry a `data-copy-review="…"` attribute. `npm run check:placeholders` lists them and blocks the production build. Delete the attribute once the text is approved.
+Copy or numbers that need approval carry a `data-copy-review="…"` attribute in the markup. `pnpm check:placeholders` lists them and blocks the production build. Delete the attribute once the text is approved. (These are decisions about wording, so they stay in the code. Values like emails and dates live in `.env`.)
 
 ## Colors (`src/styles/colors.css`)
 
 All color values live in this one file as CSS custom properties with semantic names (`--color-brand-green`, `--color-brand-pink`, `--color-brand-lime`, `--color-brand-ink`, `--color-surface`, `--color-glow`, …). `src/styles/global.css` maps them into Tailwind with `@theme`, so utilities such as `bg-green`, `text-pink`, `bg-lime/50` use the variables. The default Tailwind palette is switched off, so a stray `bg-red-500` will not compile. Alpha versions use `color-mix()` or Tailwind's `/50` syntax.
 
-To change a color, edit `colors.css` only. `npm run check:colors` and a Playwright test fail on hex, `rgb()`, `hsl()` or `oklch()` literals anywhere else in `src/` or `public/`. The meta `theme-color` and the web manifest read their values from `colors.css` at build time.
+To change a color, edit `colors.css` only. `pnpm check:colors` and a Playwright test fail on hex, `rgb()`, `hsl()` or `oklch()` literals anywhere else in `src/` or `public/`. The meta `theme-color` and the web manifest read their values from `colors.css` at build time.
 
 ## Fonts
 
@@ -89,15 +90,60 @@ The design uses **Archivo** (variable, weight 400 to 900, width 100 to 125). Its
 
 To add or replace a font: put the woff2 in `src/assets/fonts/`, add an `@font-face` in `global.css`, add the family to `--font-sans` in the `@theme` block, and preload only the critical file in `Base.astro`. Check its license allows self-hosting. A test fails on any request to an external origin.
 
-## Environment variables and MailerLite
+## Placeholders and environment variables
 
-```
-PUBLIC_MAILERLITE_ACCOUNT_ID=2650700
-PUBLIC_MAILERLITE_FORM_ID=199242337324369472
-PUBLIC_SITE_URL=              # production origin, e.g. https://www.example.com (empty = placeholder)
+**Everything the site still needs from you is filled in one file: `.env`.** It already lists every variable with a comment. Open it, fill in the values, and run:
+
+```bash
+pnpm check:placeholders     # what is still missing, with a hint for each item
 ```
 
-> **`PUBLIC_` variables are exposed in the client bundle.** The MailerLite account and form IDs are not secret (they appear in every MailerLite embed). **Never put an API key or any other secret in a `PUBLIC_` variable or anywhere in the frontend.** `.env` is git-ignored. `.env.example` is committed.
+`.env` is git-ignored. `.env.example` (committed) has the same keys, empty. On a host, set the same variables in its dashboard instead. Values with spaces need double quotes, for example `PUBLIC_LEGAL_LOG_RETENTION="7 days"`.
+
+| Rule | Meaning |
+|---|---|
+| Empty | The page shows a visible `[[TODO: …]]` marker, and `pnpm build` fails |
+| `n/a` | For items marked optional: the line or section is left out of the page |
+| `PUBLIC_LEGAL_REVIEWED=true` | Set after a lawyer has reviewed both legal pages. Removes the "Legal · draft" marker and notice |
+
+| Group | Variables |
+|---|---|
+| Site and MailerLite | `PUBLIC_SITE_URL`, `PUBLIC_MAILERLITE_ACCOUNT_ID`, `PUBLIC_MAILERLITE_FORM_ID` |
+| Contact | `PUBLIC_CONTACT_EMAIL` (footer, imprint, privacy), `PUBLIC_PRIVACY_EMAIL` (empty = reuse the contact email) |
+| Imprint | `PUBLIC_LEGAL_PHONE`, `PUBLIC_LEGAL_COMMERCIAL_REGISTER`, `PUBLIC_LEGAL_VAT_ID`, `PUBLIC_LEGAL_DISPUTE_RESOLUTION` (last four optional) |
+| Privacy policy | `PUBLIC_LEGAL_HOSTING_PROVIDER`, `PUBLIC_LEGAL_LOG_RETENTION`, `PUBLIC_LEGAL_MAILERLITE_ENTITY`, `PUBLIC_LEGAL_MAILERLITE_TRACKING` (optional), `PUBLIC_LEGAL_TRANSFER_MECHANISM`, `PUBLIC_LEGAL_SUPERVISORY_AUTHORITY`, `PUBLIC_LEGAL_US_STATE_PRIVACY` (optional) |
+| Review | `PUBLIC_LEGAL_LAST_UPDATED`, `PUBLIC_LEGAL_REVIEWED` |
+| Offer (optional, not blocking) | `PUBLIC_DISCOUNT_LABEL`, `PUBLIC_SUBSCRIBER_COUNT`, `PUBLIC_PROOF_THRESHOLD` |
+
+The single source for these names, hints and rules is `src/config/placeholders.ts`. The pages read it through `src/config/legal.ts`, and `pnpm check:placeholders` reads the same list, so they cannot drift. To add a new value: add an entry to that file, use `legal.yourId.display` in a page, and run the script once to regenerate your `.env` comments by hand.
+
+> **`PUBLIC_` variables are exposed in the client bundle.** The MailerLite account and form IDs are not secret (they appear in every MailerLite embed), and every legal value above is printed on a public page anyway. **Never put an API key or any other secret in a `PUBLIC_` variable or anywhere in the frontend.**
+
+### Public and server-only variables
+
+Astro embeds only variables that start with `PUBLIC_` into client code, and everything this project prints on a page is read on the server at build time. So:
+
+- **Every variable in `.env` starts with `PUBLIC_`.** Each of them ends up as text on a public page (or in a public URL), so there is nothing secret in them.
+- **Brand name, claims, copy and meta tags are not in `.env`.** They stay as plain text in the `.astro` files (see "Editing copy").
+- **There are no server-only variables.** The site is static, has no API and needs no key. The MailerLite API key is deliberately not used anywhere. If you ever add a secret, give it a name **without** `PUBLIC_`. It is then not embedded into client code, and `pnpm check:placeholders` fails the build if its value shows up anywhere in `dist/`.
+
+### What `pnpm check:placeholders` verifies after the build
+
+A missing value must never make text quietly vanish. Besides listing what is empty, the check reads the **built pages** and fails if:
+
+| Problem | Example |
+|---|---|
+| A value that is set is not in the page it belongs to | `PUBLIC_CONTACT_EMAIL` is set but the footer no longer prints it |
+| A value that is empty shows neither the value nor its `[[TODO: …]]` marker | An empty gap instead of a marker |
+| An optional line switched off with `n/a` leaves its label behind | "VAT ID:" with nothing after it |
+| The text contains `undefined`, `null`, `NaN` or `[object Object]` | `Contact: undefined` |
+| An attribute is empty or `undefined` | `href="mailto:"`, an empty `src`, `<meta content="">`, an empty `<title>`, an empty newsletter endpoint |
+| Punctuation dangles after an empty value | "hosted by ." or "Retention: ." |
+| The draft notice does not match `PUBLIC_LEGAL_REVIEWED` | "Legal · draft" still visible after review |
+| The discount heading or social-proof line does not match its variables | "Three things" without a discount |
+| A value of a variable **without** `PUBLIC_` appears anywhere in `dist/` | A secret leaked into the output |
+
+It also warns about `PUBLIC_` variables in `.env` that nothing reads (a typo such as `PUBLIC_CONTACT_EMAL`). `pnpm build` runs it with `--require-build`, so a missing or outdated `dist/` fails the build. Run alone, it says when `dist/` is older than `.env` or `src/` (run `pnpm build:draft` first).
 
 `PUBLIC_SITE_URL` drives the canonical URL, the sitemap, `robots.txt`, `llms.txt`, Open Graph and JSON-LD. Until it is set they use `https://snugglegum.example`.
 
@@ -134,16 +180,16 @@ Listen for changes with `document.addEventListener('sg:consent', (e) => …)`.
 
 `src/components/legal/OperatorInfo.astro` is the **single place** for the operator's name and address. It feeds the imprint, the privacy policy and the footer's trademark and copyright lines. To change it (for example a US LLC later), edit the `operator` object in that file and nothing else.
 
-Anything still missing is written as `[[TODO: …]]`. `npm run check:placeholders` lists them and fails the production build until they are gone.
+Contact and legal details that are not the operator's name and address (email, phone, VAT ID, hosting, supervisory authority, …) come from `.env`, see "Placeholders and environment variables".
 
 ## Tests
 
 ```bash
-npx playwright install chromium firefox webkit   # once
-npm test
+pnpm exec playwright install chromium firefox webkit   # once
+pnpm test
 ```
 
-Projects: Chromium, Firefox and WebKit, each at a desktop and a mobile viewport, plus a browser-less `unit` project. The web server builds the site and serves it with `astro preview`.
+Projects: Chromium, Firefox and WebKit, each at a desktop and a mobile viewport, plus a browser-less `unit` project. The web server builds the site and serves it with `astro preview`. The build pins every placeholder variable to empty, so the tests do not depend on what is in your `.env`.
 
 | Spec | Covers |
 |---|---|
@@ -156,8 +202,10 @@ Projects: Chromium, Firefox and WebKit, each at a desktop and a mobile viewport,
 | `csp` | Every page runs under the real CSP from `public/_headers` without a violation |
 | `unit/guardrails` | No banned words in built output, sources or docs; ™ on every brand mention; 18+ notice; offer variants |
 | `unit/colors`, `unit/variants` | Color rule, design knobs |
+| `unit/placeholders` | `.env` resolution (empty, value, `n/a`, fallback, review flag) and the `check:placeholders` report |
+| `unit/rendered-check` | The post-build HTML check: every failure above on a synthetic `dist/`, plus the real build |
 
-**Firefox on this machine:** Playwright's Firefox build (155) fails to start on macOS 27 ("Could not find profile folder"), even when launched by hand. Run `SKIP_FIREFOX=1 npm test` to skip it locally. Run the full matrix in CI or on another machine.
+**Firefox on this machine:** Playwright's Firefox build (155) fails to start on macOS 27 ("Could not find profile folder"), even when launched by hand. Run `SKIP_FIREFOX=1 pnpm test` to skip it locally. Run the full matrix in CI or on another machine.
 
 ## SEO and GEO notes
 
@@ -182,7 +230,7 @@ Generated by `src/pages/robots.txt.ts`. It explicitly allows these crawlers. To 
 
 ## Deployment
 
-- Build with `npm run build` (needs `PUBLIC_SITE_URL` and all `[[TODO]]` markers resolved). The output is the `dist/` folder.
+- Build with `pnpm build` (needs every variable in `.env` filled in, see below). The output is the `dist/` folder.
 - `public/_headers` (CSP, referrer, permissions, HSTS, cache) works on **Netlify** and **Cloudflare Pages**. On another host, set the same headers in its configuration. The CSP allows only this origin plus `https://assets.mailerlite.com` for the form request.
 - Clean URLs (`/imprint`, `/privacy`) rely on the host serving `imprint.html` for `/imprint`, which Netlify and Cloudflare Pages do by default.
 - Set the three environment variables in the host's dashboard.
@@ -206,9 +254,9 @@ Generated by `src/pages/robots.txt.ts`. It explicitly allows these crawlers. To 
 
 ## Open items
 
-See the list at the end of the hand-over message and the output of `npm run check:placeholders`. In short:
+See the list at the end of the hand-over message and the output of `pnpm check:placeholders`. In short:
 
 - Approve or replace the flagged copy (`data-copy-review`), and the pouch artwork text.
-- Fill every `[[TODO: …]]` in `/imprint` and `/privacy`, then have a lawyer review them (`docs/legal-review.md`).
+- Fill in the missing values in `.env` (`pnpm check:placeholders` lists them), then have a lawyer review the legal pages (`docs/legal-review.md`) and set `PUBLIC_LEGAL_REVIEWED=true`.
 - Set `PUBLIC_SITE_URL`, choose hosting, confirm MailerLite double opt-in.
 - Decide the discount label, launch date, social-proof threshold, FAQ schema, and whether to add a pause control for the moving marquee.

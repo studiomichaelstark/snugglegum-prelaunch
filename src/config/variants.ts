@@ -21,3 +21,11 @@ export function shouldShowSocialProof(subscriberCount: number, proofThreshold: n
 export function isPreviewState(state: FormState): state is FormStateView {
   return state !== 'live';
 }
+
+/** Reads a non-negative whole number from an env string. Empty or invalid input gives the fallback. */
+export function parseCount(raw: string | undefined, fallback: number): number {
+  const text = (raw ?? '').trim();
+  if (!text) return fallback;
+  const value = Number(text);
+  return Number.isFinite(value) && value >= 0 ? Math.floor(value) : fallback;
+}

@@ -1,6 +1,8 @@
 ---
+import ContactEmail from '@/components/legal/ContactEmail.astro';
 import LegalSection from '@/components/legal/LegalSection.astro';
 import OperatorInfo from '@/components/legal/OperatorInfo.astro';
+import { legal } from '@/config/legal';
 import Legal from '@/layouts/Legal.astro';
 ---
 
@@ -13,13 +15,13 @@ import Legal from '@/layouts/Legal.astro';
   <LegalSection title="1. Operator">
     <p>The website Snugglegum™ is operated by:</p>
     <OperatorInfo />
-    <p>Commercial register: [[TODO: register court and number, or delete this line if not applicable]]</p>
-    <p>VAT ID: [[TODO: VAT ID, or delete this line if not applicable]]</p>
+    {legal.commercialRegister.display && <p>Commercial register: {legal.commercialRegister.display}</p>}
+    {legal.vatId.display && <p>VAT ID: {legal.vatId.display}</p>}
   </LegalSection>
 
   <LegalSection title="2. Contact">
-    <p>Email: [[TODO: contact email]]</p>
-    <p>Phone: [[TODO: phone number or another fast electronic contact channel]]</p>
+    <p>Email: <ContactEmail /></p>
+    {legal.phone.display && <p>Phone or second contact channel: {legal.phone.display}</p>}
   </LegalSection>
 
   <LegalSection title="3. Responsible for content">
@@ -48,7 +50,11 @@ import Legal from '@/layouts/Legal.astro';
     </p>
   </LegalSection>
 
-  <LegalSection title="7. Consumer dispute resolution">
-    <p>[[TODO: statement on participation in consumer dispute resolution, if required once products are sold]]</p>
-  </LegalSection>
+  {
+    legal.disputeResolution.display && (
+      <LegalSection title="7. Consumer dispute resolution">
+        <p>{legal.disputeResolution.display}</p>
+      </LegalSection>
+    )
+  }
 </Legal>

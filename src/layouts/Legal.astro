@@ -2,12 +2,15 @@
 /** Shared template for /imprint and /privacy. */
 import Footer from '@/components/sections/Footer.astro';
 import Logo from '@/components/logo/Logo.astro';
+import { legal } from '@/config/legal';
 import Base from '@/layouts/Base.astro';
 import type { PageMeta } from '@/lib/seo';
 
 type Props = PageMeta & { heading: string };
 
 const { heading, ...meta } = Astro.props;
+// PUBLIC_LEGAL_REVIEWED=true removes the draft marker and notice.
+const isReviewed = legal.reviewed.status === 'set';
 ---
 
 <Base {...meta}>
@@ -22,18 +25,25 @@ const { heading, ...meta } = Astro.props;
           Close
         </a>
       </div>
-      <span
-        data-copy-review="legal drafts need review by a qualified lawyer"
-        class="label-caps ticket-notch mt-8 inline-block rounded-lg bg-lime px-5 py-3 text-sm text-ink"
-      >
-        Legal · draft
-      </span>
+      {
+        !isReviewed && (
+          <span class="label-caps ticket-notch mt-8 inline-block rounded-lg bg-lime px-5 py-3 text-sm text-ink">
+            Legal · draft
+          </span>
+        )
+      }
       <h1 class="display-word mt-[18px] text-[clamp(2.2rem,5vw,3.75rem)] leading-[0.88] tracking-normal font-stretch-[120%]">
         {heading}
       </h1>
-      <p class="mt-[18px] text-base leading-[1.6] opacity-90" data-copy-review="draft notice">
-        Last updated: [[TODO: date of last update]]. This text is a draft template and must be reviewed by a lawyer before
-        launch. [[TODO: remove this draft notice after legal review]]
+      <p class="mt-[18px] text-base leading-[1.6] opacity-90">
+        Last updated: {legal.lastUpdated.display}.{
+          !isReviewed && (
+            <>
+              {' '}
+              This text is a draft template and must be reviewed by a lawyer before launch. {legal.reviewed.display}
+            </>
+          )
+        }
       </p>
       <div class="mt-[34px] grid max-w-[66ch] gap-7">
         <slot />

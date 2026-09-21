@@ -1,52 +1,88 @@
 /**
  * Lists everything that still blocks a production launch and fails if anything is left:
- *  - [[TODO: ...]] markers (missing data, for example legal details)
- *  - data-copy-review attributes (copy or numbers that need your approval)
- * `npm run build` runs this after the build, so an unfinished site cannot ship by accident.
+ *  1. variables not filled in `.env` (all placeholders live in src/config/placeholders.ts)
+ *  2. hard-coded [[TODO: …]] markers in src/
+ *  3. data-copy-review flags (copy or numbers that need your approval)
+ *  4. the BUILT pages in dist/: does every value really show up, or did text vanish silently?
+ *     (see scripts/lib/rendered-check.mjs)
+ *
+ * `pnpm build` runs this after the build with --require-build, so an unfinished site cannot ship by accident.
+ * Run alone (`pnpm check:placeholders`), it checks dist/ only if a build exists.
  */
-import { readdirSync, readFileSync, statSync } from 'node:fs';
-import { extname, join, relative } from 'node:path';
+import { collectPlaceholderReport } from './lib/placeholder-report.mjs';
+import { collectRenderedProblems, distIsStale } from './lib/rendered-check.mjs';
 
-const ROOT = process.cwd();
-const EXTENSIONS = new Set(['.astro', '.ts', '.css', '.md']);
-const TODO = /\[\[TODO[\s\S]*?\]\]/g;
-const REVIEW = /data-copy-review(?:="([^"]*)")?/g;
+const requireBuild = process.argv.includes('--require-build');
+const report = collectPlaceholderReport();
 
-function* walk(dir) {
-  for (const name of readdirSync(dir)) {
-    const path = join(dir, name);
-    if (statSync(path).isDirectory()) yield* walk(path);
-    else if (EXTENSIONS.has(extname(name))) yield path;
+const groupTitles = {
+  general: 'Site and MailerLite',
+  contact: 'Contact',
+  imprint: 'Imprint',
+  privacy: 'Privacy policy',
+  review: 'Review',
+  offer: 'Offer (optional)',
+};
+
+const width = Math.max(...report.variables.map((v) => v.env.length));
+const mark = { set: 'set    ', missing: 'MISSING', hidden: 'n/a    ' };
+
+console.log("\nEnvironment variables (.env, or the host's environment)");
+let lastGroup = '';
+for (const item of report.variables) {
+  if (item.group !== lastGroup) {
+    console.log(`\n  ${groupTitles[item.group]}`);
+    lastGroup = item.group;
   }
+  const detail = item.status === 'missing' ? `  ${item.label}` : '';
+  console.log(`    ${mark[item.status]}  ${item.env.padEnd(width)}${detail}`);
 }
 
-const lineOf = (text, index) => text.slice(0, index).split('\n').length;
-const clean = (value) => value.replace(/\s+/g, ' ').trim();
-
-const todos = [];
-const reviews = [];
-
-for (const file of walk(join(ROOT, 'src'))) {
-  const text = readFileSync(file, 'utf8');
-  const rel = relative(ROOT, file);
-  for (const match of text.matchAll(TODO)) {
-    todos.push({ where: `${rel}:${lineOf(text, match.index)}`, what: clean(match[0]) });
-  }
-  for (const match of text.matchAll(REVIEW)) {
-    reviews.push({ where: `${rel}:${lineOf(text, match.index)}`, what: match[1] ?? 'needs review' });
-  }
+if (report.missing.length) {
+  console.log('\nHow to fill them in');
+  for (const item of report.missing) console.log(`    ${item.env}: ${item.hint}`);
 }
 
 const print = (title, rows) => {
   console.log(`\n${title} (${rows.length})`);
-  for (const { where, what } of rows) console.log(`  ${where}\n    ${what}`);
+  for (const { where, what } of rows) console.log(`    ${where}\n      ${what}`);
 };
+print('Hard-coded [[TODO]] markers in src/', report.todos);
+print('Copy needing your approval (data-copy-review)', report.reviews);
 
-print('[[TODO]] markers', todos);
-print('Copy needing your approval (data-copy-review)', reviews);
+// ---- Rendered output ----
+const rendered = collectRenderedProblems({ env: report.env });
+const stale = distIsStale(process.cwd());
+const renderedProblems = [...rendered.problems];
 
-if (todos.length + reviews.length > 0) {
-  console.error(`\ncheck:placeholders FAILED. ${todos.length} TODO marker(s), ${reviews.length} copy review flag(s) remain.`);
+console.log('\nRendered output (dist/)');
+if (rendered.skipped) {
+  if (requireBuild) {
+    renderedProblems.push({ kind: 'build', where: 'dist/', what: 'No build found. Run `pnpm build`.' });
+    console.log('    No dist/ found.');
+  } else {
+    console.log('    Skipped: no build yet. Run `pnpm build:draft`, then this check again to verify the HTML.');
+  }
+} else {
+  if (stale) {
+    const what = '.env or src/ changed after the last build, so dist/ shows an old state. Run `pnpm build:draft` first.';
+    console.log(`    WARNING: ${what}`);
+    if (requireBuild) renderedProblems.push({ kind: 'stale', where: 'dist/', what });
+  }
+  for (const warning of rendered.warnings) console.log(`    WARNING: ${warning}`);
+  if (rendered.problems.length === 0) {
+    console.log(`    OK. ${rendered.checked} checks on ${rendered.pages.length} pages: every value is in the HTML, nothing vanished, no undefined or empty output.`);
+  }
+  for (const item of rendered.problems) console.log(`    [${item.kind}] ${item.where}\n      ${item.what}`);
+}
+
+const blocking = report.blocking + renderedProblems.length;
+if (blocking > 0) {
+  console.error(
+    `\ncheck:placeholders FAILED. ${report.missing.length} variable(s) missing, ` +
+      `${report.todos.length} hard-coded marker(s), ${report.reviews.length} copy review flag(s), ` +
+      `${renderedProblems.length} problem(s) in the rendered output.`,
+  );
   process.exit(1);
 }
 console.log('\ncheck:placeholders OK. Nothing left to resolve.');

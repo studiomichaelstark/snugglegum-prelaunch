@@ -1,4 +1,5 @@
 ---
+import ContactEmail from '@/components/legal/ContactEmail.astro';
 import Logo from '@/components/logo/Logo.astro';
 import OperatorInfo from '@/components/legal/OperatorInfo.astro';
 import ButtonLink from '@/components/ui/ButtonLink.astro';
@@ -16,7 +17,7 @@ const footLink = 'inline-flex min-h-11 cursor-pointer items-center text-[15px] u
           diagnose, treat, cure, or prevent any disease.
         </p>
         <p class="text-[17px] leading-[1.6] opacity-90">
-          Contact: <a href="mailto:gummyshot@snugglegum.com">gummyshot@snugglegum.com</a>
+          Contact: <ContactEmail />
         </p>
         <p class="text-[17px] leading-[1.6] opacity-90">
           Snugglegum<sup class="text-[0.55em]">™</sup> is a trademark by <OperatorInfo variant="name" />

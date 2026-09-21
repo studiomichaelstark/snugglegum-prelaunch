@@ -1,6 +1,9 @@
 ---
+import ContactEmail from '@/components/legal/ContactEmail.astro';
 import LegalSection from '@/components/legal/LegalSection.astro';
 import OperatorInfo from '@/components/legal/OperatorInfo.astro';
+import { legal } from '@/config/legal';
+import { sentence } from '@/config/placeholders';
 import Legal from '@/layouts/Legal.astro';
 ---
 
@@ -13,7 +16,7 @@ import Legal from '@/layouts/Legal.astro';
   <LegalSection title="1. Controller">
     <p>The controller under the General Data Protection Regulation (GDPR) is:</p>
     <OperatorInfo />
-    <p>Contact for privacy matters: [[TODO: privacy contact email]]</p>
+    <p>Contact for privacy matters: <ContactEmail field="privacyEmail" /></p>
   </LegalSection>
 
   <LegalSection title="2. Overview">
@@ -25,14 +28,14 @@ import Legal from '@/layouts/Legal.astro';
 
   <LegalSection title="3. Hosting and server log files">
     <p>
-      The website is hosted by [[TODO: hosting provider, its address and the data processing agreement]]. When you visit
+      The website is hosted by {sentence(legal.hostingProvider.display ?? '')} When you visit
       the site, the hosting provider's servers process technical data that your browser transmits: IP address, date and
       time, requested address, referrer, and browser and operating system information. This data is kept in server log
       files.
     </p>
     <p>
       Purpose: delivering the website and keeping it secure. Legal basis: Art. 6(1)(f) GDPR (our legitimate interest in
-      stable and secure operation). Retention: [[TODO: log retention period of the hosting provider]].
+      stable and secure operation). Retention: {sentence(legal.logRetention.display ?? '')}
     </p>
   </LegalSection>
 
@@ -78,16 +81,15 @@ import Legal from '@/layouts/Legal.astro';
 
   <LegalSection title="7. MailerLite (processor)">
     <p>
-      We use MailerLite to collect sign-ups and send emails. Provider: [[TODO: confirm the current MailerLite contracting
-      entity and its address]]. MailerLite processes your data on our behalf under a data processing agreement pursuant
+      We use MailerLite to collect sign-ups and send emails. Provider: {sentence(legal.mailerLiteEntity.display ?? '')} MailerLite processes your data on our behalf under a data processing agreement pursuant
       to Art. 28 GDPR. Its own privacy policy is available at
       <a href="https://www.mailerlite.com/legal/privacy-policy" rel="noopener">mailerlite.com/legal/privacy-policy</a>.
     </p>
     <p>
       When you press the sign-up button, your browser sends the email address directly to MailerLite's servers, so
-      MailerLite also receives your IP address. [[TODO: confirm whether open and click tracking is enabled in MailerLite.
-      If yes, describe it here and rely on consent.]]
+      MailerLite also receives your IP address.
     </p>
+    {legal.mailerLiteTracking.display && <p>{legal.mailerLiteTracking.display}</p>}
   </LegalSection>
 
   <LegalSection title="8. Recipients">
@@ -100,8 +102,7 @@ import Legal from '@/layouts/Legal.astro';
   <LegalSection title="9. Transfers to third countries">
     <p>
       MailerLite may process data outside the European Economic Area, including in the United States. Where that
-      happens, the transfer is protected by suitable safeguards such as an adequacy decision or Standard Contractual
-      Clauses. [[TODO: verify the transfer mechanism in MailerLite's current data processing agreement and name it here]]
+      happens, the transfer relies on: {sentence(legal.transferMechanism.display ?? '')}
     </p>
   </LegalSection>
 
@@ -126,7 +127,7 @@ import Legal from '@/layouts/Legal.astro';
     </ul>
     <p>
       To use these rights, contact us at the address in section 1. You also have the right to lodge a complaint with a
-      supervisory authority. The competent authority is: [[TODO: competent supervisory authority and its contact details]]
+      supervisory authority. The competent authority is: {sentence(legal.supervisoryAuthority.display ?? '')}
     </p>
   </LegalSection>
 
@@ -137,9 +138,8 @@ import Legal from '@/layouts/Legal.astro';
   <LegalSection title="13. US state privacy rights">
     <p>
       We do not sell your personal data, and we do not use it for cross-context behavioral advertising.
-      [[TODO: add US state privacy disclosures, for example for California, once sales to US residents begin. Confirm
-      with counsel which laws apply.]]
     </p>
+    {legal.usStatePrivacy.display && <p>{legal.usStatePrivacy.display}</p>}
   </LegalSection>
 
   <LegalSection title="14. Changes">
