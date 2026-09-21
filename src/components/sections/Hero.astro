@@ -4,7 +4,6 @@ import pouch from '@/assets/snugglegum-doypack.png';
 import Logo from '@/components/logo/Logo.astro';
 import StampBadge from '@/components/logo/StampBadge.astro';
 import NewsletterForm from '@/components/forms/NewsletterForm.astro';
-import PdfIcon from '@/components/ui/PdfIcon.astro';
 import { siteConfig } from '@/config/site';
 import { shouldShowSocialProof } from '@/config/variants';
 
@@ -85,10 +84,9 @@ const sticker =
         <p
           slot="after-error"
           data-copy-review="body-taste guide mention"
-          class="mt-3.5 flex items-center justify-center gap-2 text-center text-2xl leading-[1.4] font-bold"
+          class="mt-3.5 text-center text-2xl leading-[1.4] font-bold"
         >
           Free with sign-up: the "Body Taste Cheat Code" guide.
-          <PdfIcon />
         </p>
       </NewsletterForm>
 
