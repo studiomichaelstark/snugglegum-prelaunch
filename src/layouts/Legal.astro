@@ -1,0 +1,65 @@
+---
+/** Shared template for /imprint and /privacy. */
+import Footer from '@/components/sections/Footer.astro';
+import Logo from '@/components/logo/Logo.astro';
+import Base from '@/layouts/Base.astro';
+import type { PageMeta } from '@/lib/seo';
+
+type Props = PageMeta & { heading: string };
+
+const { heading, ...meta } = Astro.props;
+---
+
+<Base {...meta}>
+  <main id="main" class="bg-white">
+    <div class="mx-auto max-w-[760px] px-[clamp(20px,5vw,48px)] pt-[clamp(24px,5vw,64px)] pb-20">
+      <div class="flex items-center justify-between gap-5">
+        <a href="/" class="block w-[220px] no-underline"><Logo class="text-green" /></a>
+        <a
+          href="/"
+          class="label-caps inline-flex h-[50px] items-center rounded-full border-2 border-green bg-transparent px-6 no-underline text-sm text-green transition-colors hover:bg-green hover:text-lime"
+        >
+          Close
+        </a>
+      </div>
+      <span
+        data-copy-review="legal drafts need review by a qualified lawyer"
+        class="label-caps ticket-notch mt-8 inline-block rounded-lg bg-lime px-5 py-3 text-sm text-ink"
+      >
+        Legal · draft
+      </span>
+      <h1 class="display-word mt-[18px] text-[clamp(2.2rem,5vw,3.75rem)] leading-[0.88] tracking-normal font-stretch-[120%]">
+        {heading}
+      </h1>
+      <p class="mt-[18px] text-base leading-[1.6] opacity-90" data-copy-review="draft notice">
+        Last updated: [[TODO: date of last update]]. This text is a draft template and must be reviewed by a lawyer before
+        launch. [[TODO: remove this draft notice after legal review]]
+      </p>
+      <div class="mt-[34px] grid max-w-[66ch] gap-7">
+        <slot />
+        <div class="rounded-[22px] border-2 border-dashed border-green p-[22px]">
+          <p class="text-[17px] leading-[1.6]">
+            *These statements have not been evaluated by the Food and Drug Administration. This product is not intended
+            to diagnose, treat, cure, or prevent any disease.
+          </p>
+        </div>
+      </div>
+      <div class="mt-[38px] flex flex-wrap gap-3">
+        <button
+          type="button"
+          data-open-cookie-settings
+          class="label-caps h-[50px] cursor-pointer rounded-full border-2 border-green bg-transparent px-6 text-sm text-green transition-colors hover:bg-green hover:text-lime"
+        >
+          Cookie settings
+        </button>
+        <a
+          href="/"
+          class="label-caps inline-flex h-[50px] items-center rounded-full border-2 border-green bg-green px-6 no-underline text-sm text-pink transition-colors hover:bg-lime hover:text-ink"
+        >
+          Back to the list
+        </a>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Base>

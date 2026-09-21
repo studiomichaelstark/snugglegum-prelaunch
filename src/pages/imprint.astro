@@ -1,0 +1,54 @@
+---
+import LegalSection from '@/components/legal/LegalSection.astro';
+import OperatorInfo from '@/components/legal/OperatorInfo.astro';
+import Legal from '@/layouts/Legal.astro';
+---
+
+<Legal
+  title="Imprint – Snugglegum™"
+  description="Legal notice and operator information for Snugglegum™, the pre-launch brand of liquid-filled pineapple gummies for adults 18+."
+  path="/imprint"
+  heading="Imprint"
+>
+  <LegalSection title="1. Operator">
+    <p>The website Snugglegum™ is operated by:</p>
+    <OperatorInfo />
+    <p>Commercial register: [[TODO: register court and number, or delete this line if not applicable]]</p>
+    <p>VAT ID: [[TODO: VAT ID, or delete this line if not applicable]]</p>
+  </LegalSection>
+
+  <LegalSection title="2. Contact">
+    <p>Email: [[TODO: contact email]]</p>
+    <p>Phone: [[TODO: phone number or another fast electronic contact channel]]</p>
+  </LegalSection>
+
+  <LegalSection title="3. Responsible for content">
+    <p>The person responsible for the content of this website is the operator named in section 1.</p>
+  </LegalSection>
+
+  <LegalSection title="4. Liability for content">
+    <p>
+      We create the content of this website with care. We cannot guarantee that it is complete, accurate or up to date at
+      all times. Snugglegum™ is in its pre-launch phase. Product details, offers and dates on this page may change before
+      launch.
+    </p>
+  </LegalSection>
+
+  <LegalSection title="5. Liability for links">
+    <p>
+      This website does not link to third-party content that we control. If you follow a link to an external website,
+      the operator of that website is responsible for its content.
+    </p>
+  </LegalSection>
+
+  <LegalSection title="6. Trademark and copyright">
+    <p>
+      Snugglegum™ is a trademark by <OperatorInfo variant="name" />. Texts, images, logos and design of this website are
+      protected by copyright. Any use beyond what the law allows requires our prior written consent.
+    </p>
+  </LegalSection>
+
+  <LegalSection title="7. Consumer dispute resolution">
+    <p>[[TODO: statement on participation in consumer dispute resolution, if required once products are sold]]</p>
+  </LegalSection>
+</Legal>

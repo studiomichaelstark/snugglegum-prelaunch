@@ -1,0 +1,148 @@
+---
+import LegalSection from '@/components/legal/LegalSection.astro';
+import OperatorInfo from '@/components/legal/OperatorInfo.astro';
+import Legal from '@/layouts/Legal.astro';
+---
+
+<Legal
+  title="Privacy Policy – Snugglegum™"
+  description="How Snugglegum™ handles your data: newsletter sign-up with double opt-in via MailerLite, cookies, retention and your rights under the GDPR."
+  path="/privacy"
+  heading="Privacy Policy"
+>
+  <LegalSection title="1. Controller">
+    <p>The controller under the General Data Protection Regulation (GDPR) is:</p>
+    <OperatorInfo />
+    <p>Contact for privacy matters: [[TODO: privacy contact email]]</p>
+  </LegalSection>
+
+  <LegalSection title="2. Overview">
+    <p>
+      This website is a pre-launch page for Snugglegum™. It has no user accounts, no shop and no comment function. We
+      process personal data only in the cases described below.
+    </p>
+  </LegalSection>
+
+  <LegalSection title="3. Hosting and server log files">
+    <p>
+      The website is hosted by [[TODO: hosting provider, its address and the data processing agreement]]. When you visit
+      the site, the hosting provider's servers process technical data that your browser transmits: IP address, date and
+      time, requested address, referrer, and browser and operating system information. This data is kept in server log
+      files.
+    </p>
+    <p>
+      Purpose: delivering the website and keeping it secure. Legal basis: Art. 6(1)(f) GDPR (our legitimate interest in
+      stable and secure operation). Retention: [[TODO: log retention period of the hosting provider]].
+    </p>
+  </LegalSection>
+
+  <LegalSection title="4. Fonts and external resources">
+    <p>
+      All fonts and images are served from our own server. Your browser does not contact Google Fonts or any content
+      delivery network when you load this website. The only third-party request is the one to MailerLite when you submit
+      the newsletter form (see sections 6 and 7).
+    </p>
+  </LegalSection>
+
+  <LegalSection title="5. Cookies and local storage" id="cookies">
+    <p>
+      We do not set any cookies. When you make a choice in the cookie settings, we store it in your browser's local
+      storage (entry name "sg-cookie-consent") together with a version number and a timestamp. This lets us remember your
+      choice so we do not ask you on every visit. It is strictly necessary to provide that function, so it does not
+      require your consent. Legal basis: Art. 6(1)(f) GDPR and section 25(2) no. 2 TDDDG.
+    </p>
+    <p>
+      We currently use no analytics or marketing tools. If we add such tools later, they will load only after you
+      consent, and we will update this policy first. You can change your choice at any time with the "Cookie settings"
+      button in the footer. You can also delete the stored entry in your browser settings.
+    </p>
+  </LegalSection>
+
+  <LegalSection title="6. Newsletter and launch list">
+    <p>
+      If you sign up for the launch list, we process the email address you enter, the time of your sign-up and
+      confirmation, and the technical data needed to prove your consent (for example the IP address used when you
+      confirm). We use this data to send you launch news, early access and the pre-launch offer.
+    </p>
+    <p>
+      Legal basis: your consent, Art. 6(1)(a) GDPR. The consent checkbox is not pre-ticked, and nothing is sent before
+      you press the sign-up button. We use double opt-in: after you sign up, we send a confirmation email. Your address
+      is added as confirmed only after you click the link in that email. The list is for adults aged 18 and over only.
+    </p>
+    <p>
+      You can withdraw your consent at any time with effect for the future, for example with the unsubscribe link in
+      every email or by contacting us. Withdrawing does not affect the lawfulness of processing before the withdrawal.
+      Providing your email address is voluntary. Without it, we cannot add you to the list.
+    </p>
+  </LegalSection>
+
+  <LegalSection title="7. MailerLite (processor)">
+    <p>
+      We use MailerLite to collect sign-ups and send emails. Provider: [[TODO: confirm the current MailerLite contracting
+      entity and its address]]. MailerLite processes your data on our behalf under a data processing agreement pursuant
+      to Art. 28 GDPR. Its own privacy policy is available at
+      <a href="https://www.mailerlite.com/legal/privacy-policy" rel="noopener">mailerlite.com/legal/privacy-policy</a>.
+    </p>
+    <p>
+      When you press the sign-up button, your browser sends the email address directly to MailerLite's servers, so
+      MailerLite also receives your IP address. [[TODO: confirm whether open and click tracking is enabled in MailerLite.
+      If yes, describe it here and rely on consent.]]
+    </p>
+  </LegalSection>
+
+  <LegalSection title="8. Recipients">
+    <p>
+      Recipients of your data are our hosting provider and MailerLite, each only as far as needed for the purposes above.
+      We do not sell your personal data.
+    </p>
+  </LegalSection>
+
+  <LegalSection title="9. Transfers to third countries">
+    <p>
+      MailerLite may process data outside the European Economic Area, including in the United States. Where that
+      happens, the transfer is protected by suitable safeguards such as an adequacy decision or Standard Contractual
+      Clauses. [[TODO: verify the transfer mechanism in MailerLite's current data processing agreement and name it here]]
+    </p>
+  </LegalSection>
+
+  <LegalSection title="10. Retention">
+    <p>
+      We keep your newsletter data until you unsubscribe or withdraw your consent. After that we delete it, except for a
+      record of your consent and its withdrawal, which we keep as long as needed to prove them (Art. 6(1)(f) and Art.
+      7(1) GDPR) or as the law requires. Server log data is deleted as stated in section 3.
+    </p>
+  </LegalSection>
+
+  <LegalSection title="11. Your rights">
+    <p>Under the GDPR you have the right to:</p>
+    <ul>
+      <li>access your data (Art. 15),</li>
+      <li>have inaccurate data corrected (Art. 16),</li>
+      <li>have your data erased (Art. 17),</li>
+      <li>restrict processing (Art. 18),</li>
+      <li>receive your data in a portable format (Art. 20),</li>
+      <li>object to processing based on legitimate interests (Art. 21),</li>
+      <li>withdraw consent at any time (Art. 7(3)).</li>
+    </ul>
+    <p>
+      To use these rights, contact us at the address in section 1. You also have the right to lodge a complaint with a
+      supervisory authority. The competent authority is: [[TODO: competent supervisory authority and its contact details]]
+    </p>
+  </LegalSection>
+
+  <LegalSection title="12. Automated decisions">
+    <p>We do not use automated decision-making or profiling.</p>
+  </LegalSection>
+
+  <LegalSection title="13. US state privacy rights">
+    <p>
+      We do not sell your personal data, and we do not use it for cross-context behavioral advertising.
+      [[TODO: add US state privacy disclosures, for example for California, once sales to US residents begin. Confirm
+      with counsel which laws apply.]]
+    </p>
+  </LegalSection>
+
+  <LegalSection title="14. Changes">
+    <p>We update this policy when the website or the law changes. The current version is always on this page.</p>
+  </LegalSection>
+</Legal>
