@@ -1,0 +1,34 @@
+{
+  "name": "snugglegum",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "check": "astro check",
+    "build": "astro check && astro build && npm run check:placeholders",
+    "build:draft": "astro check && astro build",
+    "preview": "astro preview",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "check:placeholders": "node scripts/check-placeholders.mjs",
+    "check:colors": "node scripts/check-colors.mjs",
+    "og": "node scripts/make-og.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.3.3",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.6.2",
+    "typescript": "^6.0.3"
+  }
+}
