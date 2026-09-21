@@ -46,14 +46,14 @@ const sticker =
         GUMMIES
       </div>
 
-      <div class="relative mt-[max(-80px,calc(-9vw+20px))] flex justify-center">
-        <div class="relative aspect-[746/964] w-[min(75%,390px)] animate-[sg-bob_7s_ease-in-out_infinite]">
+      <div class="relative mt-[max(-80px,calc(-9vw+20px))] flex justify-center md:mt-[clamp(-80px,-9vw,-36px)]">
+        <div class="relative aspect-[746/964] w-[min(75%,390px)] animate-[sg-bob_7s_ease-in-out_infinite] md:w-[min(100%,520px)]">
           <Picture
             src={pouch}
             alt="Snugglegum™ pouch of liquid-filled pineapple gummies"
             formats={['avif', 'webp']}
-            widths={[292, 390, 584, 746]}
-            sizes="(min-width: 640px) 390px, 75vw"
+            widths={[292, 390, 520, 746]}
+            sizes="(min-width: 768px) 520px, min(75vw, 390px)"
             loading="eager"
             fetchpriority="high"
             decoding="async"
