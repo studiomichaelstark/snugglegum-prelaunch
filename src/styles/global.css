@@ -1,0 +1,262 @@
+@import 'tailwindcss';
+@import './colors.css';
+
+/* Self-hosted Archivo (SIL OFL 1.1): variable, Latin subset, wght 400-900, wdth 100-125. */
+@font-face {
+  font-family: 'Archivo';
+  src: url('../assets/fonts/archivo-latin-wdth-normal.woff2') format('woff2');
+  font-weight: 400 900;
+  font-stretch: 100% 125%;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Metric-matched fallback so the swap does not shift the layout. */
+@font-face {
+  font-family: 'Archivo Fallback';
+  src: local('Arial'), local('Helvetica'), local('Liberation Sans');
+  size-adjust: 103%;
+  ascent-override: 85%;
+  descent-override: 20%;
+  line-gap-override: 0%;
+}
+
+/* Only tokens from colors.css are available as color utilities. */
+@theme {
+  --color-*: initial;
+  --font-sans: 'Archivo', 'Archivo Fallback', Helvetica, Arial, sans-serif;
+}
+
+@theme inline {
+  --color-green: var(--color-brand-green);
+  --color-pink: var(--color-brand-pink);
+  --color-lime: var(--color-brand-lime);
+  --color-ink: var(--color-brand-ink);
+  --color-white: var(--color-surface);
+  --color-ink-muted: var(--color-text-muted-on-ink);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 19px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Tailwind's reset removes link underlines. Inline links need them (WCAG 1.4.1). Button-style links opt out with no-underline. */
+  a {
+    color: var(--color-brand-green);
+    text-decoration: underline;
+  }
+
+  a:hover {
+    color: var(--color-link-hover);
+  }
+
+  ::selection {
+    background: var(--color-selection);
+    color: var(--color-brand-ink);
+  }
+
+  summary {
+    list-style: none;
+    cursor: pointer;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  input::placeholder {
+    color: color-mix(in srgb, var(--color-brand-green) 75%, transparent);
+    opacity: 1;
+  }
+
+  /* Visible focus everywhere. Green on light surfaces, lime on dark ones. */
+  :focus-visible {
+    outline: 3px solid var(--color-brand-green);
+    outline-offset: 3px;
+  }
+
+  .on-dark :focus-visible {
+    outline-color: var(--color-brand-lime);
+  }
+
+  dialog {
+    color: inherit;
+  }
+
+  body:has(dialog[open]) {
+    overflow: hidden;
+  }
+}
+
+/* Display type helpers (design tokens from the prototype). */
+@utility display-word {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+@utility label-caps {
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+@utility sr-only-important {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@keyframes sg-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--r, 0deg)) scale(1);
+  }
+  50% {
+    transform: translateY(-26px) rotate(calc(var(--r, 0deg) * -1.6)) scale(1.06);
+  }
+}
+
+@keyframes sg-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1.5deg);
+  }
+  50% {
+    transform: translateY(-22px) rotate(1.5deg);
+  }
+}
+
+@keyframes sg-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Pulse ring drawn on a pseudo-element: transform and opacity only. */
+@keyframes sg-pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  70%,
+  100% {
+    transform: scale(1.14, 1.4);
+    opacity: 0;
+  }
+}
+
+@keyframes sg-blink {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.8);
+  }
+}
+
+@keyframes sg-burst {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.9;
+  }
+  70%,
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+@keyframes sg-slide {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pulse-ring {
+  position: relative;
+}
+
+.pulse-ring::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  border: 3px solid color-mix(in srgb, var(--color-glow) 80%, transparent);
+  pointer-events: none;
+  animation: sg-pulse-ring 2.6s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Modal dialogs (cookie settings, supplement facts). */
+dialog::backdrop {
+  background: color-mix(in srgb, var(--color-brand-green) 55%, transparent);
+}
+
+dialog[data-dialog='supplement-facts']::backdrop {
+  background: color-mix(in srgb, var(--color-brand-ink) 60%, transparent);
+}
+
+/* The ticket label notch mask from the design (used on legal pages). */
+.ticket-notch {
+  mask:
+    radial-gradient(circle 9px at 0 0, transparent 98%, black) 0 0 / 51% 51% no-repeat,
+    radial-gradient(circle 9px at 100% 0, transparent 98%, black) 100% 0 / 51% 51% no-repeat,
+    radial-gradient(circle 9px at 0 100%, transparent 98%, black) 0 100% / 51% 51% no-repeat,
+    radial-gradient(circle 9px at 100% 100%, transparent 98%, black) 100% 100% / 51% 51% no-repeat;
+}
+
+/* Hero wordmark glow and sticker drop shadow (design values, colors from tokens). */
+.logo-glow {
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--color-glow) 40%, transparent))
+    drop-shadow(0 0 20px color-mix(in srgb, var(--color-glow) 30%, transparent));
+}
+
+.sticker-shadow {
+  box-shadow: 0 16px 30px color-mix(in srgb, var(--color-brand-ink) 32%, transparent);
+}
+
+/* Pause the marquee while it is hovered or holds keyboard focus. */
+.marquee-track:hover,
+.marquee-track:focus-within {
+  animation-play-state: paused;
+}

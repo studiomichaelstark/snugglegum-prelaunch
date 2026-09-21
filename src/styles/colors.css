@@ -1,0 +1,21 @@
+/*
+ * The ONLY place where color values live. Everything else references these
+ * custom properties (directly, or through the Tailwind theme in global.css).
+ * A test fails on hex, rgb(), hsl() or oklch() literals anywhere else in src/ or public/.
+ * Values extracted from the Claude Design prototype.
+ */
+:root {
+  /* Brand */
+  --color-brand-green: #045442;
+  --color-brand-pink: #f9cee1;
+  --color-brand-lime: #c7e44c;
+  --color-brand-ink: #0e0e0e;
+
+  /* Semantic */
+  --color-surface: #ffffff;
+  --color-text: var(--color-brand-green);
+  --color-glow: #bb9aaa;
+  --color-link-hover: #0a7a5f;
+  --color-selection: #e4bdcf;
+  --color-text-muted-on-ink: #cccccc;
+}
