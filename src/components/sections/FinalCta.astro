@@ -1,0 +1,31 @@
+---
+import NewsletterForm from '@/components/forms/NewsletterForm.astro';
+import PdfIcon from '@/components/ui/PdfIcon.astro';
+---
+
+<section id="final-cta" class="on-dark bg-green px-[clamp(20px,5vw,48px)] py-[clamp(4rem,10vw,8rem)] text-pink">
+  <div class="mx-auto max-w-[860px] text-center">
+    <span
+      class="label-caps inline-block animate-[sg-bob_4.5s_ease-in-out_infinite] rounded-full border-2 border-dashed border-ink bg-white px-[22px] py-[13px] text-base text-ink"
+    >
+      Pre-launch · list only
+    </span>
+    <h2
+      class="display-word mt-6 text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] text-balance font-stretch-[120%]"
+      data-copy-review="body-taste implication"
+    >
+      Can't wait to be tasted better?
+    </h2>
+    <p
+      class="mt-[30px] flex items-center justify-center gap-2 text-center text-2xl leading-[1.4] font-bold text-white"
+      data-copy-review="body-taste guide mention"
+    >
+      Free with sign-up: the "Body Taste Cheat Code" guide.
+      <PdfIcon />
+    </p>
+
+    <div class="mt-[clamp(28px,3vw,40px)]">
+      <NewsletterForm id="final" tone="dark" />
+    </div>
+  </div>
+</section>

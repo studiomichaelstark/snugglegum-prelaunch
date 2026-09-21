@@ -1,0 +1,31 @@
+---
+/**
+ * Empty image frame with the design's dashed ring. Pass `src` and `alt` to show a real image
+ * (optimized by astro:assets). Without `src` it is purely decorative and hidden from assistive tech.
+ */
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src?: ImageMetadata;
+  alt?: string;
+  class?: string;
+}
+const { src, alt = '', class: className } = Astro.props;
+---
+
+{
+  src ? (
+    <Picture
+      src={src}
+      alt={alt}
+      formats={['avif', 'webp']}
+      widths={[480, 720, 960]}
+      sizes="(min-width: 1024px) 560px, 90vw"
+      loading="lazy"
+      class:list={['size-full rounded-3xl object-cover', className]}
+    />
+  ) : (
+    <div aria-hidden="true" class:list={['size-full rounded-3xl border-[1.5px] border-dashed border-white/50', className]} />
+  )
+}

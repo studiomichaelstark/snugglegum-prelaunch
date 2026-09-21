@@ -1,0 +1,24 @@
+---
+const list =
+  'flex gap-10 pr-10 text-[clamp(1.7rem,4.4vw,3.25rem)] leading-none font-black whitespace-nowrap text-pink uppercase font-stretch-[112%]';
+const phrase = 'after:ml-10 after:content-["•"]';
+---
+
+<section id="marquee" aria-label="Made for" class="overflow-hidden bg-green py-[clamp(3rem,7vw,5rem)]">
+  <div class="marquee-track flex w-max animate-[sg-marquee_22s_linear_infinite]">
+    <ul class:list={[list]}>
+      <li class:list={[phrase]} data-copy-review="body-taste claim">
+        3 Snugglegum<sup class="text-[0.55em]">™</sup> a day, helps you taste okay
+      </li>
+      <li class:list={[phrase]} data-copy-review="body-taste claim">Because you are the aftertaste</li>
+      <li class:list={[phrase]}>Begum tasty</li>
+      <li class:list={[phrase]}>Gum once, thank me later</li>
+    </ul>
+    <ul aria-hidden="true" class:list={[list]}>
+      <li class:list={[phrase]}>3 Snugglegum<sup class="text-[0.55em]">™</sup> a day, helps you taste okay</li>
+      <li class:list={[phrase]}>Because you are the aftertaste</li>
+      <li class:list={[phrase]}>Begum tasty</li>
+      <li class:list={[phrase]}>Gum once, thank me later</li>
+    </ul>
+  </div>
+</section>

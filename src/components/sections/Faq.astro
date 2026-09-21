@@ -1,0 +1,63 @@
+---
+import { siteConfig } from '@/config/site';
+import { hasDiscount } from '@/config/variants';
+
+const discount = hasDiscount(siteConfig.discountLabel);
+
+const item = 'border-b-2 border-dashed border-green';
+const question =
+  'flex min-h-12 items-center justify-between gap-5 py-6 text-[clamp(1.15rem,2vw,1.5rem)] font-black uppercase';
+const plus = 'flex-none text-[26px] font-black';
+const answer = 'max-w-[60ch] pb-6 text-[19px] leading-[1.55]';
+---
+
+<section id="faq" class="bg-white px-[clamp(20px,5vw,48px)] py-[clamp(4rem,10vw,8rem)]">
+  <div class="mx-auto max-w-[900px]">
+    <h2 class="display-word text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] font-stretch-[120%]">Questions, answered</h2>
+    <div class="mt-[clamp(28px,3vw,44px)] border-t-2 border-dashed border-green">
+      <details class:list={[item]}>
+        <summary class:list={[question]}>When does it launch?<span aria-hidden="true" class:list={[plus]}>+</span></summary>
+        <p class:list={[answer]}>Soon. Join the list and you'll hear first.</p>
+      </details>
+      <details class:list={[item]}>
+        <summary class:list={[question]}>
+          What exactly do I get for signing up now?<span aria-hidden="true" class:list={[plus]}>+</span>
+        </summary>
+        <p class:list={[answer]}>
+          {discount && `${siteConfig.discountLabel} off your first order, `}7 days of early access, a reserved founding
+          number and a vote on flavor #2. All of it ends when the pouch goes public.
+        </p>
+      </details>
+      <details class:list={[item]}>
+        <summary class:list={[question]}>Where can I get it?<span aria-hidden="true" class:list={[plus]}>+</span></summary>
+        <p class:list={[answer]}>The USA first. Not available in the EU.</p>
+      </details>
+      <details class:list={[item]}>
+        <summary class:list={[question]}>What does it taste like?<span aria-hidden="true" class:list={[plus]}>+</span></summary>
+        <p class:list={[answer]}>Pineapple, with a liquid center.</p>
+      </details>
+      <details class:list={[item]}>
+        <summary class:list={[question]}>How many a day?<span aria-hidden="true" class:list={[plus]}>+</span></summary>
+        <p class:list={[answer]} data-copy-review="dosage wording conflicts with Supplement Facts">
+          1 to 3, after meals. Please stay within the recommended amount.
+        </p>
+      </details>
+      <details class:list={[item]}>
+        <summary class:list={[question]}>Is it safe?<span aria-hidden="true" class:list={[plus]}>+</span></summary>
+        <p class:list={[answer]}>It's a dietary supplement. Talk to your doctor if you have a medical condition or take medication.</p>
+      </details>
+      <details class:list={[item]}>
+        <summary class:list={[question]}>Why 18+?<span aria-hidden="true" class:list={[plus]}>+</span></summary>
+        <p class:list={[answer]}>Because our humor is.</p>
+      </details>
+      <details class:list={[item]}>
+        <summary class:list={[question]}>Will you spam me?<span aria-hidden="true" class:list={[plus]}>+</span></summary>
+        <p class:list={[answer]}>No. Launch news, early access and the occasional bad joke. Unsubscribe anytime.</p>
+      </details>
+      <details class:list={[item]}>
+        <summary class:list={[question]}>What's with the name?<span aria-hidden="true" class:list={[plus]}>+</span></summary>
+        <p class:list={[answer]}>Say "Engineered to make you gum" out loud. We'll wait.</p>
+      </details>
+    </div>
+  </div>
+</section>

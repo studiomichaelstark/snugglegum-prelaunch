@@ -1,0 +1,184 @@
+---
+/**
+ * Supplement Facts dialog, opened from the "What's inside" section.
+ * The numbers below are the design's placeholders and have NOT been verified against a real label.
+ */
+---
+
+<dialog
+  id="supplement-facts"
+  data-dismiss-on-backdrop
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="supplement-facts-title"
+  class="on-dark fixed inset-0 m-auto max-h-[88vh] w-[calc(100%-2rem)] max-w-[520px] overflow-auto rounded-[20px] bg-ink p-0 text-white"
+>
+  <div class="p-[clamp(24px,3vw,32px)]">
+    <div class="flex items-start justify-between gap-4">
+      <h2 id="supplement-facts-title" tabindex="-1" data-dialog-initial-focus class="text-[26px] leading-[1.1] font-black outline-none">
+        Supplement Facts
+      </h2>
+      <button
+        type="button"
+        data-dialog-close
+        aria-label="Close"
+        class="grid size-11 flex-none cursor-pointer place-items-center rounded-full border border-white/40 bg-transparent text-white"
+      >
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+          <path d="M5 5l14 14M19 5L5 19"></path>
+        </svg>
+      </button>
+    </div>
+    <p class="mt-3 text-base leading-[1.4]">Serving Size: One gummy a day<br />Servings Per Container: 93</p>
+
+    <div data-copy-review="supplement facts values are design placeholders, verify against the real label">
+      <table class="mt-[18px] w-full border-b-[6px] border-white text-[15px]">
+        <thead>
+          <tr class="border-t-2 border-white text-sm font-bold">
+            <th scope="colgroup" colspan="2" class="py-2.5 text-left">Amount Per One Gummy Serving</th>
+            <th scope="col" class="py-2.5 pl-4 text-right">% DV</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Calories</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">50</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap"></td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Total Carbohydrate</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">15 g</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">5%**</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal pl-4">Dietary Fiber</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">6 g</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">21%**</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal pl-4">Total Sugars</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">8 g</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">†</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal pl-8">Includes 8 g Added Sugars</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap"></td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">16%**</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Vitamin A (as retinyl palmitate)</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">900 mcg RAE</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">100%</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Vitamin C (as ascorbic acid)</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">93 mg</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">103%</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Vitamin D (D3) (as VegaD3Light™ Cholecalciferol)</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">20 mcg</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">100%</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Vitamin E (as d-alpha-tocopherol)</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">1.2 mg</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">100%</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Thiamin (as thiamine hydrochloride)</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">1.2 mg</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">100%</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Riboflavin (Vitamin B2)</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">1.3 mg</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">100%</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Niacin (as niacinamide)</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">16 mg</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">100%</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Vitamin B6 (as pyridoxal-5-phosphate)</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">1.7 mg</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">100%</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Folate (as L-5-methyltetrahydrofolate)</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">400 mcg DFE</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">100%</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Vitamin B12 (as methylcobalamin)</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">2.4 mcg</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">100%</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Biotin</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">30 mcg</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">100%</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Pantothenic Acid (as calcium d-pantothenate)</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">5 mg</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">100%</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Iron (as ferrous fumarate)</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">4.5 mg</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">25%</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Iodine (as potassium iodide)</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">4.5 mg</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">25%</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Zinc (as zinc citrate)</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">2.75 mg</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">25%</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Selenium (as sodium selenite)</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">14 mcg</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">25</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Copper (as copper citrate)</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">0.225 mg</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">25%</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Manganese (as manganese gluconate)</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">0.575 mg</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">25%</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Chromium (as chromium chloride)</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">0.575 mg</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">25%</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Molybdenum (as sodium molybdate)</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">11 mcg</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">24%</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Vitamin K2</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">120 mcg</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">†</td>
+          </tr>
+          <tr class="border-t border-white/20">
+            <th scope="row" class="py-2 text-left font-normal">Core Nutrients Blend</th>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">8.670 mg</td>
+            <td class="py-2 pl-4 text-right whitespace-nowrap">†</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-3.5 text-[13px] leading-normal opacity-90">† Daily Value (DV) not established.</p>
+    <p class="mt-1.5 text-[13px] leading-normal opacity-90">** Percent Daily Values (DV) are based on a 2,000 calorie diet.</p>
+  </div>
+</dialog>

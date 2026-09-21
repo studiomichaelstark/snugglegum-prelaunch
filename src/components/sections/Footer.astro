@@ -1,0 +1,42 @@
+---
+import Logo from '@/components/logo/Logo.astro';
+import OperatorInfo from '@/components/legal/OperatorInfo.astro';
+import ButtonLink from '@/components/ui/ButtonLink.astro';
+
+const year = new Date().getFullYear();
+const footLink = 'inline-flex min-h-11 cursor-pointer items-center text-[15px] underline';
+---
+
+<footer id="footer">
+  <div class="bg-pink px-[clamp(20px,5vw,48px)] pt-[clamp(4rem,8vw,7rem)] pb-[clamp(3rem,5vw,4rem)]">
+    <div class="mx-auto max-w-[1200px]">
+      <div class="mx-auto grid max-w-[760px] gap-3.5 text-center text-green">
+        <p class="text-[17px] leading-[1.6] opacity-90">
+          *These statements have not been evaluated by the Food and Drug Administration. This product is not intended to
+          diagnose, treat, cure, or prevent any disease.
+        </p>
+        <p class="text-[17px] leading-[1.6] opacity-90">
+          Contact: <a href="mailto:gummyshot@snugglegum.com">gummyshot@snugglegum.com</a>
+        </p>
+        <p class="text-[17px] leading-[1.6] opacity-90">
+          Snugglegum<sup class="text-[0.55em]">™</sup> is a trademark by <OperatorInfo variant="name" />
+        </p>
+      </div>
+    </div>
+    <div class="mt-[clamp(48px,7vw,80px)]">
+      <Logo class="mx-auto max-w-[1200px] text-green" />
+      <nav aria-label="Legal" class="mt-[clamp(32px,5vw,48px)] flex flex-wrap justify-center gap-x-7 gap-y-2">
+        <a href="/imprint" class:list={[footLink]}>Imprint</a>
+        <a href="/privacy" class:list={[footLink]}>Privacy</a>
+        <button type="button" data-open-cookie-settings class:list={[footLink]}>Cookie settings</button>
+      </nav>
+    </div>
+  </div>
+
+  <div class="on-dark flex flex-wrap items-center justify-between gap-3.5 bg-ink px-5 py-[26px]">
+    <p class="text-[17px] font-bold tracking-[0.02em] text-ink-muted">
+      © {year} by <OperatorInfo variant="name" />. All rights reserved.
+    </p>
+    <ButtonLink href="#final-cta" variant="on-dark">Get on the list</ButtonLink>
+  </div>
+</footer>

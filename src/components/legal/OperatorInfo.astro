@@ -1,0 +1,34 @@
+---
+/**
+ * THE one place for operator / controller data. Used by /imprint, /privacy and the footer.
+ * To change the operator (for example a US LLC), edit `operator` below and nothing else.
+ *
+ * variant="block": full postal address (legal pages)
+ * variant="name":  name only (footer trademark and copyright lines)
+ */
+interface Props {
+  variant?: 'block' | 'name';
+}
+
+const { variant = 'block' } = Astro.props;
+
+const operator = {
+  name: 'Michael Konjevic',
+  street: '156 Hoffelstr.',
+  cityLine: 'Stuttgart 70597',
+  country: 'Germany',
+};
+---
+
+{
+  variant === 'name' ? (
+    operator.name
+  ) : (
+    <address class="not-italic">
+      <span class="block">{operator.name}</span>
+      <span class="block">{operator.street}</span>
+      <span class="block">{operator.cityLine}</span>
+      <span class="block">{operator.country}</span>
+    </address>
+  )
+}

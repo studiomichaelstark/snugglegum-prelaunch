@@ -1,0 +1,134 @@
+---
+/**
+ * Newsletter sign-up (MailerLite hosted form, double opt-in).
+ *
+ * - No request is made before the visitor submits.
+ * - Without JavaScript the form still works as a plain POST to MailerLite (native validation applies).
+ * - With JavaScript it submits via fetch and shows accessible status messages.
+ * - All visible strings are HTML text in this file. The script only copies them from <template> elements.
+ */
+import { mailerLite, siteConfig } from '@/config/site';
+import { isPreviewState } from '@/config/variants';
+import NewsletterSuccess from './NewsletterSuccess.astro';
+
+interface Props {
+  /** Unique suffix for element ids (the page has two forms). */
+  id: string;
+  tone?: 'light' | 'dark';
+}
+
+const { id, tone = 'light' } = Astro.props;
+const isDark = tone === 'dark';
+const state = siteConfig.formState;
+const isLive = !isPreviewState(state);
+const showSuccess = state === 'success';
+const showError = state === 'error';
+const isSubmitting = state === 'submitting';
+
+const fieldClasses = [
+  'h-[60px] min-w-0 flex-[1_1_260px] rounded-full border-2 bg-white px-6 text-[19px] text-green',
+  isDark ? 'border-lime' : 'border-green',
+];
+const buttonClasses = [
+  'label-caps h-[60px] flex-none cursor-pointer rounded-full border-2 px-8 text-[17px] transition duration-[180ms] hover:-translate-y-[3px] hover:scale-[1.03] active:scale-[0.97]',
+  isDark
+    ? 'border-pink bg-pink text-ink hover:border-white hover:bg-white'
+    : 'pulse-ring border-green bg-green text-pink hover:bg-lime hover:text-ink',
+];
+const errorId = `newsletter-error-${id}`;
+const emailId = `newsletter-email-${id}`;
+const consentId = `newsletter-consent-${id}`;
+---
+
+<div
+  data-newsletter
+  data-endpoint={mailerLite.endpoint}
+  data-live={isLive ? 'true' : 'false'}
+  class:list={['text-left', isDark ? 'on-dark' : '']}
+>
+  <div data-success-slot role="status" aria-live="polite">
+    {showSuccess && <NewsletterSuccess tone={tone} />}
+  </div>
+
+  <form
+    data-newsletter-form
+    method="post"
+    action={mailerLite.endpoint || undefined}
+    hidden={showSuccess}
+    aria-busy={isSubmitting ? 'true' : undefined}
+  >
+    <label for={emailId} class="sr-only-important">Email address</label>
+    <div class="flex flex-wrap gap-3">
+      <input
+        id={emailId}
+        type="email"
+        name="fields[email]"
+        autocomplete="email"
+        placeholder="you@example.com"
+        required
+        aria-describedby={errorId}
+        class:list={fieldClasses}
+      />
+      <button type="submit" disabled={isSubmitting} class:list={buttonClasses}>
+        <span data-label-idle hidden={isSubmitting}>Get on the list</span>
+        <span data-label-busy hidden={!isSubmitting}>Sending…</span>
+      </button>
+    </div>
+
+    <label for={consentId} class="mt-[18px] flex cursor-pointer items-start gap-3 text-base leading-normal">
+      <input
+        id={consentId}
+        type="checkbox"
+        name="consent"
+        required
+        class:list={['m-0 size-6 flex-none', isDark ? 'accent-lime' : 'accent-green']}
+      />
+      <span>
+        I'm 18 or older and agree to receive Snugglegum<sup class="text-[0.55em]">™</sup> launch emails. I can unsubscribe
+        anytime. See our
+        <a href="/privacy" class:list={[isDark ? 'text-white' : '']}>Privacy Policy</a>.
+      </span>
+    </label>
+
+    <div aria-hidden="true" class="sr-only-important">
+      <label for={`newsletter-website-${id}`}>Leave this field empty</label>
+      <input id={`newsletter-website-${id}`} type="text" name="website" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <input type="hidden" name="ml-submit" value="1" />
+    <input type="hidden" name="anticsrf" value="true" />
+
+    <p
+      id={errorId}
+      role="alert"
+      data-form-error
+      hidden={!showError}
+      class="mt-4 rounded-2xl bg-lime px-[18px] py-[13px] text-base font-bold text-ink"
+    >
+      {showError && <>Something went wrong on our side. Try again.</>}
+    </p>
+
+    <slot name="after-error" />
+
+    <p class="mt-4 text-center text-[17px] leading-normal opacity-85">
+      No spam. Double opt-in: we email you a confirmation link first. Unsubscribe anytime. 18+ only.
+    </p>
+  </form>
+
+  <template data-message="invalid-email">That email doesn’t look right. Check it and try again.</template>
+  <template data-message="consent">Please confirm you’re 18 or older and agree to the emails.</template>
+  <template data-message="server">Something went wrong on our side. Try again.</template>
+  <template data-message="already">You’re already on the list. Nice taste.</template>
+  <template data-message="network">We couldn’t reach the list. Check your connection and try again.</template>
+  <template data-message="rate-limit">Too many tries in a row. Wait a moment and try again.</template>
+
+  <template data-success-template>
+    <NewsletterSuccess tone={tone} />
+  </template>
+</div>
+
+<script>
+  import { initNewsletter } from '@/scripts/newsletter';
+
+  initNewsletter();
+</script>

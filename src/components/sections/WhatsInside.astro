@@ -1,0 +1,78 @@
+---
+const item = 'flex items-start gap-[18px] border-b-2 border-dashed border-green py-[22px] last:border-b-0';
+const plus =
+  'flex size-11 flex-none items-center justify-center rounded-full border-2 border-green text-2xl leading-none font-black';
+const name = 'text-[26px] leading-[1.05] font-black uppercase';
+const desc = 'mt-2 text-[19px] leading-normal';
+---
+
+<section id="whats-inside" class="bg-pink px-[clamp(20px,5vw,48px)] py-[clamp(4rem,10vw,8rem)]">
+  <div class="mx-auto grid max-w-[1200px] grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-[clamp(32px,5vw,72px)]">
+    <div>
+      <h2 class="display-word text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] font-stretch-[120%]">What's inside</h2>
+      <p class="mt-5 max-w-[36ch] text-xl leading-normal">
+        All the good stuff. Five ingredients, one liquid center, zero mystery.
+      </p>
+      <button
+        type="button"
+        data-dialog-open="supplement-facts"
+        aria-haspopup="dialog"
+        class="label-caps mt-8 flex w-full cursor-pointer items-center justify-between gap-3 rounded-[26px] border-2 border-dashed border-green bg-white/50 px-6 py-5 text-[17px] text-green"
+      >
+        Supplement Facts<span aria-hidden="true" class="text-xl font-black">+</span>
+      </button>
+    </div>
+
+    <div>
+      <ul>
+        <li class:list={[item]}>
+          <span aria-hidden="true" class:list={[plus]}>+</span>
+          <div>
+            <h3 class:list={[name]}>Zinc</h3>
+            <p class:list={[desc]} data-copy-review="health claim (immune function)">
+              An essential mineral. Zinc contributes to normal immune function.*
+            </p>
+          </div>
+        </li>
+        <li class:list={[item]}>
+          <span aria-hidden="true" class:list={[plus]}>+</span>
+          <div>
+            <h3 class:list={[name]}>Maca</h3>
+            <p class:list={[desc]}>Andean root with a big personality.</p>
+          </div>
+        </li>
+        <li class:list={[item]}>
+          <span aria-hidden="true" class:list={[plus]}>+</span>
+          <div>
+            <h3 class:list={[name]}>L-Arginine</h3>
+            <p class:list={[desc]}>An amino acid your body already knows.</p>
+          </div>
+        </li>
+        <li class:list={[item]}>
+          <span aria-hidden="true" class:list={[plus]}>+</span>
+          <div>
+            <h3 class:list={[name]}>Pineapple</h3>
+            <p class:list={[desc]}>The flavor. A beach holiday in your mouth.</p>
+          </div>
+        </li>
+        <li class:list={[item]}>
+          <span aria-hidden="true" class:list={[plus]}>+</span>
+          <div>
+            <h3 class:list={[name]}>Liquid center</h3>
+            <p class:list={[desc]}>Because a solid chew is just candy.</p>
+          </div>
+        </li>
+      </ul>
+      <p class="mt-6 text-lg leading-[1.6] opacity-90" data-copy-review="dosage wording conflicts with Supplement Facts">
+        Serving: 1 chew. Take 1 to 3 a day. Please don't exceed the recommended amount, more isn't better, it's just
+        more.
+        <button type="button" data-dialog-open="supplement-facts" aria-haspopup="dialog" class="cursor-pointer underline">
+          See Supplement Facts
+        </button>
+      </p>
+      <p class="mt-3 text-lg leading-[1.6] opacity-90" data-copy-review="mentions a body outcome">
+        We can't promise perfect skin. But we nailed the flavor.
+      </p>
+    </div>
+  </div>
+</section>

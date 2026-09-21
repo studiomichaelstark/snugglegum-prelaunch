@@ -1,0 +1,25 @@
+---
+/** Pill call-to-action rendered as a real link (it navigates to a section). */
+interface Props {
+  href: string;
+  variant?: 'solid' | 'on-dark';
+  class?: string;
+}
+const { href, variant = 'solid', class: className } = Astro.props;
+
+const variants = {
+  solid: 'h-14 border-green bg-green px-8 text-[17px] text-pink hover:bg-lime hover:text-ink',
+  'on-dark': 'pulse-ring h-[50px] border-pink bg-pink px-6 text-sm text-ink hover:bg-white hover:border-white',
+};
+---
+
+<a
+  href={href}
+  class:list={[
+    'label-caps inline-flex flex-none items-center justify-center rounded-full border-2 no-underline transition duration-200 hover:-translate-y-[3px] hover:scale-[1.03]',
+    variants[variant],
+    className,
+  ]}
+>
+  <slot />
+</a>
