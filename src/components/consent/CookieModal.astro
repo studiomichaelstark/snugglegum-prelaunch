@@ -4,16 +4,12 @@
  * Optional categories only appear when enabled in src/config/consent.ts. Behavior: src/scripts/consent.ts.
  */
 import { consentCategories, hasOptionalCategories } from "@/config/consent";
-
-const optionButton = "label-caps h-[52px] cursor-pointer rounded-full border-2 border-green text-sm transition-colors duration-150";
-// Filled button: hover turns it white with the dark green border. Outline buttons are white already, so they keep the lime hover.
-const filled = "bg-green text-pink hover:bg-white hover:text-green";
-const outline = "bg-white text-green hover:bg-lime hover:text-ink";
+import ButtonLink from "@/components/ui/ButtonLink.astro";
 ---
 
-<dialog id="cookie-modal" role="dialog" aria-modal="true" aria-labelledby="cookie-modal-title" class="fixed inset-0 m-0 mx-auto mt-auto mb-4 max-h-[86vh] w-[calc(100%-2rem)] max-w-[580px] overflow-auto rounded-[28px] border-2 border-green bg-white p-0 text-green animate-[sg-slide_.3s_ease-out]">
+<dialog id="cookie-modal" role="dialog" aria-modal="true" aria-labelledby="cookie-modal-title" class="rounded-card fixed inset-0 m-0 mx-auto mt-auto mb-4 max-h-[86vh] w-[calc(100%-2rem)] max-w-[580px] overflow-auto border-2 border-green bg-white p-0 text-green animate-[sg-slide_.3s_ease-out]">
   <div class="p-[clamp(22px,3vw,34px)]">
-    <h2 id="cookie-modal-title" tabindex="-1" data-dialog-initial-focus class="display-word text-[clamp(1.5rem,3vw,2.1rem)] leading-[0.95] font-stretch-[118%] outline-none">
+    <h2 id="cookie-modal-title" tabindex="-1" data-dialog-initial-focus class="display-word stretch-hero text-[clamp(1.5rem,3vw,2.1rem)] leading-[0.95] outline-none">
       Cookies, briefly
     </h2>
     <p class="mt-3.5 text-[17px] leading-[1.55]">
@@ -22,7 +18,7 @@ const outline = "bg-white text-green hover:bg-lime hover:text-ink";
       <a href="/privacy#cookies">Cookie policy</a>
     </p>
 
-    <div id="cookie-panel" data-consent-panel hidden class="mt-[22px] grid gap-4 rounded-[20px] border-2 border-dashed border-green p-[18px]">
+    <div id="cookie-panel" data-consent-panel hidden class="rounded-panel mt-[22px] grid gap-4 border-2 border-dashed border-green p-[18px]">
       <div class="flex items-center justify-between gap-4">
         <label for="cookie-necessary" class="text-base font-bold">
           Necessary<span class="font-normal opacity-80">· always on</span>
@@ -49,18 +45,18 @@ const outline = "bg-white text-green hover:bg-lime hover:text-ink";
     </div>
 
     <div class="mt-6 grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-2.5">
-      <button type="button" data-consent-accept class:list={[optionButton, filled]}>
+      <ButtonLink type="button" variant="solid" size="sm" class="w-full" data-consent-accept>
         Accept all
-      </button>
-      <button type="button" data-consent-reject class:list={[optionButton, outline]}>
+      </ButtonLink>
+      <ButtonLink type="button" variant="outline" size="sm" class="w-full" data-consent-reject>
         Reject all
-      </button>
-      <button type="button" data-consent-customize aria-expanded="false" aria-controls="cookie-panel" class:list={[optionButton, outline]}>
+      </ButtonLink>
+      <ButtonLink type="button" variant="outline" size="sm" class="w-full" aria-expanded="false" aria-controls="cookie-panel" data-consent-customize>
         <span data-label-customize>Customize</span>
         <span data-label-save hidden>
           Save choices
         </span>
-      </button>
+      </ButtonLink>
     </div>
   </div>
 </dialog>

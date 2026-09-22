@@ -127,6 +127,46 @@
   white-space: nowrap;
 }
 
+/* Shared section shell: identical horizontal/vertical rhythm across every landing section. */
+@utility section-px {
+  padding-inline: clamp(20px, 5vw, 48px);
+}
+
+@utility section-py {
+  padding-block: clamp(4rem, 10vw, 8rem);
+}
+
+@utility container-lg {
+  margin-inline: auto;
+  max-width: 1200px;
+}
+
+/* Radius tiers (design values). Card: big surfaces (offer cards, dialogs). Panel: nested boxes. */
+@utility rounded-card {
+  border-radius: 28px;
+}
+
+@utility rounded-panel {
+  border-radius: 20px;
+}
+
+/* Variable font width-axis tiers (design values), named so every heading picks a tier on purpose. */
+@utility stretch-tight {
+  font-stretch: 112%;
+}
+
+@utility stretch-hero {
+  font-stretch: 118%;
+}
+
+@utility stretch-display {
+  font-stretch: 120%;
+}
+
+@utility stretch-wide {
+  font-stretch: 125%;
+}
+
 @keyframes sg-float {
   0%,
   100% {

@@ -2,6 +2,7 @@
 /** Shared template for /imprint and /privacy. */
 import Footer from "@/components/sections/Footer.astro";
 import Logo from "@/components/logo/Logo.astro";
+import ButtonLink from "@/components/ui/ButtonLink.astro";
 import { legal } from "@/config/legal";
 import Base from "@/layouts/Base.astro";
 import type { PageMeta } from "@/lib/seo";
@@ -15,33 +16,29 @@ const isReviewed = legal.reviewed.status === "set";
 
 <Base {...meta}>
   <main id="main" class="bg-white">
-    <div class="mx-auto max-w-[760px] px-[clamp(20px,5vw,48px)] pt-[clamp(24px,5vw,64px)] pb-20">
+    <div class="section-px mx-auto max-w-[760px] pt-[clamp(24px,5vw,64px)] pb-20">
       <div class="flex items-center justify-between gap-5">
         <a href="/" class="block w-[220px] no-underline">
           <Logo class="text-green" />
         </a>
-        <a href="/" class="label-caps inline-flex h-[50px] items-center rounded-full border-2 border-green bg-transparent px-6 no-underline text-sm text-green transition-colors hover:bg-green hover:text-lime">
-          Close
-        </a>
+        <ButtonLink href="/" variant="outline" size="sm">Close</ButtonLink>
       </div>
       {!isReviewed && <span class="label-caps ticket-notch mt-8 inline-block rounded-lg bg-lime px-5 py-3 text-sm text-ink">Legal · draft</span>}
-      <h1 class="display-word mt-[18px] text-[clamp(2.2rem,5vw,3.75rem)] leading-[0.88] tracking-normal font-stretch-[120%]">{heading}</h1>
+      <h1 class="display-word stretch-display mt-[18px] text-[clamp(2.2rem,5vw,3.75rem)] leading-[0.88] tracking-normal">{heading}</h1>
       <p class="mt-[18px] text-base leading-[1.6] opacity-90">
         Last updated:{legal.lastUpdated.display}.{!isReviewed && <> This text is a draft template and must be reviewed by a lawyer before launch. {legal.reviewed.display}</>}
       </p>
       <div class="mt-[34px] grid max-w-[66ch] gap-7">
         <slot />
-        <div class="rounded-[22px] border-2 border-dashed border-green p-[22px]">
+        <div class="rounded-panel border-2 border-dashed border-green p-[22px]">
           <p class="text-[17px] leading-[1.6]">*These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>
         </div>
       </div>
       <div class="mt-[38px] flex flex-wrap gap-3">
-        <button type="button" data-open-cookie-settings class="label-caps h-[50px] cursor-pointer rounded-full border-2 border-green bg-transparent px-6 text-sm text-green transition-colors hover:bg-green hover:text-lime">
+        <ButtonLink type="button" variant="outline" size="sm" data-open-cookie-settings>
           Cookie settings
-        </button>
-        <a href="/" class="label-caps inline-flex h-[50px] items-center rounded-full border-2 border-green bg-green px-6 no-underline text-sm text-pink transition-colors hover:bg-white hover:text-green">
-          Back to the list
-        </a>
+        </ButtonLink>
+        <ButtonLink href="/" variant="solid" size="sm">Back to the list</ButtonLink>
       </div>
     </div>
   </main>

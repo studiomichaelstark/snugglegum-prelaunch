@@ -2,12 +2,12 @@
 import ArrowIcon from "@/components/ui/ArrowIcon.astro";
 
 const item = "flex items-start gap-3.5";
-const box = "rounded-[28px] p-[clamp(28px,3.5vw,48px)]";
-const heading = "display-word mt-3 text-[clamp(2rem,3.5vw,3rem)] leading-[0.92] tracking-normal font-stretch-[118%]";
+const box = "rounded-card p-[clamp(28px,3.5vw,48px)]";
+const heading = "display-word mt-3 text-[clamp(2rem,3.5vw,3rem)] leading-[0.92] tracking-normal stretch-hero";
 ---
 
-<section id="audience" class="bg-white px-[clamp(20px,5vw,48px)] py-[clamp(4rem,10vw,8rem)]">
-  <div class="mx-auto grid max-w-[1200px] grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-[clamp(16px,2vw,24px)]">
+<section id="audience" class="section-px section-py bg-white">
+  <div class="container-lg grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-[clamp(16px,2vw,24px)]">
     <div class:list={[box, "bg-green text-pink"]}>
       <p class="label-caps text-[17px]">Yes</p>
       <h2 class:list={[heading]}>Who it's for</h2>

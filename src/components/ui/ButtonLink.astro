@@ -1,18 +1,33 @@
 ---
-/** Pill call-to-action rendered as a real link (it navigates to a section). */
+/**
+ * Pill call-to-action. Renders a real <a> when `href` is given (it navigates to a
+ * section), otherwise a <button> (dialog/consent triggers) — same shape and variants
+ * either way, so every pill button on the site shares one place for color and size.
+ */
 interface Props {
-  href: string;
-  variant?: "solid" | "on-dark";
+  href?: string;
+  type?: "button" | "submit";
+  variant?: "solid" | "outline" | "on-dark";
+  size?: "md" | "sm";
+  disabled?: boolean;
   class?: string;
 }
-const { href, variant = "solid", class: className } = Astro.props;
+const { href, type = "button", variant = "solid", size = "md", disabled, class: className, ...rest } = Astro.props;
+
+const sizes = {
+  md: "h-14 px-8 text-[17px]",
+  sm: "h-[50px] px-6 text-sm",
+};
 
 const variants = {
-  solid: "h-14 border-green bg-green px-8 text-[17px] text-pink hover:border-green hover:bg-white hover:text-green",
-  "on-dark": "pulse-ring h-[50px] border-pink bg-pink px-6 text-sm text-ink hover:border-green hover:bg-white hover:text-green",
+  solid: "border-green bg-green text-pink hover:border-green hover:bg-white hover:text-green",
+  outline: "border-green bg-transparent text-green hover:border-green hover:bg-green hover:text-lime",
+  "on-dark": "pulse-ring border-pink bg-pink text-ink hover:border-green hover:bg-white hover:text-green",
 };
+
+const Tag = href ? "a" : "button";
 ---
 
-<a href={href} class:list={["label-caps inline-flex flex-none items-center justify-center rounded-full border-2 no-underline transition duration-200 hover:-translate-y-[3px] hover:scale-[1.03]", variants[variant], className]}>
+<Tag href={href} type={href ? undefined : type} disabled={disabled} {...rest} class:list={["label-caps inline-flex flex-none items-center justify-center rounded-full border-2 no-underline transition duration-200 hover:-translate-y-[3px] hover:scale-[1.03]", sizes[size], variants[variant], className]}>
   <slot />
-</a>
+</Tag>
