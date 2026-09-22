@@ -15,8 +15,8 @@ const toneFor = (position: number) => (position % 2 === 1 ? "pink" : "outline");
 <section id="offer" class="bg-white px-[clamp(20px,5vw,48px)] py-[clamp(4rem,10vw,8rem)]">
   <div class="mx-auto max-w-[1200px]">
     <p class="label-caps text-[17px]">The pre-launch deal</p>
-    <h2 class="display-word mt-3 max-w-[20ch] text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] font-stretch-[120%]">{discount ? "Three" : "Two"}things for joining before launch</h2>
-    <p class="mt-5 max-w-[52ch] text-xl leading-normal">All{discount ? "three" : "two"}, only for the list. Once it's public, the offer closes.</p>
+    <h2 class="display-word mt-3 max-w-[20ch] text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] font-stretch-[120%]">{discount ? "Three" : "Two"} things for joining before launch</h2>
+    <p class="mt-5 max-w-[52ch] text-xl leading-normal">All {discount ? "three" : "two"}, only for the list. Once it's public, the offer closes.</p>
 
     <ul class="mt-[clamp(32px,4vw,56px)] grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-[clamp(16px,2vw,24px)]" data-card-count={cardCount}>
       {discount && (

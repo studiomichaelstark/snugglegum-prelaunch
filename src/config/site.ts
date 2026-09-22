@@ -23,7 +23,7 @@ export interface SiteConfig {
 export const siteConfig: SiteConfig = {
   name: 'Snugglegum™',
   locale: 'en-US',
-  url: (import.meta.env.SITE ?? 'https://snugglegum.example').replace(/\/+$/, ''),
+  url: (import.meta.env.SITE ?? 'https://snugglegum.com').replace(/\/+$/, ''),
   formState: 'live',
   // Optional. Set PUBLIC_DISCOUNT_LABEL, PUBLIC_SUBSCRIBER_COUNT and PUBLIC_PROOF_THRESHOLD in .env to change them.
   discountLabel: (import.meta.env.PUBLIC_DISCOUNT_LABEL ?? '').trim(),
