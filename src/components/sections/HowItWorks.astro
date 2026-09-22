@@ -3,15 +3,15 @@ import ImagePlaceholder from "@/components/ui/ImagePlaceholder.astro";
 import DigestionAnimation from "@/components/animations/DigestionAnimation.astro";
 
 const row = "grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] items-center gap-[clamp(20px,3vw,40px)] border-t-2 border-dashed border-white/20 pt-[clamp(24px,3vw,40px)]";
-const number = "text-[clamp(4rem,9vw,8rem)] leading-[0.75] font-black text-pink font-stretch-125";
-const title = "mt-[18px] text-[clamp(2rem,3.5vw,3rem)] leading-[0.95] font-black uppercase font-stretch-[118%]";
+const number = "text-[clamp(4rem,9vw,8rem)] leading-[0.75] font-black text-pink stretch-wide";
+const title = "mt-[18px] text-[clamp(2rem,3.5vw,3rem)] leading-[0.95] font-black uppercase stretch-hero";
 const body = "mt-3.5 max-w-[38ch] text-xl leading-normal";
 ---
 
-<section id="how-it-works" class="on-dark overflow-hidden bg-ink px-[clamp(20px,5vw,48px)] py-[clamp(4rem,10vw,8rem)] text-white">
-  <div class="mx-auto max-w-[1200px]">
+<section id="how-it-works" class="on-dark section-px section-py overflow-hidden bg-ink text-white">
+  <div class="container-lg">
     <div class="flex flex-wrap items-end justify-between gap-6">
-      <h2 class="display-word text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] text-pink font-stretch-[120%]">How it works</h2>
+      <h2 class="display-word text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] text-pink stretch-display">How it works</h2>
       <p class="max-w-[34ch] text-xl leading-[1.4]" data-copy-review="body-taste claim">
         <strong>Body taste is biochemistry — and it's fixable.</strong>
         <br /><span class="text-base">Subscribe to our Pre-Launch List and we'll send you the <strong>"Body Taste Cheat Code Guide"</strong> as PDF.</span>
