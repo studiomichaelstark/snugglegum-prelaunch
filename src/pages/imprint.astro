@@ -1,17 +1,12 @@
 ---
-import ContactEmail from '@/components/legal/ContactEmail.astro';
-import LegalSection from '@/components/legal/LegalSection.astro';
-import OperatorInfo from '@/components/legal/OperatorInfo.astro';
-import { legal } from '@/config/legal';
-import Legal from '@/layouts/Legal.astro';
+import ContactEmail from "@/components/legal/ContactEmail.astro";
+import LegalSection from "@/components/legal/LegalSection.astro";
+import OperatorInfo from "@/components/legal/OperatorInfo.astro";
+import { legal } from "@/config/legal";
+import Legal from "@/layouts/Legal.astro";
 ---
 
-<Legal
-  title="Imprint – Snugglegum™"
-  description="Legal notice and operator information for Snugglegum™, the pre-launch brand of liquid-filled pineapple gummies for adults 18+."
-  path="/imprint"
-  heading="Imprint"
->
+<Legal title="Imprint – Snugglegum™" description="Legal notice and operator information for Snugglegum™, the pre-launch brand of liquid-filled pineapple gummies for adults 18+." path="/imprint" heading="Imprint">
   <LegalSection title="1. Operator">
     <p>The website Snugglegum™ is operated by:</p>
     <OperatorInfo />
@@ -20,7 +15,10 @@ import Legal from '@/layouts/Legal.astro';
   </LegalSection>
 
   <LegalSection title="2. Contact">
-    <p>Email: <ContactEmail /></p>
+    <p>
+      Email:
+      <ContactEmail />
+    </p>
     {legal.phone.display && <p>Phone or second contact channel: {legal.phone.display}</p>}
   </LegalSection>
 
@@ -29,32 +27,23 @@ import Legal from '@/layouts/Legal.astro';
   </LegalSection>
 
   <LegalSection title="4. Liability for content">
-    <p>
-      We create the content of this website with care. We cannot guarantee that it is complete, accurate or up to date at
-      all times. Snugglegum™ is in its pre-launch phase. Product details, offers and dates on this page may change before
-      launch.
-    </p>
+    <p>We create the content of this website with care. We cannot guarantee that it is complete, accurate or up to date at all times. Snugglegum™ is in its pre-launch phase. Product details, offers and dates on this page may change before launch.</p>
   </LegalSection>
 
   <LegalSection title="5. Liability for links">
-    <p>
-      This website does not link to third-party content that we control. If you follow a link to an external website,
-      the operator of that website is responsible for its content.
-    </p>
+    <p>This website does not link to third-party content that we control. If you follow a link to an external website, the operator of that website is responsible for its content.</p>
   </LegalSection>
 
   <LegalSection title="6. Trademark and copyright">
     <p>
-      Snugglegum™ is a trademark by <OperatorInfo variant="name" />. Texts, images, logos and design of this website are
-      protected by copyright. Any use beyond what the law allows requires our prior written consent.
+      Snugglegum™ is a trademark by
+      <OperatorInfo variant="name" />. Texts, images, logos and design of this website are protected by copyright. Any use beyond what the law allows requires our prior written consent.
     </p>
   </LegalSection>
 
-  {
-    legal.disputeResolution.display && (
-      <LegalSection title="7. Consumer dispute resolution">
-        <p>{legal.disputeResolution.display}</p>
-      </LegalSection>
-    )
-  }
+  {legal.disputeResolution.display && (
+    <LegalSection title="7. Consumer dispute resolution">
+      <p>{legal.disputeResolution.display}</p>
+    </LegalSection>
+  )}
 </Legal>

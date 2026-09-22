@@ -2,20 +2,20 @@
 /**
  * Document shell: head (SEO, social, icons, font preload, JSON-LD), skip link, cookie modal and shared scripts.
  */
-import '@/styles/global.css';
-import archivoUrl from '@/assets/fonts/archivo-latin-wdth-normal.woff2?url';
-import CookieModal from '@/components/consent/CookieModal.astro';
-import { siteConfig } from '@/config/site';
-import { colorToken } from '@/lib/colors';
-import { absoluteUrl, buildJsonLd, type PageMeta } from '@/lib/seo';
+import "@/styles/global.css";
+import archivoUrl from "@/assets/fonts/archivo-latin-wdth-normal.woff2?url";
+import CookieModal from "@/components/consent/CookieModal.astro";
+import { siteConfig } from "@/config/site";
+import { colorToken } from "@/lib/colors";
+import { absoluteUrl, buildJsonLd, type PageMeta } from "@/lib/seo";
 
 type Props = PageMeta;
 
 const { title, description, path } = Astro.props;
 const canonical = absoluteUrl(path);
 const ogImage = `${siteConfig.url}/og-image.png`;
-const ogImageAlt = 'Snugglegum™ pouch of liquid-filled pineapple gummies on a pink background';
-const themeColor = colorToken('--color-brand-pink');
+const ogImageAlt = "Snugglegum™ pouch of liquid-filled pineapple gummies on a pink background";
+const themeColor = colorToken("--color-brand-pink");
 const jsonLd = JSON.stringify(buildJsonLd({ title, description, path }));
 ---
 
@@ -53,21 +53,18 @@ const jsonLd = JSON.stringify(buildJsonLd({ title, description, path }));
     <meta name="twitter:image:alt" content={ogImageAlt} />
 
     <link rel="preload" href={archivoUrl} as="font" type="font/woff2" crossorigin />
-    <script type="application/ld+json" is:inline set:html={jsonLd} />
+    <script type="application/ld+json" is:inline set:html={jsonLd}></script>
   </head>
   <body>
-    <a
-      href="#main"
-      class="label-caps sr-only no-underline focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-sm focus:text-pink"
-    >
+    <a href="#main" class="label-caps sr-only no-underline focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-sm focus:text-pink">
       Skip to main content
     </a>
     <slot />
     <CookieModal />
 
     <script>
-      import { initConsent } from '@/scripts/consent';
-      import { initDialogs } from '@/scripts/dialogs';
+      import { initConsent } from "@/scripts/consent";
+      import { initDialogs } from "@/scripts/dialogs";
 
       initDialogs();
       initConsent();

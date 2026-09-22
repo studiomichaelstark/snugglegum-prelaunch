@@ -8,7 +8,9 @@ const { title, id } = Astro.props;
 ---
 
 <section aria-labelledby={id ? `${id}-heading` : undefined}>
-  <h2 id={id ? `${id}-heading` : undefined} class="text-[26px] leading-[1.1] font-black uppercase">{title}</h2>
+  <h2 id={id ? `${id}-heading` : undefined} class="text-[26px] leading-[1.1] font-black uppercase">
+    {title}
+  </h2>
   <div class="mt-2.5 grid gap-3 text-[19px] leading-[1.6] [&_a]:underline [&_ul]:list-disc [&_ul]:pl-6">
     <slot />
   </div>

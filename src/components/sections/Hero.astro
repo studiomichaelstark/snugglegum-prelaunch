@@ -27,7 +27,9 @@ const sticker = "sticker-shadow absolute z-[2] font-bold leading-[1.3] tracking-
     <p class="mx-auto mt-[clamp(18px,2.5vw,26px)] max-w-[48ch] text-center text-[clamp(1.15rem,1.7vw,1.4rem)] leading-[1.5] font-medium">Liquid-filled pineapple gummies. They haven't launched yet. The list is how you get in first.</p>
 
     <div class="relative mt-[clamp(28px,4vw,48px)]">
-      <div aria-hidden="true" data-decorative-text class="ml-[calc(50%-50vw)] w-screen text-center text-[clamp(3.2rem,15vw,13rem)] leading-[0.8] font-black tracking-[-0.035em] opacity-[0.14] font-stretch-[125%]">GUMMIES</div>
+      <div aria-hidden="true" data-decorative-text class="ml-[calc(50%-50vw)] w-screen text-center text-[clamp(3.2rem,15vw,13rem)] leading-[0.8] font-black tracking-[-0.035em] opacity-[0.14] font-stretch-[125%]">
+        GUMMIES
+      </div>
 
       <div class="relative mt-[max(-80px,calc(-9vw+40px))] flex justify-center md:mt-[clamp(-80px,-9vw,-36px)]">
         <div class="relative aspect-[746/964] w-[min(75%,390px)] animate-[sg-bob_7s_ease-in-out_infinite] md:w-[min(100%,520px)]">
@@ -44,13 +46,17 @@ const sticker = "sticker-shadow absolute z-[2] font-bold leading-[1.3] tracking-
           />
 
           <span class:list={[sticker, "top-[calc(8%+110px)] left-[-14%] w-[120px] [transform:rotate(-8deg)] rounded-[10px] px-[14px] py-[11px] animate-[sg-float_5.5s_ease-in-out_infinite] [--r:-8deg] md:w-[150px] md:px-[18px] md:py-3.5"]}>
-            93 chews<br />inside
+            93 chews
+            <br />
+            inside
           </span>
 
           <StampBadge class="absolute top-[44%] right-[calc(-4%-32px)] z-[2] size-[104px] md:right-[calc(-4%-40px)] md:size-[130px] [transform:rotate(7deg)] text-white animate-[sg-float_6.8s_ease-in-out_infinite] [--r:7deg]" />
 
           <span class:list={[sticker, "bottom-5 left-[-2%] flex size-[112px] [transform:rotate(-5deg)] items-center justify-center rounded-full p-2 animate-[sg-float_8s_ease-in-out_infinite] [--r:-5deg] md:size-[140px] md:p-[22px]"]}>
-            You know why<br />pineapple
+            You know why
+            <br />
+            pineapple
           </span>
         </div>
       </div>
@@ -58,23 +64,23 @@ const sticker = "sticker-shadow absolute z-[2] font-bold leading-[1.3] tracking-
 
     <div class="mx-auto mt-[clamp(28px,4vw,44px)] max-w-[660px]">
       <NewsletterForm id="hero" tone="light">
-        <p slot="after-error" data-copy-review="body-taste guide mention" class="mt-3.5 text-center text-2xl leading-[1.4] font-bold">Free with sign-up: the "Body Taste Cheat Code" guide.</p>
+        <p slot="after-error" data-copy-review="body-taste guide mention" class="mt-3.5 text-center text-2xl leading-[1.4] font-bold">
+          Free with sign-up: the "Body Taste Cheat Code" guide.
+        </p>
       </NewsletterForm>
 
-      {
-        showProof && (
-          <div class="mt-6 flex flex-wrap items-center justify-center gap-3.5">
-            <span class="inline-flex items-center gap-2.5 text-base font-bold">
-              <span class="inline-flex" aria-hidden="true">
-                <span class="size-8 rounded-full border-2 border-green bg-lime" />
-                <span class="-ml-2.5 size-8 rounded-full border-2 border-green bg-pink" />
-                <span class="-ml-2.5 size-8 rounded-full border-2 border-green bg-ink" />
-              </span>
-              {siteConfig.subscriberCount} people are already on the list
+      {showProof && (
+        <div class="mt-6 flex flex-wrap items-center justify-center gap-3.5">
+          <span class="inline-flex items-center gap-2.5 text-base font-bold">
+            <span class="inline-flex" aria-hidden="true">
+              <span class="size-8 rounded-full border-2 border-green bg-lime" />
+              <span class="-ml-2.5 size-8 rounded-full border-2 border-green bg-pink" />
+              <span class="-ml-2.5 size-8 rounded-full border-2 border-green bg-ink" />
             </span>
-          </div>
-        )
-      }
+            {siteConfig.subscriberCount} people are already on the list
+          </span>
+        </div>
+      )}
     </div>
   </div>
 </section>

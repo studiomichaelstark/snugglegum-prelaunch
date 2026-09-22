@@ -7,28 +7,26 @@
  * variant="name":  name only (footer trademark and copyright lines)
  */
 interface Props {
-  variant?: 'block' | 'name';
+  variant?: "block" | "name";
 }
 
-const { variant = 'block' } = Astro.props;
+const { variant = "block" } = Astro.props;
 
 const operator = {
-  name: 'Michael Konjevic',
-  street: '156 Hoffelstr.',
-  cityLine: 'Stuttgart 70597',
-  country: 'Germany',
+  name: "Michael Konjevic",
+  street: "156 Hoffelstr.",
+  cityLine: "Stuttgart 70597",
+  country: "Germany",
 };
 ---
 
-{
-  variant === 'name' ? (
-    operator.name
-  ) : (
-    <address class="not-italic">
-      <span class="block">{operator.name}</span>
-      <span class="block">{operator.street}</span>
-      <span class="block">{operator.cityLine}</span>
-      <span class="block">{operator.country}</span>
-    </address>
-  )
-}
+{variant === "name" ? (
+  operator.name
+) : (
+  <address class="not-italic">
+    <span class="block">{operator.name}</span>
+    <span class="block">{operator.street}</span>
+    <span class="block">{operator.cityLine}</span>
+    <span class="block">{operator.country}</span>
+  </address>
+)}

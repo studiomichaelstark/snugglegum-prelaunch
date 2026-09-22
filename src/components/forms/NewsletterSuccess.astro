@@ -1,35 +1,22 @@
 ---
 /** Success card, rendered server-side for the "success" preview state and cloned from a <template> after submit. */
 interface Props {
-  tone?: 'light' | 'dark';
+  tone?: "light" | "dark";
 }
 
-const { tone = 'light' } = Astro.props;
-const isDark = tone === 'dark';
+const { tone = "light" } = Astro.props;
+const isDark = tone === "dark";
 ---
 
-<div
-  class:list={['rounded-[28px] border-2 px-[26px] py-8 text-center', isDark ? 'border-lime' : 'border-green bg-white']}
-  tabindex="-1"
-  data-success-card
->
-  <p class="text-[clamp(1.4rem,2.6vw,1.9rem)] leading-[1.05] font-black font-stretch-[118%] uppercase">
-    Check your inbox and confirm your email.
-  </p>
+<div class:list={["rounded-[28px] border-2 px-[26px] py-8 text-center", isDark ? "border-lime" : "border-green bg-white"]} tabindex="-1" data-success-card>
+  <p class="text-[clamp(1.4rem,2.6vw,1.9rem)] leading-[1.05] font-black font-stretch-[118%] uppercase">Check your inbox and confirm your email.</p>
   <p class="mt-3 text-lg leading-[1.55]" data-copy-review="body-taste guide mention">
     Then we’re official. The pre-launch deal is locked to your address, and your "Body Taste Cheat Code" guide is on its way.
   </p>
   <p class="mt-3.5 text-lg leading-[1.55] font-bold">Founding number: reserved on confirmation.</p>
-  {
-    !isDark && (
-      <button
-        type="button"
-        data-share
-        data-copied-label="Link copied"
-        class="label-caps mt-5 min-h-12 cursor-pointer rounded-full border-2 border-green bg-lime px-[26px] py-[15px] text-sm text-ink"
-      >
-        Tell a friend who has good taste
-      </button>
-    )
-  }
+  {!isDark && (
+    <button type="button" data-share data-copied-label="Link copied" class="label-caps mt-5 min-h-12 cursor-pointer rounded-full border-2 border-green bg-lime px-[26px] py-[15px] text-sm text-ink">
+      Tell a friend who has good taste
+    </button>
+  )}
 </div>

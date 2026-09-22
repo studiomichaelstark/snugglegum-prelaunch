@@ -2,20 +2,15 @@
 interface Props {
   /** Position in the visible list, starting at 1. */
   number: number;
-  tone: 'pink' | 'outline';
+  tone: "pink" | "outline";
 }
 const { number, tone } = Astro.props;
-const isPink = tone === 'pink';
+const isPink = tone === "pink";
 ---
 
-<li
-  class:list={[
-    'rounded-[28px] p-[clamp(26px,3vw,38px)] transition-transform duration-[250ms] hover:-translate-y-2.5',
-    isPink ? 'bg-pink text-green hover:-rotate-[1.5deg]' : 'border-2 border-dashed border-green bg-white text-green hover:rotate-[1.5deg]',
-  ]}
->
+<li class:list={["rounded-[28px] p-[clamp(26px,3vw,38px)] transition-transform duration-[250ms] hover:-translate-y-2.5", isPink ? "bg-pink text-green hover:-rotate-[1.5deg]" : "border-2 border-dashed border-green bg-white text-green hover:rotate-[1.5deg]"]}>
   <p aria-hidden="true" class="text-[clamp(3rem,5vw,4.5rem)] leading-[0.8] font-black font-stretch-125">
-    {String(number).padStart(2, '0')}
+    {String(number).padStart(2, "0")}
   </p>
   <slot />
 </li>

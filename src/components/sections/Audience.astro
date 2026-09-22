@@ -1,33 +1,50 @@
 ---
-import ArrowIcon from '@/components/ui/ArrowIcon.astro';
+import ArrowIcon from "@/components/ui/ArrowIcon.astro";
 
-const item = 'flex items-start gap-3.5';
-const box = 'rounded-[28px] p-[clamp(28px,3.5vw,48px)]';
-const heading = 'display-word mt-3 text-[clamp(2rem,3.5vw,3rem)] leading-[0.92] tracking-normal font-stretch-[118%]';
+const item = "flex items-start gap-3.5";
+const box = "rounded-[28px] p-[clamp(28px,3.5vw,48px)]";
+const heading = "display-word mt-3 text-[clamp(2rem,3.5vw,3rem)] leading-[0.92] tracking-normal font-stretch-[118%]";
 ---
 
 <section id="audience" class="bg-white px-[clamp(20px,5vw,48px)] py-[clamp(4rem,10vw,8rem)]">
   <div class="mx-auto grid max-w-[1200px] grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-[clamp(16px,2vw,24px)]">
-    <div class:list={[box, 'bg-green text-pink']}>
+    <div class:list={[box, "bg-green text-pink"]}>
       <p class="label-caps text-[17px]">Yes</p>
       <h2 class:list={[heading]}>Who it's for</h2>
       <ul class="mt-[26px] grid gap-4 text-xl leading-[1.4]">
-        <li class:list={[item]}><ArrowIcon class="mt-[0.3em] text-pink" /><span>Gym regulars who read every label.</span></li>
-        <li class:list={[item]}><ArrowIcon class="mt-[0.3em] text-pink" /><span>Date-night optimists.</span></li>
-        <li class:list={[item]}><ArrowIcon class="mt-[0.3em] text-pink" /><span>People who don't do boring.</span></li>
         <li class:list={[item]}>
-          <ArrowIcon class="mt-[0.3em] text-pink" /><span>Anyone with good taste and questionable jokes.</span>
+          <ArrowIcon class="mt-[0.3em] text-pink" />
+          <span>Gym regulars who read every label.</span>
+        </li>
+        <li class:list={[item]}>
+          <ArrowIcon class="mt-[0.3em] text-pink" />
+          <span>Date-night optimists.</span>
+        </li>
+        <li class:list={[item]}>
+          <ArrowIcon class="mt-[0.3em] text-pink" />
+          <span>People who don't do boring.</span>
+        </li>
+        <li class:list={[item]}>
+          <ArrowIcon class="mt-[0.3em] text-pink" />
+          <span>Anyone with good taste and questionable jokes.</span>
         </li>
       </ul>
     </div>
-    <div class:list={[box, 'bg-pink text-green']}>
+    <div class:list={[box, "bg-pink text-green"]}>
       <p class="label-caps text-[17px]">Not really</p>
       <h2 class:list={[heading]}>Who it's not</h2>
       <ul class="mt-[26px] grid gap-4 text-xl leading-[1.4]">
-        <li class:list={[item]}><ArrowIcon class="mt-[0.3em]" /><span>Under 18s (come back later).</span></li>
-        <li class:list={[item]}><ArrowIcon class="mt-[0.3em]" /><span>The easily offended.</span></li>
         <li class:list={[item]}>
-          <ArrowIcon class="mt-[0.3em]" /><span>People who think pineapple on pizza is the real scandal.</span>
+          <ArrowIcon class="mt-[0.3em]" />
+          <span>Under 18s (come back later).</span>
+        </li>
+        <li class:list={[item]}>
+          <ArrowIcon class="mt-[0.3em]" />
+          <span>The easily offended.</span>
+        </li>
+        <li class:list={[item]}>
+          <ArrowIcon class="mt-[0.3em]" />
+          <span>People who think pineapple on pizza is the real scandal.</span>
         </li>
       </ul>
     </div>

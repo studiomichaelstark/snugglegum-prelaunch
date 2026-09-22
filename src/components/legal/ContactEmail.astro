@@ -1,13 +1,13 @@
 ---
 /** Contact email from the environment: a mailto link when set, a visible TODO marker when not. */
-import { legal } from '@/config/legal';
+import { legal } from "@/config/legal";
 
 interface Props {
-  field?: 'contactEmail' | 'privacyEmail';
+  field?: "contactEmail" | "privacyEmail";
 }
 
-const { field = 'contactEmail' } = Astro.props;
+const { field = "contactEmail" } = Astro.props;
 const item = legal[field];
 ---
 
-{item.status === 'set' ? <a href={`mailto:${item.value}`}>{item.value}</a> : item.display}
+{item.status === "set" ? <a href={`mailto:${item.value}`}>{item.value}</a> : item.display}

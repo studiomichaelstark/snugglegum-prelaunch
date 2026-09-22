@@ -1,49 +1,37 @@
 ---
-import ButtonLink from '@/components/ui/ButtonLink.astro';
-import OfferCard from '@/components/ui/OfferCard.astro';
-import { siteConfig } from '@/config/site';
-import { hasDiscount } from '@/config/variants';
+import ButtonLink from "@/components/ui/ButtonLink.astro";
+import OfferCard from "@/components/ui/OfferCard.astro";
+import { siteConfig } from "@/config/site";
+import { hasDiscount } from "@/config/variants";
 
 const discount = hasDiscount(siteConfig.discountLabel);
 const cardCount = discount ? 3 : 2;
 // Position of each card in the visible list (the discount card is dropped while its label is empty).
 const early = discount ? 2 : 1;
 const founding = discount ? 3 : 2;
-const toneFor = (position: number) => (position % 2 === 1 ? 'pink' : 'outline');
+const toneFor = (position: number) => (position % 2 === 1 ? "pink" : "outline");
 ---
 
 <section id="offer" class="bg-white px-[clamp(20px,5vw,48px)] py-[clamp(4rem,10vw,8rem)]">
   <div class="mx-auto max-w-[1200px]">
     <p class="label-caps text-[17px]">The pre-launch deal</p>
-    <h2
-      class="display-word mt-3 max-w-[20ch] text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] font-stretch-[120%]"
-    >
-      {discount ? 'Three' : 'Two'} things for joining before launch
-    </h2>
-    <p class="mt-5 max-w-[52ch] text-xl leading-normal">
-      All {discount ? 'three' : 'two'}, only for the list. Once it's public, the offer closes.
-    </p>
+    <h2 class="display-word mt-3 max-w-[20ch] text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] font-stretch-[120%]">{discount ? "Three" : "Two"}things for joining before launch</h2>
+    <p class="mt-5 max-w-[52ch] text-xl leading-normal">All{discount ? "three" : "two"}, only for the list. Once it's public, the offer closes.</p>
 
     <ul class="mt-[clamp(32px,4vw,56px)] grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-[clamp(16px,2vw,24px)]" data-card-count={cardCount}>
-      {
-        discount && (
-          <OfferCard number={1} tone="pink">
-            <h3 class="mt-[18px] text-[26px] leading-none font-black uppercase">{siteConfig.discountLabel} off</h3>
-            <p class="mt-2.5 text-lg leading-normal">On your first order, once it launches. One code, one order.</p>
-          </OfferCard>
-        )
-      }
+      {discount && (
+        <OfferCard number={1} tone="pink">
+          <h3 class="mt-[18px] text-[26px] leading-none font-black uppercase">{siteConfig.discountLabel} off</h3>
+          <p class="mt-2.5 text-lg leading-normal">On your first order, once it launches. One code, one order.</p>
+        </OfferCard>
+      )}
       <OfferCard number={early} tone={toneFor(early)}>
         <h3 class="mt-[18px] text-[26px] leading-none font-black uppercase">7 days early</h3>
-        <p class="mt-2.5 text-lg leading-normal">
-          The list orders a full week before it's public. First batch is limited, so early means something.
-        </p>
+        <p class="mt-2.5 text-lg leading-normal">The list orders a full week before it's public. First batch is limited, so early means something.</p>
       </OfferCard>
       <OfferCard number={founding} tone={toneFor(founding)}>
         <h3 class="mt-[18px] text-[26px] leading-none font-black uppercase">Founding number</h3>
-        <p class="mt-2.5 text-lg leading-normal">
-          Confirm your email and get a reserved founding number, plus a vote on flavor #2.
-        </p>
+        <p class="mt-2.5 text-lg leading-normal">Confirm your email and get a reserved founding number, plus a vote on flavor #2.</p>
       </OfferCard>
     </ul>
 
@@ -51,8 +39,6 @@ const toneFor = (position: number) => (position % 2 === 1 ? 'pink' : 'outline');
       <ButtonLink href="#final-cta">Get on the list</ButtonLink>
     </div>
 
-    <p class="mt-6 text-center text-[17px] leading-[1.6] opacity-85">
-      Offer terms: valid for confirmed double opt-in subscribers, while the first batch lasts, USA only.
-    </p>
+    <p class="mt-6 text-center text-[17px] leading-[1.6] opacity-85">Offer terms: valid for confirmed double opt-in subscribers, while the first batch lasts, USA only.</p>
   </div>
 </section>

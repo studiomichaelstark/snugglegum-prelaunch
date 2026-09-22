@@ -1,0 +1,75 @@
+---
+// src/components/animations/DigestionAnimation.astro
+import svgContent from "../../assets/Boy-Digestion.svg?raw";
+---
+
+<div class="digestion-animation">
+  <Fragment set:html={svgContent} />
+</div>
+
+<style is:global>
+  .digestion-animation svg {
+    width: 110%;
+    height: 110%;
+    display: block;
+  }
+
+  #meatball {
+    transform-box: fill-box;
+    transform-origin: center;
+    offset-path: path("M363.7,350.1c4.7,121,40.1,102.1,42.7,160.1.7,23.2-18.2,57.1-76.6,57.1s-57.2,34-29.1,34l130.4,2c11.3.2,20.2,5.1,20.2,11.2v2.6c0,6.2-9.2,11.1-20.7,11.2l-105.9.3c-16.1,0-29.1,7.1-29.1,15.7h0c0,8.7,13.1,15.7,29.3,15.7h23.4c14.4,0,26,6.3,26,14v22.9");
+    offset-distance: 0%;
+  }
+</style>
+
+<script>
+  import { animate, inView } from "motion";
+
+  function initDigestion(root) {
+    const svg = root.querySelector("svg");
+    if (!svg) return;
+    svg.setAttribute("preserveAspectRatio", "xMidYMid slice");
+
+    const eyesOpen = root.querySelectorAll("#eye-right, #eye-left");
+    const eyesClosed = root.querySelectorAll("#eye-blink-right, #eye-blink-left");
+
+    // display:none aus Illustrator überschreiben, Opacity übernimmt die Steuerung
+    eyesClosed.forEach((el) => {
+      el.style.display = "inline";
+      el.style.opacity = "0";
+    });
+
+    function blink() {
+      animate(eyesOpen, { opacity: 0 }, { duration: 0.08 });
+      animate(eyesClosed, { opacity: 1 }, { duration: 0.08 });
+
+      setTimeout(() => {
+        animate(eyesOpen, { opacity: 1 }, { duration: 0.08 });
+        animate(eyesClosed, { opacity: 0 }, { duration: 0.08 });
+      }, 100);
+    }
+
+    // erst animieren, wenn die Grafik im Viewport ist (Lazy-Start)
+    inView(root, () => {
+      const blinkInterval = setInterval(blink, 4000);
+
+      animate(root.querySelector("#wave"), { x: [-18, 18] }, { duration: 2.5, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" });
+
+      animate(root.querySelector("#meatball"), { offsetDistance: ["0%", "100%"] }, { duration: 4.5, repeat: Infinity, repeatType: "loop", ease: "easeInOut" });
+
+      const isMobile = window.matchMedia("(max-width: 767px)").matches;
+
+      // Desktop und Mobile jeweils vollständig eigenständig einstellbar
+      const desktopConfig = { zoom: 1.1, y: [-250, -256] };
+      const mobileConfig = { zoom: 1.1, y: [-210, -216] };
+
+      const config = isMobile ? mobileConfig : desktopConfig;
+
+      animate(svg, { y: config.y, scale: [config.zoom, config.zoom] }, { duration: 2, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" });
+
+      return () => clearInterval(blinkInterval);
+    });
+  }
+
+  document.querySelectorAll(".digestion-animation").forEach(initDigestion);
+</script>
