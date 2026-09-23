@@ -50,13 +50,39 @@ function setBusy(form: HTMLFormElement, busy: boolean): void {
   form.setAttribute('aria-busy', busy ? 'true' : 'false');
 }
 
-async function subscribe(endpoint: string, email: string): Promise<'success' | ErrorKind> {
+interface ProductInterest {
+  /** Product id, e.g. "body-fresh". Sent as-is in fields[product_interest]. */
+  id: string;
+  /** MailerLite Group ID for this product, or '' while that Group has not been created yet. */
+  groupId: string;
+}
+
+/** Reads the checked product-interest checkboxes inside a form. One subscriber, any number of interests. */
+function readInterests(form: HTMLFormElement): ProductInterest[] {
+  return Array.from(form.querySelectorAll<HTMLInputElement>('input[data-interest]'))
+    .filter((input) => input.checked)
+    .map((input) => ({ id: input.dataset.interest ?? '', groupId: input.dataset.group ?? '' }));
+}
+
+async function subscribe(endpoint: string, email: string, interests: ProductInterest[]): Promise<'success' | ErrorKind> {
   if (!endpoint) return 'server';
 
   const body = new FormData();
   body.set('fields[email]', email);
   body.set('ml-submit', '1');
   body.set('anticsrf', 'true');
+
+  if (interests.length) {
+    // A plain field always records the interest(s), even before a matching Group exists.
+    body.set(
+      'fields[product_interest]',
+      interests.map((interest) => interest.id).join(','),
+    );
+    // Tag the subscriber to each product's native Group, for every interest that has one configured.
+    for (const interest of interests) {
+      if (interest.groupId) body.append('groups[]', interest.groupId);
+    }
+  }
 
   const controller = new AbortController();
   const timer = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
@@ -158,7 +184,7 @@ function bind(root: HTMLElement): void {
 
     submitting = true;
     setBusy(form, true);
-    const result = await subscribe(endpoint, email);
+    const result = await subscribe(endpoint, email, readInterests(form));
     submitting = false;
     setBusy(form, false);
 
