@@ -1,0 +1,26 @@
+---
+/**
+ * Hero shell for a product page arriving cold from an ad, a social link or search — no animation,
+ * per the brief. Gives brand context (logo, one link back) plus the product's own badge/headline/
+ * subline/CTA, all via slots so the copy stays in the page. `bgClass` is a literal Tailwind class
+ * from the caller (e.g. "bg-vitality" or "bg-beauty") — never built from a variable at runtime, so
+ * Tailwind's build-time scanner always sees it.
+ */
+import BackToHome from './BackToHome.astro';
+
+interface Props {
+  bgClass: string;
+  tone?: 'light' | 'dark';
+}
+const { bgClass, tone = 'light' } = Astro.props;
+const isDark = tone === 'dark';
+---
+
+<section id="hero" class:list={['section-px relative overflow-hidden pt-9 pb-[clamp(56px,7vw,96px)]', bgClass, isDark ? 'on-dark text-white' : 'text-green']}>
+  <div class="container-lg relative">
+    <BackToHome tone={tone} />
+    <div class="mx-auto mt-[clamp(32px,5vw,56px)] max-w-[720px] text-center">
+      <slot />
+    </div>
+  </div>
+</section>

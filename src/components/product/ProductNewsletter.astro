@@ -1,0 +1,30 @@
+---
+/**
+ * Closing pre-launch signup section: badge/heading/subline slots plus the newsletter form (with
+ * the three product-interest checkboxes). Same shell shape as the existing FinalCta.astro (kept,
+ * unchanged, on the Body Fresh page); this generalizes it for the homepage and the two new
+ * product pages, whose copy differs. `bgClass` is a literal Tailwind class from the caller.
+ */
+import NewsletterForm from '@/components/forms/NewsletterForm.astro';
+import type { ProductId } from '@/config/products';
+
+interface Props {
+  id: string;
+  bgClass: string;
+  tone?: 'light' | 'dark';
+  preselect?: ProductId;
+}
+const { id, bgClass, tone = 'dark', preselect } = Astro.props;
+const isDark = tone === 'dark';
+---
+
+<section id={`newsletter-${id}`} class:list={['section-px section-py', bgClass, isDark ? 'on-dark text-pink' : 'text-green']}>
+  <div class="mx-auto max-w-[860px] text-center">
+    <slot name="badge" />
+    <slot name="heading" />
+    <slot name="subline" />
+    <div class="mt-[clamp(28px,3vw,40px)]">
+      <NewsletterForm id={id} tone={tone} preselect={preselect} />
+    </div>
+  </div>
+</section>

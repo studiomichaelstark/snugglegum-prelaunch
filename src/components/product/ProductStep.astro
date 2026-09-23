@@ -1,0 +1,51 @@
+---
+/**
+ * One "how it works" row: number, animated dot, title/body slots, image slot. Reused across every
+ * product page (and available to Body Fresh's own, unchanged HowItWorks.astro). Copy stays in the
+ * page that uses this — this component is layout only.
+ */
+interface Props {
+  number: number;
+  /** 'blink' for the first step, 'burst' for the rest — matches the site's existing motif. */
+  dot?: 'blink' | 'burst';
+  /** Puts the image on the left from `sm` up (the alternating rhythm the design already uses). */
+  imageFirst?: boolean;
+  /** 'dark' = pink/lime accents on a dark section (the existing How It Works treatment).
+   *  'light' = green accents on a light section (the existing Audience/What's Inside treatment). */
+  tone?: 'light' | 'dark';
+}
+
+const { number, dot = 'burst', imageFirst = false, tone = 'dark' } = Astro.props;
+const isDark = tone === 'dark';
+const row = 'grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] items-center gap-[clamp(20px,3vw,40px)] border-t-2 border-dashed pt-[clamp(24px,3vw,40px)]';
+const numberClass = 'text-[clamp(4rem,9vw,8rem)] leading-[0.75] font-black stretch-wide';
+---
+
+<li class:list={[row, isDark ? 'border-white/20' : 'border-green/20']}>
+  <div class:list={[imageFirst && 'order-1 sm:order-2']}>
+    <div class="flex items-center gap-4">
+      <span aria-hidden="true" class:list={[numberClass, isDark ? 'text-pink' : 'text-green']}>
+        {String(number).padStart(2, '0')}
+      </span>
+      {
+        dot === 'blink' ? (
+          <span aria-hidden="true" class:list={['size-3.5 animate-[sg-blink_1.6s_ease-in-out_infinite] rounded-full', isDark ? 'bg-pink' : 'bg-green']} />
+        ) : (
+          <span aria-hidden="true" class="relative size-6">
+            <span class:list={['absolute inset-0 animate-[sg-burst_1.8s_ease-out_infinite] rounded-full border-2', isDark ? 'border-pink' : 'border-green']} />
+            <span class:list={['absolute inset-1.5 rounded-full', isDark ? 'bg-pink' : 'bg-green']} />
+          </span>
+        )
+      }
+    </div>
+    <h3 class="mt-[18px] text-[clamp(2rem,3.5vw,3rem)] leading-[0.95] font-black uppercase stretch-hero">
+      <slot name="title" />
+    </h3>
+    <p class="mt-3.5 max-w-[38ch] text-xl leading-normal">
+      <slot name="body" />
+    </p>
+  </div>
+  <div class:list={[imageFirst && 'order-2 sm:order-1', 'aspect-[4/3] overflow-hidden rounded-3xl transition-transform duration-300 hover:scale-[1.03]']}>
+    <slot name="image" />
+  </div>
+</li>

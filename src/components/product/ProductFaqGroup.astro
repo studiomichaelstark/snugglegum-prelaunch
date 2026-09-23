@@ -1,0 +1,25 @@
+---
+/**
+ * One FAQ category: a ticket-notch badge (label via the `badge` slot) followed by the default
+ * slot's content — a group of native `<details name="...">` items (the caller picks a unique
+ * `name` per group, which is what makes opening one answer close any other open one in that same
+ * group only). Used on the homepage's general FAQ and on every product page's dedicated FAQ.
+ * Copy (badge text and every question/answer) stays in the caller.
+ */
+interface Props {
+  /** Literal Tailwind classes for the badge fill/text color, e.g. "bg-lime text-ink". */
+  badgeClass: string;
+}
+const { badgeClass } = Astro.props;
+---
+
+<div>
+  <h3>
+    <span class:list={['label-caps inline-block rounded-3xl px-5 py-3 text-sm', badgeClass]}>
+      <slot name="badge" />
+    </span>
+  </h3>
+  <div class="mt-[clamp(28px,3vw,44px)] border-t-2 border-dashed border-green">
+    <slot />
+  </div>
+</div>

@@ -1,0 +1,22 @@
+---
+/** One "what's inside" ingredient row (icon, name, description slot). Layout only, no copy. */
+interface Props {
+  tone?: 'light' | 'dark';
+}
+const { tone = 'light' } = Astro.props;
+const isDark = tone === 'dark';
+---
+
+<li class:list={['flex items-start gap-[18px] border-b-2 border-dashed py-[22px] last:border-b-0', isDark ? 'border-white/20' : 'border-green']}>
+  <span aria-hidden="true" class:list={['flex size-11 flex-none items-center justify-center rounded-full border-2 text-2xl leading-none font-black', isDark ? 'border-pink' : 'border-green']}>
+    +
+  </span>
+  <div>
+    <h3 class="text-[26px] leading-[1.05] font-black uppercase">
+      <slot name="name" />
+    </h3>
+    <p class="mt-2 text-[19px] leading-normal">
+      <slot name="description" />
+    </p>
+  </div>
+</li>
