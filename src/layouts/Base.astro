@@ -11,12 +11,12 @@ import { absoluteUrl, buildJsonLd, type PageMeta } from "@/lib/seo";
 
 type Props = PageMeta;
 
-const { title, description, path } = Astro.props;
+const { title, description, path, product } = Astro.props;
 const canonical = absoluteUrl(path);
 const ogImage = `${siteConfig.url}/og-image.png`;
 const ogImageAlt = "Snugglegum™ pouch of liquid-filled pineapple gummies on a pink background";
 const themeColor = colorToken("--color-brand-pink");
-const jsonLd = JSON.stringify(buildJsonLd({ title, description, path }));
+const jsonLd = JSON.stringify(buildJsonLd({ title, description, path, product }));
 ---
 
 <!doctype html>

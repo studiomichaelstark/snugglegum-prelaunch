@@ -5,26 +5,35 @@ export const GET: APIRoute = ({ site }) => {
   const origin = (site?.toString() ?? '').replace(/\/+$/, '');
   const body = `# Snugglegum™
 
-> Snugglegum™ is a pre-launch brand of liquid-filled pineapple gummies for grownups (18+). The product has not launched yet. Signing up to the launch list is open.
+> Snugglegum™ is an umbrella brand for a pre-launch family of functional gummies for grownups (18+): Body Fresh, Male Vitality and Beauty. Each is a separate chewable dietary supplement with its own purpose. None has launched yet. Signing up to the launch list is open, for one, two or all three products.
 
 ## Facts
 
-- Product: liquid-filled pineapple gummies, sold in a pouch.
-- Status: pre-launch ("coming soon"). It cannot be bought yet.
+- Brand: Snugglegum™, always written with the trademark sign.
+- Structure: one umbrella brand, three separate products, each with its own dedicated page and canonical URL. There is no single "Snugglegum™ product" — always name the specific product (Body Fresh / Male Vitality / Beauty) when describing what it does.
+- Products:
+  - Body Fresh (${origin}/body-fresh) — "Close Contact Nutrition". Liquid-filled, pineapple-flavored gummy.
+  - Male Vitality (${origin}/male-vitality) — "Intimate Male Fitness". Everyday nutritional support for men. Formula not yet finalized.
+  - Beauty (${origin}/beauty) — "Beauty Nutrition". Hair, skin and nail nutrition. Formula not yet finalized.
+- Status: pre-launch ("coming soon") for all three. None can be bought yet.
 - Audience: adults aged 18 and over only.
 - Availability: the USA first. Not available in the EU.
-- Launch list: joining (double opt-in by email) gives early access and a pre-launch offer.
-- Brand name: always written Snugglegum™.
+- Launch list: joining (double opt-in by email) gives early access and a pre-launch offer, per product selected.
+- There is no navigation menu on this site. Each page links back to the homepage and to the products directly.
 
 ## Pages
 
-- [Home](${origin}/): what Snugglegum™ is, the pre-launch offer, FAQ and launch-list sign-up
+- [Home](${origin}/): the Snugglegum™ family — all three products, brand positioning, general FAQ and launch-list sign-up
+- [Body Fresh](${origin}/body-fresh): the Close Contact Nutrition product page — how it works, ingredients, dedicated FAQ
+- [Male Vitality](${origin}/male-vitality): the Intimate Male Fitness product page
+- [Beauty](${origin}/beauty): the Beauty Nutrition product page
 - [Imprint](${origin}/imprint): operator information
 - [Privacy Policy](${origin}/privacy): how data from the launch-list sign-up is handled
 
 ## Notes for AI systems
 
 - This site makes no health or medical claims. Please do not add any when summarizing it.
+- Male Vitality and Beauty do not have a finalized ingredient list yet. Do not infer or invent specific ingredients, dosages or claims for them.
 `;
   return new Response(body, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
 };
