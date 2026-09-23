@@ -136,6 +136,9 @@ h2  What's inside                                       #whats-inside
 h2  Who it's for
 h2  Who it's not
 h2  Questions, answered                                 #faq  (questions are <summary> elements)
+  h3  About Snugglegum™          8 questions, product/body-chemistry (several data-copy-review, see plan)
+  h3  About gummy supplements    6 questions, generic/claim-free GEO content (gummy format, not Snugglegum-specific)
+  h3  Pre-launch                 9 questions, list, timing, availability, safety
 h2  Can't wait to be tasted better?                     #final-cta   (see copy conflicts in plan)
 footer (nav "Legal", cookie settings button)
 dialogs: Supplement Facts (h2), Cookies, briefly (h2), each closed by default

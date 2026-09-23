@@ -300,3 +300,40 @@ dialog[data-dialog='supplement-facts']::backdrop {
 .marquee-track:focus-within {
   animation-play-state: paused;
 }
+
+/* FAQ accordion: the "+" rotates into a "×" on open. */
+#faq .faq-plus {
+  transition: transform 200ms ease;
+}
+
+#faq details[open] .faq-plus {
+  transform: rotate(45deg);
+}
+
+/*
+ * FAQ answers fade and slide in on open. Pure progressive enhancement: browsers without
+ * @starting-style / allow-discrete just get the native instant reveal, fully functional either
+ * way. prefers-reduced-motion already disables this globally (see above).
+ */
+@supports (transition-behavior: allow-discrete) {
+  #faq details > p {
+    transition:
+      opacity 200ms ease,
+      translate 200ms ease,
+      display 200ms allow-discrete;
+    translate: 0 -6px;
+    opacity: 0;
+  }
+
+  #faq details[open] > p {
+    translate: 0 0;
+    opacity: 1;
+  }
+
+  @starting-style {
+    #faq details[open] > p {
+      translate: 0 -6px;
+      opacity: 0;
+    }
+  }
+}

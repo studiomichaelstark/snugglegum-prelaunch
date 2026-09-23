@@ -1,4 +1,15 @@
 ---
+/**
+ * FAQ, grouped into three crawlable categories: About Snugglegum, About gummy supplements
+ * (generic, claim-free GEO content) and Pre-launch. Native <details name="…">, so within each
+ * group opening one answer closes the others there — zero JS, keyboard accessible by default.
+ * Open/close gets a CSS-only fade (progressive enhancement, see global.css); reduced motion
+ * already disables it globally.
+ *
+ * Several answers make body/attraction/ingredient claims (same category as the existing flagged
+ * copy elsewhere on the page), so they carry data-copy-review, same convention as the rest of
+ * the site. No FAQPage JSON-LD is added here — see docs/faq-proposal.md, still pending approval.
+ */
 import { siteConfig } from "@/config/site";
 import { hasDiscount } from "@/config/variants";
 
@@ -6,97 +17,259 @@ const discount = hasDiscount(siteConfig.discountLabel);
 
 const item = "border-b-2 border-dashed border-green";
 const question = "flex min-h-12 items-center justify-between gap-5 py-6 text-[clamp(1.15rem,2vw,1.5rem)] font-black uppercase";
-const plus = "flex-none text-[26px] font-black";
+const plus = "faq-plus flex-none text-[26px] font-black";
 const answer = "max-w-[60ch] pb-6 text-[19px] leading-[1.55]";
+const badge = "label-caps ticket-notch inline-block rounded-lg px-5 py-3 text-sm";
+const group = "mt-[clamp(28px,3vw,44px)] border-t-2 border-dashed border-green";
 ---
 
 <section id="faq" class="section-px section-py bg-white">
   <div class="mx-auto max-w-[900px]">
     <h2 class="display-word stretch-display text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88]">Questions, answered</h2>
-    <div class="mt-[clamp(28px,3vw,44px)] border-t-2 border-dashed border-green">
-      <details class:list={[item]}>
-        <summary class:list={[question]}>
-          When does it launch?
-          <span aria-hidden="true" class:list={[plus]}>
-            +
+
+    <div class="mt-[clamp(40px,5vw,64px)] grid gap-[clamp(40px,5vw,64px)]">
+      <div>
+        <h3>
+          <span class:list={[badge, "bg-lime text-ink"]}>
+            About Snugglegum<sup class="text-[0.55em]">™</sup>
           </span>
-        </summary>
-        <p class:list={[answer]}>Soon. Join the list and you'll hear first.</p>
-      </details>
-      <details class:list={[item]}>
-        <summary class:list={[question]}>
-          What exactly do I get for signing up now?
-          <span aria-hidden="true" class:list={[plus]}>
-            +
-          </span>
-        </summary>
-        <p class:list={[answer]}>{discount && `${siteConfig.discountLabel} off your first order as soon as lieferbar, `}7 days of early access, a reserved founding number and a vote on flavor #2. All of it ends when the pouch goes public.</p>
-      </details>
-      <details class:list={[item]}>
-        <summary class:list={[question]}>
-          Where can I get it?
-          <span aria-hidden="true" class:list={[plus]}>
-            +
-          </span>
-        </summary>
-        <p class:list={[answer]}>Not yet, but <a href="#final-cta">on the list</a>. USA launches first, EU's still on the waitlist too.</p>
-      </details>
-      <details class:list={[item]}>
-        <summary class:list={[question]}>
-          What does it taste like?
-          <span aria-hidden="true" class:list={[plus]}>
-            +
-          </span>
-        </summary>
-        <p class:list={[answer]}>Pineapple, with a liquid center.</p>
-      </details>
-      <details class:list={[item]}>
-        <summary class:list={[question]}>
-          How many a day?
-          <span aria-hidden="true" class:list={[plus]}>
-            +
-          </span>
-        </summary>
-        <p class:list={[answer]} data-copy-review="dosage wording conflicts with Supplement Facts">
-          1 to 3, after meals. Please stay within the recommended amount.
-        </p>
-      </details>
-      <details class:list={[item]}>
-        <summary class:list={[question]}>
-          Is it safe?
-          <span aria-hidden="true" class:list={[plus]}>
-            +
-          </span>
-        </summary>
-        <p class:list={[answer]}>It's a dietary supplement. Talk to your doctor if you have a medical condition or take medication.</p>
-      </details>
-      <details class:list={[item]}>
-        <summary class:list={[question]}>
-          Why 18+?
-          <span aria-hidden="true" class:list={[plus]}>
-            +
-          </span>
-        </summary>
-        <p class:list={[answer]}>Because our humor is.</p>
-      </details>
-      <details class:list={[item]}>
-        <summary class:list={[question]}>
-          Will you spam me?
-          <span aria-hidden="true" class:list={[plus]}>
-            +
-          </span>
-        </summary>
-        <p class:list={[answer]}>No. Launch news, early access and the occasional bad joke. Unsubscribe anytime.</p>
-      </details>
-      <details class:list={[item]}>
-        <summary class:list={[question]}>
-          What's with the name?
-          <span aria-hidden="true" class:list={[plus]}>
-            +
-          </span>
-        </summary>
-        <p class:list={[answer]}>Say "Engineered to make you gum" out loud. We'll wait.</p>
-      </details>
+        </h3>
+        <div class:list={[group]}>
+          <details name="faq-snugglegum" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>What is Snugglegum<sup class="text-[0.55em]">™</sup>?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]} data-copy-review="body chemistry claim">
+              Snugglegum<sup class="text-[0.55em]">™</sup> is a chewable dietary supplement designed to support your body's natural chemistry from within. It combines functional ingredients with a pineapple flavor and a liquid center — because taking a supplement shouldn't feel like taking a supplement.
+            </p>
+          </details>
+
+          <details name="faq-snugglegum" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>How does Snugglegum<sup class="text-[0.55em]">™</sup> work?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]} data-copy-review="body chemistry claim">
+              Snugglegum<sup class="text-[0.55em]">™</sup> is designed to complement the processes that influence how your body smells and tastes up close. Instead of masking your natural chemistry with fragrance, it provides nutritional support from within.
+            </p>
+          </details>
+
+          <details name="faq-snugglegum" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>Can Snugglegum<sup class="text-[0.55em]">™</sup> change how I smell?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]} data-copy-review="body-odor claim">
+              Your natural scent is influenced by many things, including food, metabolism, skin and sweat. Snugglegum<sup class="text-[0.55em]">™</sup> is designed to support that internal chemistry — not replace deodorant, perfume or good hygiene.
+            </p>
+          </details>
+
+          <details name="faq-snugglegum" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>Can Snugglegum<sup class="text-[0.55em]">™</sup> affect how body fluids taste?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]} data-copy-review="body fluid claim, explicitly limited — needs legal review before launch">
+              Body fluids have their own chemistry, and what you eat can contribute to that chemistry. Snugglegum<sup class="text-[0.55em]">™</sup> is designed around this idea, but we do not claim that it directly changes the taste of semen, vaginal fluids or other specific body fluids unless supported by product-specific clinical evidence.
+            </p>
+          </details>
+
+          <details name="faq-snugglegum" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>Is Snugglegum<sup class="text-[0.55em]">™</sup> a breath mint, gum or candy?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]}>
+              None of the above. Snugglegum<sup class="text-[0.55em]">™</sup> is a chewable dietary supplement with a gummy texture and liquid center. It isn't designed simply to make your mouth taste like pineapple.
+            </p>
+          </details>
+
+          <details name="faq-snugglegum" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>What ingredients are in Snugglegum<sup class="text-[0.55em]">™</sup>?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]}>
+              The formula includes zinc, maca and L-arginine, together with the ingredients needed to create the gummy and liquid-center format. The final Supplement Facts panel will always be the definitive source for the complete formula and amounts.
+            </p>
+          </details>
+
+          <details name="faq-snugglegum" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>Why does Snugglegum<sup class="text-[0.55em]">™</sup> contain zinc?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]} data-copy-review="ingredient benefit claim (zinc: metabolism, skin, taste perception)">
+              Zinc is an essential mineral involved in numerous normal functions in the body, including normal metabolism, maintenance of normal skin and normal taste perception. The amount in Snugglegum<sup class="text-[0.55em]">™</sup> will determine which specific nutrient claims can legally be made for the finished product.
+            </p>
+          </details>
+
+          <details name="faq-snugglegum" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>Does Snugglegum<sup class="text-[0.55em]">™</sup> replace a healthy diet?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]}>
+              No. Dietary supplements are intended to supplement the diet, not replace a varied and balanced diet. Snugglegum<sup class="text-[0.55em]">™</sup> is the little extra — not an excuse to make fries your food group.
+            </p>
+          </details>
+        </div>
+      </div>
+
+      <div>
+        <h3><span class:list={[badge, "bg-pink text-green"]}>About gummy supplements</span></h3>
+        <div class:list={[group]}>
+          <details name="faq-gummies" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>What are gummy supplements?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]}>
+              Gummy supplements are chewable dietary supplements made to deliver vitamins, minerals or other functional ingredients in a soft, flavored format. They are an alternative to traditional pills, capsules and powders.
+            </p>
+          </details>
+
+          <details name="faq-gummies" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>Do gummy supplements work?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]}>
+              A gummy is simply a delivery format. Whether a gummy provides a meaningful nutritional benefit depends on its ingredients, amounts, formulation and quality — not on the fact that it is a gummy.
+            </p>
+          </details>
+
+          <details name="faq-gummies" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>Are gummy vitamins as effective as pills?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]}>
+              They can deliver nutrients effectively, but gummies and pills are not automatically equivalent. Formulation, dosage, stability and ingredients matter, so the Supplement Facts panel is more important than the format itself.
+            </p>
+          </details>
+
+          <details name="faq-gummies" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>Are gummy supplements healthy?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]}>
+              That depends on the product. Some gummies contain useful nutrients, while others may contain significant amounts of sugar or sugar alcohols. Check the ingredients, serving size and Supplement Facts rather than assuming that every gummy is healthy simply because it contains vitamins.
+            </p>
+          </details>
+
+          <details name="faq-gummies" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>Why are supplements made as gummies?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]}>
+              Gummies can be easier and more enjoyable to take than pills, particularly for people who dislike swallowing tablets. The trade-off is that gummies have formulation constraints, including taste, texture, stability and the amount of active ingredients that can practically be included.
+            </p>
+          </details>
+
+          <details name="faq-gummies" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>Can you take too many gummy supplements?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]}>
+              Yes. Gummies are supplements, not candy, and taking more than the recommended serving can result in excessive intake of certain nutrients or ingredients. Always follow the product's recommended serving size.
+            </p>
+          </details>
+        </div>
+      </div>
+
+      <div>
+        <h3><span class:list={[badge, "bg-green text-pink"]}>Pre-launch</span></h3>
+        <div class:list={[group]}>
+          <details name="faq-prelaunch" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>When does Snugglegum<sup class="text-[0.55em]">™</sup> launch?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]}>Soon. Join the list and you'll hear first.</p>
+          </details>
+
+          <details name="faq-prelaunch" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>What do I get for signing up now?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]}>
+              {discount && (
+                <>
+                  {siteConfig.discountLabel} off your first order when Snugglegum<sup class="text-[0.55em]">™</sup> launches,{" "}
+                </>
+              )}7 days of early access, a reserved founding number and a vote on flavor #2. These launch benefits end when the pouch goes public.
+            </p>
+          </details>
+
+          <details name="faq-prelaunch" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>Where will Snugglegum<sup class="text-[0.55em]">™</sup> be available?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]}>The USA launches first. Other markets, including the EU, are currently on the waitlist.</p>
+          </details>
+
+          <details name="faq-prelaunch" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>What does Snugglegum<sup class="text-[0.55em]">™</sup> taste like?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]}>Pineapple — with a liquid center.</p>
+          </details>
+
+          <details name="faq-prelaunch" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>How many Snugglegum<sup class="text-[0.55em]">™</sup> gummies should I take?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]}>
+              The final recommended serving will be stated on the product label. Until the final formula and serving size are confirmed, we won't publish a fixed dosage.
+            </p>
+          </details>
+
+          <details name="faq-prelaunch" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>Is Snugglegum<sup class="text-[0.55em]">™</sup> safe?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]}>
+              Snugglegum<sup class="text-[0.55em]">™</sup> will be formulated and manufactured as a dietary supplement according to the requirements applicable to its launch market. Follow the labeled serving size and speak with a healthcare professional if you have a medical condition, are pregnant or breastfeeding, or take medications.
+            </p>
+          </details>
+
+          <details name="faq-prelaunch" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>Why is Snugglegum<sup class="text-[0.55em]">™</sup> 18+?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]}>Because our humor is.</p>
+          </details>
+
+          <details name="faq-prelaunch" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>Will you spam me?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]}>No. Launch news, early access and the occasional bad joke. Unsubscribe anytime.</p>
+          </details>
+
+          <details name="faq-prelaunch" class:list={[item]}>
+            <summary class:list={[question]}>
+              <span>What's with the name?</span>
+              <span aria-hidden="true" class:list={[plus]}>+</span>
+            </summary>
+            <p class:list={[answer]}>
+              Say "Snugglegum<sup class="text-[0.55em]">™</sup>" out loud. Then say it again. Slowly.
+            </p>
+          </details>
+        </div>
+      </div>
     </div>
   </div>
 </section>
