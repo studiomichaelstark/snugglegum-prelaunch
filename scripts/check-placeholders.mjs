@@ -22,6 +22,7 @@ const groupTitles = {
   privacy: 'Privacy policy',
   review: 'Review',
   offer: 'Offer (optional)',
+  'mailerlite-groups': 'MailerLite interest groups (optional)',
 };
 
 const width = Math.max(...report.variables.map((v) => v.env.length));

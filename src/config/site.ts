@@ -1,3 +1,4 @@
+import type { ProductId } from './products';
 import { parseCount, type FormState } from './variants';
 
 /**
@@ -59,3 +60,15 @@ export const routes = {
   imprint: '/imprint',
   privacy: '/privacy',
 } as const;
+
+/**
+ * MailerLite Group IDs, one per product interest, set once each is created in the MailerLite
+ * dashboard (see .env, "MailerLite interest groups"). A blank entry means: still record that
+ * product's interest (as a plain field on the subscriber), just not tagged to a native Group yet.
+ * These are ordinary MailerLite identifiers, not secrets.
+ */
+export const mailerLiteGroups: Readonly<Record<ProductId, string>> = {
+  'body-fresh': (import.meta.env.PUBLIC_MAILERLITE_GROUP_BODY_FRESH ?? '').trim(),
+  'male-vitality': (import.meta.env.PUBLIC_MAILERLITE_GROUP_MALE_VITALITY ?? '').trim(),
+  beauty: (import.meta.env.PUBLIC_MAILERLITE_GROUP_BEAUTY ?? '').trim(),
+};

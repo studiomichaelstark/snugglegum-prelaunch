@@ -10,7 +10,7 @@
  * All of these values end up on public pages, so none of them is a secret.
  */
 
-export type PlaceholderGroup = 'general' | 'contact' | 'imprint' | 'privacy' | 'review' | 'offer';
+export type PlaceholderGroup = 'general' | 'contact' | 'imprint' | 'privacy' | 'review' | 'offer' | 'mailerlite-groups';
 
 export interface PlaceholderSpec {
   /** Name used in code: `legal.contactEmail`. */
@@ -224,6 +224,30 @@ export const placeholderSpecs = [
     group: 'offer',
     label: 'social proof threshold',
     hint: 'Minimum subscriber count before the social proof line shows. Empty = 250.',
+    blocking: false,
+  },
+  {
+    id: 'mailerLiteGroupBodyFresh',
+    env: 'PUBLIC_MAILERLITE_GROUP_BODY_FRESH',
+    group: 'mailerlite-groups',
+    label: 'MailerLite group ID for Body Fresh interest',
+    hint: 'Create a "Body Fresh" group in your MailerLite account and paste its numeric ID here. Until then, that interest is still recorded as a plain field, just not tagged to a native Group.',
+    blocking: false,
+  },
+  {
+    id: 'mailerLiteGroupMaleVitality',
+    env: 'PUBLIC_MAILERLITE_GROUP_MALE_VITALITY',
+    group: 'mailerlite-groups',
+    label: 'MailerLite group ID for Male Vitality interest',
+    hint: 'Create a "Male Vitality" group in your MailerLite account and paste its numeric ID here.',
+    blocking: false,
+  },
+  {
+    id: 'mailerLiteGroupBeauty',
+    env: 'PUBLIC_MAILERLITE_GROUP_BEAUTY',
+    group: 'mailerlite-groups',
+    label: 'MailerLite group ID for Beauty interest',
+    hint: 'Create a "Beauty" group in your MailerLite account and paste its numeric ID here.',
     blocking: false,
   },
 ] as const satisfies readonly PlaceholderSpec[];

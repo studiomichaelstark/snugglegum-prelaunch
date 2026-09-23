@@ -34,6 +34,8 @@
   --color-ink: var(--color-brand-ink);
   --color-white: var(--color-surface);
   --color-ink-muted: var(--color-text-muted-on-ink);
+  --color-vitality: var(--color-accent-vitality);
+  --color-beauty: var(--color-accent-beauty);
 }
 
 @layer base {
