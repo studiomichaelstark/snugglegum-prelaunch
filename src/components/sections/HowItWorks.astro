@@ -1,6 +1,8 @@
 ---
 import ImagePlaceholder from "@/components/ui/ImagePlaceholder.astro";
-import DigestionAnimation from "@/components/animations/DigestionAnimation.astro";
+import chemestry from "@/assets/chemestry.jpg";
+import smellGood from "@/assets/smell-good.jpg";
+import thingsGetCloser from "@/assets/things-get-closer.jpg";
 
 const row = "grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] items-center gap-[clamp(20px,3vw,40px)] border-t-2 border-dashed border-white/20 pt-[clamp(24px,3vw,40px)]";
 const number = "text-[clamp(4rem,9vw,8rem)] leading-[0.75] font-black text-pink stretch-wide";
@@ -38,7 +40,7 @@ const body = "mt-3.5 max-w-[38ch] text-xl leading-normal";
           </p>
         </div>
         <div class="aspect-[4/3] overflow-hidden transition-transform duration-300 hover:scale-[1.03] hover:-rotate-1 bg-pink rounded-3xl">
-          <!-- <DigestionAnimation /> -->
+          <ImagePlaceholder src={smellGood} alt="Illustration of a couple: one recoils, annoyed, while the other looks on, confused" />
         </div>
       </li>
 
@@ -61,7 +63,7 @@ const body = "mt-3.5 max-w-[38ch] text-xl leading-normal";
           </p>
         </div>
         <div class="order-1 aspect-[4/3] overflow-hidden transition-transform duration-300 hover:scale-[1.03] hover:-rotate-1 bg-pink rounded-3xl">
-          <ImagePlaceholder />
+          <ImagePlaceholder src={thingsGetCloser} alt="Illustration of a couple embracing closely, hearts floating around them" />
         </div>
       </li>
 
@@ -85,7 +87,7 @@ const body = "mt-3.5 max-w-[38ch] text-xl leading-normal";
           </p>
         </div>
         <div class="aspect-[4/3] overflow-hidden transition-transform duration-300 hover:scale-[1.03] hover:-rotate-1 bg-pink rounded-3xl">
-          <ImagePlaceholder />
+          <ImagePlaceholder src={chemestry} alt="Illustration of a scientist in a lab coat holding two test tubes, surrounded by molecule diagrams" />
         </div>
       </li>
     </ol>
