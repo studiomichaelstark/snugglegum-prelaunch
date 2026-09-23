@@ -1,0 +1,104 @@
+---
+/**
+ * Male Vitality's dedicated FAQ. This product has no approved ingredient/claim content yet
+ * (unlike Body Fresh), so every answer here is deliberately conservative: no ingredient names, no
+ * specific physiological claims (no ejaculation volume, fertility, testosterone or sperm count
+ * claims), and the formula-specific answers carry data-copy-review — the site's existing
+ * mechanism for copy pending approval (see BodyFreshFaq.astro) — so they stay visible as
+ * flagged, honest placeholders instead of invented claims.
+ */
+import ProductFaqGroup from '@/components/product/ProductFaqGroup.astro';
+
+const item = 'border-b-2 border-dashed border-white/20';
+const question = 'flex min-h-12 items-center justify-between gap-5 py-6 text-[clamp(1.15rem,2vw,1.5rem)] font-black uppercase';
+const plus = 'faq-plus flex-none text-[26px] font-black';
+const answer = 'max-w-[60ch] pb-6 text-[19px] leading-[1.55]';
+---
+
+<section id="faq" class="on-dark section-px section-py bg-vitality text-white">
+  <div class="mx-auto max-w-[900px]">
+    <h2 class="display-word stretch-display text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] text-pink">Male Vitality, answered</h2>
+
+    <div class="mt-[clamp(40px,5vw,64px)]">
+      <ProductFaqGroup badgeClass="bg-pink text-ink">
+        <span slot="badge">Male Vitality</span>
+
+        <details name="faq-male-vitality" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>
+              What is Snugglegum<sup class="text-[0.55em]">™</sup> Male Vitality?
+            </span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            Male Vitality is a chewable dietary supplement for men who want a straightforward way to support their
+            everyday vitality — in a gummy, not another pill bottle.
+          </p>
+        </details>
+
+        <details name="faq-male-vitality" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>What does "Intimate Male Fitness" mean?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            It's how we describe what Male Vitality is for: everyday nutritional support aimed at men, in a format
+            that's easy to actually stick with. It's a dietary supplement, not a medical treatment, and it isn't a
+            substitute for a doctor's advice.
+          </p>
+        </details>
+
+        <details name="faq-male-vitality" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>What ingredients are in Male Vitality?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]} data-copy-review="Male Vitality ingredient list not yet finalized">
+            The full ingredient list isn't finalized yet. Once it is, it'll be published here and on the Supplement Facts panel.
+          </p>
+        </details>
+
+        <details name="faq-male-vitality" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>How many should I take?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]} data-copy-review="Male Vitality serving size not yet finalized">
+            The recommended serving size will be confirmed once the formula is final. The label will always be the definitive
+            source.
+          </p>
+        </details>
+
+        <details name="faq-male-vitality" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>Is Male Vitality safe?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            Male Vitality will be formulated and manufactured as a dietary supplement according to the requirements
+            applicable to its launch market. Follow the labeled serving size and speak with a healthcare professional
+            if you have a medical condition or take medications.
+          </p>
+        </details>
+
+        <details name="faq-male-vitality" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>Why is Male Vitality 18+?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>Because our humor is — same as the rest of the Snugglegum™ family.</p>
+        </details>
+
+        <details name="faq-male-vitality" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>
+              When does Male Vitality launch?
+            </span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>Soon, on the same pre-launch list as the rest of the Snugglegum™ family. Join to hear first.</p>
+        </details>
+      </ProductFaqGroup>
+    </div>
+  </div>
+</section>

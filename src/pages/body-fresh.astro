@@ -1,0 +1,44 @@
+---
+/**
+ * Body Fresh product page. This is the site's original, fullest product content, moved here
+ * unchanged from the old single-product homepage (Hero, How It Works, the chemistry explainer,
+ * What's Inside, Audience, Marquee, its own FAQ, the closing newsletter CTA and the Supplement
+ * Facts dialog) so nothing approved gets rewritten in the process.
+ */
+import Audience from '@/components/sections/Audience.astro';
+import BackToHome from '@/components/product/BackToHome.astro';
+import BodyFreshFaq from '@/components/sections/BodyFreshFaq.astro';
+import ChemistryOfGettingClose from '@/components/sections/ChemistryOfGettingClose.astro';
+import FinalCta from '@/components/sections/FinalCta.astro';
+import Footer from '@/components/sections/Footer.astro';
+import Hero from '@/components/sections/Hero.astro';
+import HowItWorks from '@/components/sections/HowItWorks.astro';
+import Marquee from '@/components/sections/Marquee.astro';
+import SupplementFacts from '@/components/sections/SupplementFacts.astro';
+import WhatsInside from '@/components/sections/WhatsInside.astro';
+import Base from '@/layouts/Base.astro';
+
+const title = 'Snugglegum™ Body Fresh – Close Contact Nutrition Gummies';
+const description =
+  "Body Fresh is Snugglegum™'s Close Contact Nutrition gummy: liquid-filled, pineapple-flavored, engineered to get you closer. Coming soon, 18+, USA first.";
+---
+
+<Base title={title} description={description} path="/body-fresh" product={{ name: 'Snugglegum™ Body Fresh' }}>
+  <main id="main" class="max-w-full overflow-x-clip">
+    <div class="bg-pink px-[clamp(20px,5vw,48px)] pt-6">
+      <div class="container-lg">
+        <BackToHome tone="light" />
+      </div>
+    </div>
+    <Hero />
+    <HowItWorks />
+    <ChemistryOfGettingClose />
+    <WhatsInside />
+    <Audience />
+    <Marquee />
+    <BodyFreshFaq />
+    <FinalCta />
+  </main>
+  <Footer />
+  <SupplementFacts />
+</Base>

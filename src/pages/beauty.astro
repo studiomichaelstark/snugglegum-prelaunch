@@ -1,0 +1,47 @@
+---
+import BeautyBenefits from '@/components/sections/BeautyBenefits.astro';
+import BeautyFaq from '@/components/sections/BeautyFaq.astro';
+import BeautyHowItWorks from '@/components/sections/BeautyHowItWorks.astro';
+import Footer from '@/components/sections/Footer.astro';
+import ButtonLink from '@/components/ui/ButtonLink.astro';
+import ProductHero from '@/components/product/ProductHero.astro';
+import ProductNewsletter from '@/components/product/ProductNewsletter.astro';
+import Base from '@/layouts/Base.astro';
+
+const title = 'Snugglegum™ Beauty – Hair, Skin & Nail Nutrition Gummies';
+const description =
+  'Beauty is Snugglegum™’s Beauty Nutrition gummy: hair, skin and nail nutrition, engineered to get you closer. Coming soon, 18+, USA first.';
+---
+
+<Base title={title} description={description} path="/beauty" product={{ name: 'Snugglegum™ Beauty' }}>
+  <main id="main" class="max-w-full overflow-x-clip">
+    <ProductHero bgClass="bg-beauty" tone="light">
+      <span class="label-caps inline-block rounded-full border-2 border-dashed border-green px-5 py-3 text-sm text-green">Snugglegum™ · Beauty</span>
+      <h1 class="display-word stretch-hero mt-6 text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.92] text-balance">Beauty nutrition, engineered in.</h1>
+      <p class="mx-auto mt-5 max-w-[48ch] text-[clamp(1.15rem,1.7vw,1.4rem)] leading-[1.5] font-medium">
+        Beauty is Snugglegum™'s Beauty Nutrition gummy — hair, skin and nail support in a chewable dietary supplement, coming soon
+        in the USA. 18+ only.
+      </p>
+      <div class="mt-8 flex justify-center">
+        <ButtonLink href="#newsletter-beauty" variant="solid">Get on the list</ButtonLink>
+      </div>
+    </ProductHero>
+
+    <BeautyHowItWorks />
+    <BeautyBenefits />
+    <BeautyFaq />
+
+    <ProductNewsletter id="beauty" bgClass="bg-green" tone="dark" preselect="beauty">
+      <span slot="badge" class="label-caps inline-block animate-none rounded-full border-2 border-dashed border-ink bg-white px-[22px] py-[13px] text-base text-ink">
+        Pre-launch · list only
+      </span>
+      <h2 slot="heading" class="display-word stretch-display mt-6 text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] text-balance">
+        Ready to add it to your routine?
+      </h2>
+      <p slot="subline" class="mt-[30px] text-center text-2xl leading-[1.4] font-bold text-white">
+        Join the list for early access and the pre-launch offer.
+      </p>
+    </ProductNewsletter>
+  </main>
+  <Footer />
+</Base>

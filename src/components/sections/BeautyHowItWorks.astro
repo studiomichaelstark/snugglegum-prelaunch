@@ -1,0 +1,45 @@
+---
+/**
+ * Beauty's "how it works". Deliberately generic and claim-free: no invented cosmetic or medical
+ * claims about hair, skin or nails, and no specific ingredient promised until the formula is final
+ * (see the data-copy-review flag in step 2, and BeautyBenefits.astro).
+ */
+import ProductStep from '@/components/product/ProductStep.astro';
+import ImagePlaceholder from '@/components/ui/ImagePlaceholder.astro';
+---
+
+<section id="how-it-works" class="section-px section-py overflow-hidden bg-white">
+  <div class="container-lg">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <h2 class="display-word stretch-display text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88]">How it works</h2>
+      <p class="max-w-[34ch] text-xl leading-[1.4]">Hair, skin and nails are downstream of what your body has to work with.</p>
+    </div>
+
+    <ol class="mt-[clamp(40px,5vw,72px)] grid gap-[clamp(20px,3vw,32px)]">
+      <ProductStep number={1} dot="blink" tone="light">
+        <Fragment slot="title">Beauty starts from within</Fragment>
+        <Fragment slot="body">
+          Hydration, nutrients and rest all show up in how your hair, skin and nails look and feel. Beauty is designed
+          to back that up — not replace your routine.
+        </Fragment>
+        <ImagePlaceholder slot="image" />
+      </ProductStep>
+
+      <ProductStep number={2} dot="burst" imageFirst tone="light">
+        <Fragment slot="title">The formula backs it up</Fragment>
+        <Fragment slot="body">
+          <span data-copy-review="Beauty formula not yet finalized">
+            The exact formula is still being finalized. Once it's locked in, this is where we'll explain what's inside and why.
+          </span>
+        </Fragment>
+        <ImagePlaceholder slot="image" />
+      </ProductStep>
+
+      <ProductStep number={3} dot="burst" tone="light">
+        <Fragment slot="title">Make it a rhythm</Fragment>
+        <Fragment slot="body">One gummy, most days. Consistency does more for hair, skin and nails than any single gummy ever could.</Fragment>
+        <ImagePlaceholder slot="image" />
+      </ProductStep>
+    </ol>
+  </div>
+</section>

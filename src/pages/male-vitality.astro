@@ -1,0 +1,47 @@
+---
+import Footer from '@/components/sections/Footer.astro';
+import MaleVitalityBenefits from '@/components/sections/MaleVitalityBenefits.astro';
+import MaleVitalityFaq from '@/components/sections/MaleVitalityFaq.astro';
+import MaleVitalityHowItWorks from '@/components/sections/MaleVitalityHowItWorks.astro';
+import ButtonLink from '@/components/ui/ButtonLink.astro';
+import ProductHero from '@/components/product/ProductHero.astro';
+import ProductNewsletter from '@/components/product/ProductNewsletter.astro';
+import Base from '@/layouts/Base.astro';
+
+const title = 'Snugglegum™ Male Vitality – Intimate Male Fitness Gummies';
+const description =
+  'Male Vitality is Snugglegum™’s Intimate Male Fitness gummy: everyday nutritional support for men, engineered to get you closer. Coming soon, 18+, USA first.';
+---
+
+<Base title={title} description={description} path="/male-vitality" product={{ name: 'Snugglegum™ Male Vitality' }}>
+  <main id="main" class="max-w-full overflow-x-clip">
+    <ProductHero bgClass="bg-vitality" tone="dark">
+      <span class="label-caps inline-block rounded-full border-2 border-dashed border-pink px-5 py-3 text-sm text-pink">Snugglegum™ · Male Vitality</span>
+      <h1 class="display-word stretch-hero mt-6 text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.92] text-balance">Engineered for everyday vitality.</h1>
+      <p class="mx-auto mt-5 max-w-[48ch] text-[clamp(1.15rem,1.7vw,1.4rem)] leading-[1.5] font-medium">
+        Male Vitality is Snugglegum™'s Intimate Male Fitness gummy — a chewable dietary supplement for men, coming soon in the USA.
+        18+ only.
+      </p>
+      <div class="mt-8 flex justify-center">
+        <ButtonLink href="#newsletter-vitality" variant="on-dark">Get on the list</ButtonLink>
+      </div>
+    </ProductHero>
+
+    <MaleVitalityHowItWorks />
+    <MaleVitalityBenefits />
+    <MaleVitalityFaq />
+
+    <ProductNewsletter id="vitality" bgClass="bg-green" tone="dark" preselect="male-vitality">
+      <span slot="badge" class="label-caps inline-block animate-none rounded-full border-2 border-dashed border-ink bg-white px-[22px] py-[13px] text-base text-ink">
+        Pre-launch · list only
+      </span>
+      <h2 slot="heading" class="display-word stretch-display mt-6 text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] text-balance">
+        Ready for the everyday edge?
+      </h2>
+      <p slot="subline" class="mt-[30px] text-center text-2xl leading-[1.4] font-bold text-white">
+        Join the list for early access and the pre-launch offer.
+      </p>
+    </ProductNewsletter>
+  </main>
+  <Footer />
+</Base>
