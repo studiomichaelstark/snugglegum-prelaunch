@@ -1,30 +1,40 @@
 ---
-import Audience from "@/components/sections/Audience.astro";
-import ChemistryOfGettingClose from "@/components/sections/ChemistryOfGettingClose.astro";
-import Faq from "@/components/sections/Faq.astro";
-import FinalCta from "@/components/sections/FinalCta.astro";
-import Footer from "@/components/sections/Footer.astro";
-import Hero from "@/components/sections/Hero.astro";
-import HowItWorks from "@/components/sections/HowItWorks.astro";
-import Marquee from "@/components/sections/Marquee.astro";
-import Offer from "@/components/sections/Offer.astro";
-import SupplementFacts from "@/components/sections/SupplementFacts.astro";
-import WhatsInside from "@/components/sections/WhatsInside.astro";
-import Base from "@/layouts/Base.astro";
+/**
+ * Homepage: the Snugglegum™ product-family gateway. Presents all three products and the umbrella
+ * brand; detailed, product-specific content (how it works, ingredients, dedicated FAQs) lives on
+ * each product's own page instead (see /body-fresh, /male-vitality, /beauty).
+ */
+import FamilyHero from '@/components/sections/FamilyHero.astro';
+import Footer from '@/components/sections/Footer.astro';
+import GeneralFaq from '@/components/sections/GeneralFaq.astro';
+import Offer from '@/components/sections/Offer.astro';
+import WhySnugglegum from '@/components/sections/WhySnugglegum.astro';
+import ProductNewsletter from '@/components/product/ProductNewsletter.astro';
+import Base from '@/layouts/Base.astro';
+
+const title = 'Snugglegum™ — Functional Gummies Engineered to Get Closer';
+const description =
+  'Snugglegum™ is a family of functional gummies: Body Fresh, Male Vitality and Beauty. Coming soon in the USA, 18+ only. Join the list to hear first.';
 ---
 
-<Base title="Snugglegum™ – Liquid-Filled Pineapple Gummies for Grownups" description="Snugglegum™ makes liquid-filled pineapple gummies for grownups 18+. Coming soon in the USA. Join the list to hear first and get the pre-launch deal." path="/">
+<Base title={title} description={description} path="/">
   <main id="main" class="max-w-full overflow-x-clip">
-    <Hero />
+    <FamilyHero />
     <Offer />
-    <HowItWorks />
-    <ChemistryOfGettingClose />
-    <WhatsInside />
-    <Audience />
-    <Marquee />
-    <Faq />
-    <FinalCta />
+    <WhySnugglegum />
+    <GeneralFaq />
+
+    <ProductNewsletter id="home" bgClass="bg-green" tone="dark">
+      <span slot="badge" class="label-caps inline-block animate-[sg-bob_4.5s_ease-in-out_infinite] rounded-full border-2 border-dashed border-ink bg-white px-[22px] py-[13px] text-base text-ink">
+        Pre-launch · list only
+      </span>
+      <h2 slot="heading" class="display-word stretch-display mt-6 text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] text-balance">
+        Ready to get closer?
+      </h2>
+      <p slot="subline" class="mt-[30px] text-center text-2xl leading-[1.4] font-bold text-white">
+        Pick your product (or all three) and join the pre-launch list.
+      </p>
+    </ProductNewsletter>
   </main>
   <Footer />
-  <SupplementFacts />
 </Base>

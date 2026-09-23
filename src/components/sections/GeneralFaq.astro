@@ -1,0 +1,203 @@
+---
+/**
+ * Homepage FAQ: general Snugglegum™ (the family/brand) questions, plus the generic, product-
+ * agnostic "gummy supplements" GEO group (answers what/whether/how gummy supplements work, kept
+ * brand-neutral so it can rank without being tied to one product). Detailed, product-specific
+ * questions live on each product's own page (BodyFreshFaq.astro, and Male Vitality's / Beauty's
+ * FAQ sections) instead.
+ */
+import ProductFaqGroup from '@/components/product/ProductFaqGroup.astro';
+import { siteConfig } from '@/config/site';
+import { hasDiscount } from '@/config/variants';
+
+const discount = hasDiscount(siteConfig.discountLabel);
+
+const item = 'border-b-2 border-dashed border-green';
+const question = 'flex min-h-12 items-center justify-between gap-5 py-6 text-[clamp(1.15rem,2vw,1.5rem)] font-black uppercase';
+const plus = 'faq-plus flex-none text-[26px] font-black';
+const answer = 'max-w-[60ch] pb-6 text-[19px] leading-[1.55]';
+const badgeClass = 'bg-pink text-ink';
+---
+
+<section id="faq" class="section-px section-py bg-white">
+  <div class="mx-auto max-w-[900px]">
+    <h2 class="display-word stretch-display text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88]">Questions, answered</h2>
+
+    <div class="mt-[clamp(40px,5vw,64px)] grid gap-[clamp(40px,5vw,64px)]">
+      <ProductFaqGroup badgeClass={badgeClass}>
+        <span slot="badge">
+          Snugglegum<sup class="text-[0.55em]">™</sup>
+        </span>
+
+        <details name="faq-general" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>
+              What is Snugglegum<sup class="text-[0.55em]">™</sup>?
+            </span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            Snugglegum<sup class="text-[0.55em]">™</sup> is a family of functional gummies engineered to get you closer — one product
+            per goal. Body Fresh is first, with Male Vitality and Beauty joining it before launch.
+          </p>
+        </details>
+
+        <details name="faq-general" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>
+              What makes Snugglegum<sup class="text-[0.55em]">™</sup> different?
+            </span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            Every Snugglegum<sup class="text-[0.55em]">™</sup> gummy has a liquid center and a formula built from real, named
+            ingredients — not a candy with a health halo stuck on top. And we don't take ourselves too seriously getting there.
+          </p>
+        </details>
+
+        <details name="faq-general" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>What do I get for signing up now?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            <strong>
+              {discount && (
+                <>
+                  {siteConfig.discountLabel} off your first order when Snugglegum<sup class="text-[0.55em]">™</sup> launches, and
+                  you're on the list.{' '}
+                </>
+              )}
+            </strong>
+            7 days of early access, a reserved founding number and a vote on flavor #2 — for every product you selected, from one
+            sign-up. These launch benefits end when the pouch goes public.
+          </p>
+        </details>
+
+        <details name="faq-general" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>
+              When does Snugglegum<sup class="text-[0.55em]">™</sup> launch?
+            </span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>Soon. Join the list and you'll hear first.</p>
+        </details>
+
+        <details name="faq-general" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>
+              Where will Snugglegum<sup class="text-[0.55em]">™</sup> be available?
+            </span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>The USA launches first. Other markets, including the EU, are currently on the waitlist.</p>
+        </details>
+
+        <details name="faq-general" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>
+              Why is Snugglegum<sup class="text-[0.55em]">™</sup> 18+?
+            </span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>Because our humor is.</p>
+        </details>
+
+        <details name="faq-general" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>Will you spam me?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>No. Launch news, early access and the occasional bad joke. Unsubscribe anytime.</p>
+        </details>
+
+        <details name="faq-general" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>What's with the name?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            <strong>Snuggle</strong> means getting close. <strong>Gum</strong> is how you take it. Put them together and you get
+            <strong>
+              Snugglegum<sup class="text-[0.55em]">™</sup>
+            </strong>
+            . Because if you're going to get this close, you might as well bring something good to the party.
+          </p>
+        </details>
+      </ProductFaqGroup>
+
+      <ProductFaqGroup badgeClass={badgeClass}>
+        <span slot="badge">About gummy supplements</span>
+
+        <details name="faq-gummies" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>What are gummy supplements?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            Gummy supplements are chewable dietary supplements made to deliver vitamins, minerals or other functional ingredients
+            in a soft, flavored format. They are an alternative to traditional pills, capsules and powders.
+          </p>
+        </details>
+
+        <details name="faq-gummies" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>Do gummy supplements work?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            A gummy is simply a delivery format. Whether a gummy provides a meaningful nutritional benefit depends on its
+            ingredients, amounts, formulation and quality — not on the fact that it is a gummy.
+          </p>
+        </details>
+
+        <details name="faq-gummies" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>Are gummy vitamins as effective as pills?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            They can deliver nutrients effectively, but gummies and pills are not automatically equivalent. Formulation, dosage,
+            stability and ingredients matter, so the Supplement Facts panel is more important than the format itself.
+          </p>
+        </details>
+
+        <details name="faq-gummies" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>Are gummy supplements healthy?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            That depends on the product. Some gummies contain useful nutrients, while others may contain significant amounts of
+            sugar or sugar alcohols. Check the ingredients, serving size and Supplement Facts rather than assuming that every
+            gummy is healthy simply because it contains vitamins.
+          </p>
+        </details>
+
+        <details name="faq-gummies" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>Why are supplements made as gummies?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            Gummies can be easier and more enjoyable to take than pills, particularly for people who dislike swallowing tablets.
+            The trade-off is that gummies have formulation constraints, including taste, texture, stability and the amount of
+            active ingredients that can practically be included.
+          </p>
+        </details>
+
+        <details name="faq-gummies" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>Can you take too many gummy supplements?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            Yes. Gummies are supplements, not candy, and taking more than the recommended serving can result in excessive
+            intake of certain nutrients or ingredients. Always follow the product's recommended serving size.
+          </p>
+        </details>
+      </ProductFaqGroup>
+    </div>
+  </div>
+</section>

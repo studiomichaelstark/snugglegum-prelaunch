@@ -1,0 +1,165 @@
+---
+/**
+ * Body Fresh's dedicated FAQ (moved off the homepage, which now carries only general/brand
+ * questions — see GeneralFaq.astro). Several answers make body/attraction/ingredient claims (same
+ * category as the flagged copy elsewhere on this page), so they carry data-copy-review, same
+ * convention as the rest of the site. No FAQPage JSON-LD is added here — see docs/faq-proposal.md,
+ * still pending approval.
+ */
+import ProductFaqGroup from '@/components/product/ProductFaqGroup.astro';
+
+const item = 'border-b-2 border-dashed border-green';
+const question = 'flex min-h-12 items-center justify-between gap-5 py-6 text-[clamp(1.15rem,2vw,1.5rem)] font-black uppercase';
+const plus = 'faq-plus flex-none text-[26px] font-black';
+const answer = 'max-w-[60ch] pb-6 text-[19px] leading-[1.55]';
+---
+
+<section id="faq" class="section-px section-py bg-white">
+  <div class="mx-auto max-w-[900px]">
+    <h2 class="display-word stretch-display text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88]">Body Fresh, answered</h2>
+
+    <div class="mt-[clamp(40px,5vw,64px)]">
+      <ProductFaqGroup badgeClass="bg-pink text-ink">
+        <span slot="badge">Body Fresh</span>
+
+        <details name="faq-body-fresh" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>
+              What is Snugglegum<sup class="text-[0.55em]">™</sup> Body Fresh?
+            </span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]} data-copy-review="body chemistry claim">
+            <strong>
+              Body Fresh is a chewable dietary supplement designed to support your body's natural chemistry from within
+            </strong>
+            . It combines functional ingredients with a <strong>pineapple flavor</strong> and a <strong>liquid center</strong> —
+            because taking a supplement shouldn't feel like taking a supplement.
+          </p>
+        </details>
+
+        <details name="faq-body-fresh" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>How does Body Fresh work?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]} data-copy-review="body chemistry claim">
+            <strong>
+              Body Fresh is designed to complement the processes that influence how your body smells and tastes up close
+            </strong>
+            . Instead of masking your natural chemistry with fragrance, it provides nutritional support from within.
+          </p>
+        </details>
+
+        <details name="faq-body-fresh" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>Can Body Fresh change how I smell?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]} data-copy-review="body-odor claim">
+            Your natural scent is influenced by many things, including food, metabolism, skin and sweat.
+            <strong>Body Fresh is designed to support that internal chemistry</strong> — not replace deodorant, perfume or good
+            hygiene.
+          </p>
+        </details>
+
+        <details name="faq-body-fresh" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>Can Body Fresh affect how body fluids taste?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]} data-copy-review="body fluid claim, explicitly limited — needs legal review before launch">
+            Body fluids have their own chemistry, and what you eat can contribute to that chemistry.
+            <strong>Body Fresh is designed around this idea</strong>, but we do not claim that it directly changes the taste of
+            <strong>semen</strong>, <strong>vaginal fluids</strong> or other specific <strong>body fluids</strong> unless
+            supported by product-specific clinical evidence.
+          </p>
+        </details>
+
+        <details name="faq-body-fresh" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>Is Body Fresh a breath mint, gum or candy?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            None of the above. <strong>Body Fresh is a chewable dietary supplement with a gummy texture and liquid center</strong>.
+            It isn't designed simply to make your mouth taste like pineapple.
+          </p>
+        </details>
+
+        <details name="faq-body-fresh" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>What ingredients are in Body Fresh?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            The formula includes zinc, maca and L-arginine, together with the ingredients needed to create the gummy and
+            liquid-center format. The final Supplement Facts panel will always be the definitive source for the complete
+            formula and amounts.
+          </p>
+        </details>
+
+        <details name="faq-body-fresh" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>Why does Body Fresh contain zinc?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]} data-copy-review="ingredient benefit claim (zinc: metabolism, skin, taste perception)">
+            Zinc is an essential mineral involved in numerous normal functions in the body, including normal metabolism,
+            maintenance of normal skin and normal taste perception. The amount in <strong>Body Fresh</strong> will determine
+            which specific nutrient claims can legally be made for the finished product.
+          </p>
+        </details>
+
+        <details name="faq-body-fresh" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>Does Body Fresh replace a healthy diet?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            No. Dietary supplements are intended to supplement the diet, not replace a varied and balanced diet.
+            <strong>Body Fresh is the little extra</strong> — not an excuse to make fries your food group.
+          </p>
+        </details>
+
+        <details name="faq-body-fresh" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>What does Body Fresh taste like?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            <strong>Bright, juicy pineapple with a soft gummy bite — and a liquid center that pops when you chew</strong>. It
+            starts fruity, finishes fresh and leaves you with that little "okay, what was that?" moment.
+            <strong>
+              It's not gum. It's not candy. It's Snugglegum<sup class="text-[0.55em]">™</sup> Body Fresh
+            </strong>
+            .
+          </p>
+        </details>
+
+        <details name="faq-body-fresh" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>How many Body Fresh gummies should I take?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            <strong>We recommend 1–3 gummies per day, preferably after a meal</strong>. Start with one and find what works for
+            you — without exceeding the recommended daily serving on the package.
+          </p>
+        </details>
+
+        <details name="faq-body-fresh" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>Is Body Fresh safe?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            <strong>Body Fresh</strong> will be formulated and manufactured as a dietary supplement according to the
+            requirements applicable to its launch market. Follow the <a href="#whats-inside">serving size</a> and speak with a
+            healthcare professional if you have a medical condition, are pregnant or breastfeeding, or take medications.
+          </p>
+        </details>
+      </ProductFaqGroup>
+    </div>
+  </div>
+</section>

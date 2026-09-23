@@ -1,0 +1,49 @@
+---
+/**
+ * Homepage hero: the Snugglegum™ umbrella brand and its three products. No animation anywhere in
+ * this component (the brief requires this specifically for the homepage hero) — hover feedback on
+ * the buttons is the only motion, and that's interaction-driven, not auto-playing.
+ */
+import Logo from '@/components/logo/Logo.astro';
+import ButtonLink from '@/components/ui/ButtonLink.astro';
+---
+
+<section id="hero" class="section-px bg-pink pt-9 pb-[clamp(56px,7vw,96px)] text-green">
+  <div class="container-lg text-center">
+    <div class="flex justify-center">
+      <Logo class="w-[min(73.6%,704px)] text-green" />
+    </div>
+    <p class="label-caps mt-6 text-base">Engineered to get you closer.</p>
+    <h1 class="display-word stretch-hero mx-auto mt-4 max-w-[20ch] text-[clamp(2.5rem,6.5vw,5.5rem)] leading-[0.9] text-balance">
+      Three gummies. One family.
+    </h1>
+    <p class="mx-auto mt-5 max-w-[52ch] text-[clamp(1.15rem,1.7vw,1.4rem)] leading-[1.5] font-medium">
+      Snugglegum™ is a family of functional gummies — one product per goal. Pick yours below, or join the list for all three.
+    </p>
+
+    <ul class="mt-[clamp(40px,5vw,64px)] grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-5 text-left">
+      <li class="rounded-card flex flex-col items-start bg-white p-[clamp(24px,3vw,32px)]">
+        <p class="label-caps text-sm">Body Fresh</p>
+        <h2 class="mt-2 text-2xl font-black uppercase leading-[1.05]">Close Contact Nutrition</h2>
+        <p class="mt-2.5 text-lg leading-normal">
+          Snugglegum™'s original: liquid-filled, pineapple-flavored, engineered from within.
+        </p>
+        <ButtonLink href="/body-fresh" size="sm" class="mt-6">Explore Body Fresh</ButtonLink>
+      </li>
+
+      <li class="on-dark rounded-card flex flex-col items-start bg-vitality p-[clamp(24px,3vw,32px)] text-white">
+        <p class="label-caps text-sm text-pink">Male Vitality</p>
+        <h2 class="mt-2 text-2xl font-black uppercase leading-[1.05]">Intimate Male Fitness</h2>
+        <p class="mt-2.5 text-lg leading-normal">Everyday nutritional support for men, in a gummy, not a pill bottle.</p>
+        <ButtonLink href="/male-vitality" variant="on-dark" size="sm" class="mt-6">Explore Male Vitality</ButtonLink>
+      </li>
+
+      <li class="rounded-card flex flex-col items-start bg-beauty p-[clamp(24px,3vw,32px)]">
+        <p class="label-caps text-sm">Beauty</p>
+        <h2 class="mt-2 text-2xl font-black uppercase leading-[1.05]">Beauty Nutrition</h2>
+        <p class="mt-2.5 text-lg leading-normal">Hair, skin and nail nutrition, built into an everyday gummy.</p>
+        <ButtonLink href="/beauty" variant="outline" size="sm" class="mt-6">Explore Beauty</ButtonLink>
+      </li>
+    </ul>
+  </div>
+</section>
