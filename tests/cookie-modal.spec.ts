@@ -72,7 +72,7 @@ test.describe('cookie settings modal', () => {
   });
 
   test('Supplement Facts dialog: opens, ESC closes, focus returns', async ({ consented: page }) => {
-    await page.goto('/');
+    await page.goto('/body-fresh');
     const trigger = page.locator('button[data-dialog-open]').first();
     await trigger.click();
     const dialog = page.getByRole('dialog', { name: 'Supplement Facts' });

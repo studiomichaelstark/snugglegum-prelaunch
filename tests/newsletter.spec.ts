@@ -6,7 +6,7 @@ const CONSENT_FIELD = '#newsletter-consent-hero';
 test.describe('newsletter form', () => {
   test('sends nothing before submit', async ({ consented: page, baseURL }) => {
     const external = trackExternalRequests(page, baseURL!);
-    await page.goto('/');
+    await page.goto('/body-fresh');
     await page.locator(EMAIL_FIELD).fill('anna@example.com');
     await page.locator(CONSENT_FIELD).check();
     await page.waitForLoadState('networkidle');
@@ -14,7 +14,7 @@ test.describe('newsletter form', () => {
   });
 
   test('the consent checkbox is not pre-ticked and links to the privacy policy', async ({ consented: page }) => {
-    await page.goto('/');
+    await page.goto('/body-fresh');
     await expect(page.locator(CONSENT_FIELD)).not.toBeChecked();
     const label = page.locator(`label[for="newsletter-consent-hero"]`);
     await expect(label.getByRole('link', { name: 'Privacy Policy' })).toHaveAttribute('href', '/privacy');
@@ -23,7 +23,7 @@ test.describe('newsletter form', () => {
 
   test('validates the email address and stays on the field', async ({ consented: page }) => {
     const calls = await mockMailerLite(page, (route) => jsonResponse(route, { success: true }));
-    await page.goto('/');
+    await page.goto('/body-fresh');
     await page.locator(EMAIL_FIELD).fill('not-an-email');
     await page.locator(CONSENT_FIELD).check();
     await page.locator('form:has(#newsletter-email-hero) button[type="submit"]').click();
@@ -38,7 +38,7 @@ test.describe('newsletter form', () => {
 
   test('requires consent', async ({ consented: page }) => {
     const calls = await mockMailerLite(page, (route) => jsonResponse(route, { success: true }));
-    await page.goto('/');
+    await page.goto('/body-fresh');
     await page.locator(EMAIL_FIELD).fill('anna@example.com');
     await page.locator('form:has(#newsletter-email-hero) button[type="submit"]').click();
 
@@ -54,7 +54,7 @@ test.describe('newsletter form', () => {
       await new Promise((resolve) => setTimeout(resolve, 150));
       await jsonResponse(route, { success: true });
     });
-    await page.goto('/');
+    await page.goto('/body-fresh');
     await page.locator(EMAIL_FIELD).fill('anna@example.com');
     await page.locator(CONSENT_FIELD).check();
     await page.locator('form:has(#newsletter-email-hero) button[type="submit"]').click();
@@ -75,7 +75,7 @@ test.describe('newsletter form', () => {
 
   test('a filled honeypot looks like success but sends nothing', async ({ consented: page }) => {
     const calls = await mockMailerLite(page, (route) => jsonResponse(route, { success: true }));
-    await page.goto('/');
+    await page.goto('/body-fresh');
     await page.locator(EMAIL_FIELD).fill('bot@example.com');
     await page.locator(CONSENT_FIELD).check();
     await page.locator('#newsletter-website-hero').evaluate((el: HTMLInputElement) => {
@@ -117,7 +117,7 @@ test.describe('newsletter form', () => {
   for (const failure of failures) {
     test(`error state: ${failure.name}`, async ({ consented: page }) => {
       await mockMailerLite(page, failure.respond);
-      await page.goto('/');
+      await page.goto('/body-fresh');
       await page.locator(EMAIL_FIELD).fill('anna@example.com');
       await page.locator(CONSENT_FIELD).check();
       await page.locator('form:has(#newsletter-email-hero) button[type="submit"]').click();
@@ -128,7 +128,7 @@ test.describe('newsletter form', () => {
 
   test('error state: network failure', async ({ consented: page }) => {
     await mockMailerLite(page, (route) => route.abort('failed'));
-    await page.goto('/');
+    await page.goto('/body-fresh');
     await page.locator(EMAIL_FIELD).fill('anna@example.com');
     await page.locator(CONSENT_FIELD).check();
     await page.locator('form:has(#newsletter-email-hero) button[type="submit"]').click();
@@ -139,7 +139,7 @@ test.describe('newsletter form', () => {
 
   test('the second form (final call to action) works the same way', async ({ consented: page }) => {
     const calls = await mockMailerLite(page, (route) => jsonResponse(route, { success: true }));
-    await page.goto('/');
+    await page.goto('/body-fresh');
     await page.locator('#newsletter-email-final').fill('lea@example.com');
     await page.locator('#newsletter-consent-final').check();
     await page.locator('form:has(#newsletter-email-final) button[type="submit"]').click();
@@ -148,7 +148,7 @@ test.describe('newsletter form', () => {
   });
 
   test('the status and error regions are announced to assistive tech', async ({ consented: page }) => {
-    await page.goto('/');
+    await page.goto('/body-fresh');
     await expect(page.locator('[data-success-slot]').first()).toHaveAttribute('role', 'status');
     await expect(page.locator('#newsletter-error-hero')).toHaveAttribute('role', 'alert');
   });

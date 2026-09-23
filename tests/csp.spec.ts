@@ -36,14 +36,15 @@ test.describe('Content Security Policy (public/_headers)', () => {
     for (const route of ROUTES) {
       await page.goto(route);
       await page.waitForLoadState('networkidle');
-      // Exercise the dialog and, on the home page, the form.
+      // Exercise the dialog and, on every route that has one, the newsletter form.
       await expect(page.getByRole('dialog', { name: 'Cookies, briefly' })).toBeVisible();
       await page.getByRole('button', { name: 'Customize' }).click();
       await page.getByRole('button', { name: 'Save choices' }).click();
-      if (route === '/') {
-        await page.locator('#newsletter-email-hero').fill('anna@example.com');
-        await page.locator('#newsletter-consent-hero').check();
-        await page.locator('form:has(#newsletter-email-hero) button[type="submit"]').click();
+      const form = page.locator('[data-newsletter][data-live="true"]').first();
+      if (await form.count()) {
+        await form.locator('input[type="email"]').fill('anna@example.com');
+        await form.locator('input[name="consent"]').check();
+        await form.locator('button[type="submit"]').click();
         await expect(page.getByText('Check your inbox and confirm your email.').first()).toBeVisible();
       }
       const violations = await page.evaluate(() => (window as unknown as { __violations: string[] }).__violations);

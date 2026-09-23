@@ -3,7 +3,9 @@ import { expect, test as base, type BrowserContext, type Page, type Route } from
 export { expect };
 
 export const CONSENT_KEY = 'sg-cookie-consent';
-export const ROUTES = ['/', '/imprint', '/privacy'] as const;
+export const ROUTES = ['/', '/body-fresh', '/male-vitality', '/beauty', '/imprint', '/privacy'] as const;
+/** Routes with their own <h1> and hero — homepage plus every product page. */
+export const PRODUCT_ROUTES = ['/', '/body-fresh', '/male-vitality', '/beauty'] as const;
 export const MAILERLITE_URL = 'https://assets.mailerlite.com/**';
 
 /** Skips the first-visit cookie modal by storing a "rejected" choice before any page script runs. */

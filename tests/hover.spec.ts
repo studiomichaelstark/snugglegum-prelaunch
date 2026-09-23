@@ -25,21 +25,21 @@ test.describe('button hover: white background, dark green border', () => {
     test.skip(isMobile, 'No hover on touch devices.');
   });
 
-  const cases: { name: string; open?: 'cookie'; find: (page: Page) => Locator }[] = [
-    { name: 'hero submit', find: (p) => p.locator('form:has(#newsletter-email-hero) button[type="submit"]') },
+  const cases: { name: string; route?: string; open?: 'cookie'; find: (page: Page) => Locator }[] = [
+    { name: 'hero submit', route: '/body-fresh', find: (p) => p.locator('form:has(#newsletter-email-hero) button[type="submit"]') },
     { name: 'offer call to action', find: (p) => p.locator('#offer').getByRole('link', { name: 'Get on the list' }) },
-    { name: 'final call to action submit', find: (p) => p.locator('form:has(#newsletter-email-final) button[type="submit"]') },
+    { name: 'final call to action submit', route: '/body-fresh', find: (p) => p.locator('form:has(#newsletter-email-final) button[type="submit"]') },
     { name: 'bottom bar call to action', find: (p) => p.locator('footer').getByRole('link', { name: 'Get on the list' }) },
     { name: 'cookie modal "Accept all"', open: 'cookie', find: (p) => p.getByRole('button', { name: 'Accept all' }) },
   ];
 
-  for (const { name, open, find } of cases) {
+  for (const { name, route = '/', open, find } of cases) {
     test(name, async ({ page, context }) => {
       if (open !== 'cookie') {
         const { preConsent } = await import('./fixtures');
         await preConsent(context);
       }
-      await page.goto('/');
+      await page.goto(route);
       const button = find(page);
       await button.scrollIntoViewIfNeeded();
 

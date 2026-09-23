@@ -36,7 +36,7 @@ test.describe('SEO', () => {
       const namelessMeaningfulSvgs = await page.locator('svg[role="img"]:not([aria-label]):not([aria-labelledby])').count();
       expect(namelessMeaningfulSvgs).toBe(0);
       const heroImage = page.locator('#hero img');
-      if (route === '/') await expect(heroImage).toHaveAttribute('alt', /Snugglegum™ pouch/);
+      if (route === '/body-fresh') await expect(heroImage).toHaveAttribute('alt', /Snugglegum™ pouch/);
     });
 
     test(`${route}: valid JSON-LD`, async ({ consented: page }) => {
@@ -71,7 +71,8 @@ test.describe('SEO', () => {
     const sitemap = await request.get('/sitemap.xml');
     expect(sitemap.ok()).toBe(true);
     const xml = await sitemap.text();
-    for (const path of ['/', '/imprint', '/privacy']) expect(xml).toContain(`${SITE}${path}`);
+    for (const path of ['/', '/body-fresh', '/male-vitality', '/beauty', '/imprint', '/privacy'])
+      expect(xml).toContain(`${SITE}${path}`);
 
     expect((await request.get('/sitemap-index.xml')).ok()).toBe(true);
 

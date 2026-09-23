@@ -39,9 +39,10 @@ test.describe('fonts and network', () => {
     await page.waitForLoadState('networkidle');
     expect(external).toEqual([]);
 
-    await page.locator('#newsletter-email-hero').fill('anna@example.com');
-    await page.locator('#newsletter-consent-hero').check();
-    await page.locator('form:has(#newsletter-email-hero) button[type="submit"]').click();
+    const form = page.locator('[data-newsletter][data-live="true"]').first();
+    await form.locator('input[type="email"]').fill('anna@example.com');
+    await form.locator('input[name="consent"]').check();
+    await form.locator('button[type="submit"]').click();
     await expect.poll(() => external.length).toBe(1);
     expect(new URL(external[0]!).host).toBe('assets.mailerlite.com');
   });

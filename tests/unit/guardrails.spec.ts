@@ -53,8 +53,19 @@ test.describe('content guardrails', () => {
 
   test('the 18+ notice is in the built home page', () => {
     const html = read('dist/index.html');
+    expect(html).toContain('18+ only');
+  });
+
+  test('the 18+ stamp is on the Body Fresh page', () => {
+    const html = read('dist/body-fresh.html');
     expect(html).toContain('Gummies for grownups only');
     expect(html).toContain('18+ only');
+  });
+
+  test('every product page states its 18+ audience', () => {
+    for (const file of ['dist/male-vitality.html', 'dist/beauty.html']) {
+      expect(read(file), file).toMatch(/18\+/);
+    }
   });
 
   test('offer variants: no discount card and no social proof by default', () => {
