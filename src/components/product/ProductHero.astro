@@ -1,26 +1,83 @@
 ---
 /**
- * Hero shell for a product page arriving cold from an ad, a social link or search — no animation,
- * per the brief. Gives brand context (logo, one link back) plus the product's own badge/headline/
- * subline/CTA, all via slots so the copy stays in the page. `bgClass` is a literal Tailwind class
- * from the caller (e.g. "bg-vitality" or "bg-beauty") — never built from a variable at runtime, so
- * Tailwind's build-time scanner always sees it.
+ * Shared hero for every product page: back-to-home strip, wordmark, badge pill, headline, subline,
+ * the giant "GUMMIES" backdrop word, the product pouch with the 18+ stamp, and a CTA. The look and
+ * motion (bobbing pill and pouch, floating stamp/stickers) are defined once here; each page only
+ * supplies its own copy through slots:
+ *   badge     – text inside the pill above the headline
+ *   headline  – h1 content
+ *   subline   – paragraph under the headline
+ *   stickers  – optional absolutely-positioned stickers over the pouch (Close Contact only)
+ *   cta       – call to action under the pouch (button or inline form)
+ * `bgClass` is a literal Tailwind class from the caller (e.g. "bg-vitality" or "bg-beauty") — never
+ * built from a variable at runtime, so Tailwind's build-time scanner always sees it.
  */
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Logo from '@/components/logo/Logo.astro';
+import StampBadge from '@/components/logo/StampBadge.astro';
 import BackToHome from './BackToHome.astro';
 
 interface Props {
   bgClass: string;
   tone?: 'light' | 'dark';
+  pouch: ImageMetadata;
+  pouchAlt: string;
 }
-const { bgClass, tone = 'light' } = Astro.props;
+const { bgClass, tone = 'light', pouch, pouchAlt } = Astro.props;
 const isDark = tone === 'dark';
 ---
 
-<section id="hero" class:list={['section-px relative overflow-hidden pt-9 pb-[clamp(56px,7vw,96px)]', bgClass, isDark ? 'on-dark text-white' : 'text-green']}>
-  <div class="container-lg relative">
-    <BackToHome tone={tone} />
-    <div class="mx-auto mt-[clamp(32px,5vw,56px)] max-w-[720px] text-center">
-      <slot />
+<div class:list={[bgClass, isDark ? 'on-dark text-white' : 'text-green']}>
+  <div class="px-[clamp(20px,5vw,48px)] pt-6">
+    <div class="container-lg">
+      <BackToHome />
     </div>
   </div>
-</section>
+
+  <section id="hero" class="section-px relative overflow-hidden pt-9 pb-[clamp(56px,7vw,96px)]">
+    <div class="container-lg relative">
+      <div class="flex justify-center">
+        <Logo class="logo-glow w-[min(40%,450px)] text-white md:w-[min(60%,580px)]" />
+      </div>
+
+      <div class="mt-[clamp(28px,4vw,44px)] flex flex-wrap items-center justify-center gap-[clamp(16px,3vw,32px)]">
+        <span class="stretch-tight m-auto inline-block animate-[sg-bob_4s_ease-in-out_infinite] rounded-full bg-ink px-8 py-[10px] text-[clamp(12.8px,1.76vw,20.8px)] font-black tracking-[0.12em] text-pink uppercase"><slot name="badge" /></span>
+      </div>
+
+      <h1 class="stretch-hero mx-auto mt-[clamp(28px,4vw,44px)] max-w-[16ch] text-center text-[clamp(2.5rem,6.5vw,5.5rem)] leading-[0.9] font-black tracking-[-0.02em] text-balance uppercase"><slot name="headline" /></h1>
+
+      <p class="mx-auto mt-[clamp(18px,2.5vw,26px)] max-w-[48ch] text-center text-[clamp(1.15rem,1.7vw,1.4rem)] leading-[1.5] font-medium"><slot name="subline" /></p>
+
+      <div class="relative mt-[clamp(28px,4vw,48px)]">
+        <div aria-hidden="true" data-decorative-text class="stretch-wide ml-[calc(50%-50vw)] w-screen text-center text-[clamp(3.2rem,15vw,13rem)] leading-[0.8] font-black tracking-[-0.035em] opacity-[0.14]">
+          GUMMIES
+        </div>
+
+        <div class="relative mt-[max(-80px,calc(-9vw+40px))] flex justify-center md:mt-[clamp(-80px,-9vw,-36px)]">
+          <div class="relative aspect-[771/964] w-[min(75%,390px)] animate-[sg-bob_7s_ease-in-out_infinite] md:w-[min(100%,520px)]">
+            <Picture
+              src={pouch}
+              alt={pouchAlt}
+              formats={['avif', 'webp']}
+              widths={[292, 390, 520, 771]}
+              sizes="(min-width: 768px) 520px, min(75vw, 390px)"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+              class="absolute inset-0 block size-full border-0 object-cover"
+            />
+
+            <slot name="stickers" />
+
+            <StampBadge class="absolute top-[44%] right-[calc(-4%-32px)] z-[2] size-[104px] md:right-[calc(-4%-40px)] md:size-[130px] [transform:rotate(7deg)] text-white animate-[sg-float_6.8s_ease-in-out_infinite] [--r:7deg]" />
+          </div>
+        </div>
+      </div>
+
+      <div class="mx-auto mt-[clamp(28px,4vw,44px)] max-w-[660px]">
+        <slot name="cta" />
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,21 +1,14 @@
 ---
 /**
  * The site has no navigation menu anywhere. This is the one, simple way back to the homepage
- * from a product page: the wordmark (linked) plus one small text link. Not a nav — just a link.
+ * from a product page: a single text link with a back arrow. Not a nav — just a link. It takes
+ * the surrounding text color, so it works on light and dark heroes alike.
  */
-import Logo from '@/components/logo/Logo.astro';
-import ButtonLink from '@/components/ui/ButtonLink.astro';
-
-interface Props {
-  tone?: 'light' | 'dark';
-}
-const { tone = 'light' } = Astro.props;
-const isDark = tone === 'dark';
 ---
 
-<div class="flex items-center justify-between gap-4">
-  <a href="/" class="block w-[160px] shrink-0 no-underline" aria-label="Snugglegum™ home">
-    <Logo class={isDark ? 'text-white' : 'text-green'} />
-  </a>
-  <ButtonLink href="/" variant={isDark ? 'on-dark' : 'outline'} size="sm">All Snugglegum™ products</ButtonLink>
-</div>
+<a href="/" class="label-caps group inline-flex text-inherit items-center gap-2 py-2 text-sm no-underline transition-opacity duration-200 hover:opacity-70">
+  <svg aria-hidden="true" focusable="false" viewBox="0 0 16 16" class="size-4 shrink-0 transition-transform duration-200 group-hover:-translate-x-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M13 8H3M7.5 3.5 3 8l4.5 4.5"></path>
+  </svg>
+  All Snugglegum™ products
+</a>

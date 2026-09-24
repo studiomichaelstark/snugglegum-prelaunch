@@ -4,45 +4,79 @@
  * this component (the brief requires this specifically for the homepage hero) — hover feedback on
  * the buttons is the only motion, and that's interaction-driven, not auto-playing.
  */
+import { Picture } from 'astro:assets';
 import Logo from '@/components/logo/Logo.astro';
+import closeContactPouch from '@/assets/snugglegum-doypack-close-contact.png';
+import maleVitalityPouch from '@/assets/snugglegum-doypack-male-vitality.png';
+import beautyPouch from '@/assets/snugglegum-doypack-beauty-nutrition.png';
 import ButtonLink from '@/components/ui/ButtonLink.astro';
 ---
 
 <section id="hero" class="section-px bg-pink pt-9 pb-[clamp(56px,7vw,96px)] text-green">
   <div class="container-lg text-center">
     <div class="flex justify-center">
-      <Logo class="w-[min(73.6%,704px)] text-green" />
+      <Logo class="w-[min(60%,600px)] text-white" />
     </div>
     <p class="label-caps mt-6 text-base">Engineered to get you closer.</p>
     <h1 class="display-word stretch-hero mx-auto mt-4 max-w-[20ch] text-[clamp(2.5rem,6.5vw,5.5rem)] leading-[0.9] text-balance">
-      Three gummies. One family.
+          Gummies With Benefits. Literally.
     </h1>
     <p class="mx-auto mt-5 max-w-[52ch] text-[clamp(1.15rem,1.7vw,1.4rem)] leading-[1.5] font-medium">
       Snugglegum™ is a family of functional gummies — one product per goal. Pick yours below, or join the list for all three.
     </p>
 
     <ul class="mt-[clamp(40px,5vw,64px)] grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-5 text-left">
-      <li class="rounded-card flex flex-col items-start bg-white p-[clamp(24px,3vw,32px)]">
-        <p class="label-caps text-sm">Body Fresh</p>
-        <h2 class="mt-2 text-2xl font-black uppercase leading-[1.05]">Close Contact Nutrition</h2>
-        <p class="mt-2.5 text-lg leading-normal">
-          Snugglegum™'s original: liquid-filled, pineapple-flavored, engineered from within.
+      <li class="rounded-card flex flex-col items-start p-[clamp(24px,3vw,32px)]">
+        <a href="/close-contact" tabindex="-1" aria-hidden="true" class="mx-auto mb-6 block w-full max-w-[380px]">
+          <Picture
+            src={closeContactPouch}
+            alt=""
+            formats={["avif", "webp"]}
+            widths={[320, 480, 771]}
+            sizes="(min-width: 768px) 30vw, 80vw"
+            class="block h-auto w-full"
+          />
+        </a>
+        <p class="label-caps text-sm text-ink">Close Contact</p>
+        <h2 class="mt-2 text-2xl text-green font-black uppercase leading-[1.05]">Close Contact Nutrition</h2>
+        <p class="mt-2.5 text-lg text-ink leading-normal">
+          Body taste is biochemistry — and it's fixable.
         </p>
-        <ButtonLink href="/body-fresh" size="sm" class="mt-6">Explore Body Fresh</ButtonLink>
+        <ButtonLink href="/close-contact" size="sm" class="mt-6">Explore Close Contact</ButtonLink>
       </li>
 
-      <li class="on-dark rounded-card flex flex-col items-start bg-vitality p-[clamp(24px,3vw,32px)] text-white">
-        <p class="label-caps text-sm text-pink">Male Vitality</p>
-        <h2 class="mt-2 text-2xl font-black uppercase leading-[1.05]">Intimate Male Fitness</h2>
-        <p class="mt-2.5 text-lg leading-normal">Everyday nutritional support for men, in a gummy, not a pill bottle.</p>
-        <ButtonLink href="/male-vitality" variant="on-dark" size="sm" class="mt-6">Explore Male Vitality</ButtonLink>
+      <li class="rounded-card flex flex-col items-start p-[clamp(24px,3vw,32px)]">
+        <a href="/male-vitality" tabindex="-1" aria-hidden="true" class="mx-auto mb-6 block w-full max-w-[380px]">
+          <Picture
+            src={maleVitalityPouch}
+            alt=""
+            formats={["avif", "webp"]}
+            widths={[320, 480, 771]}
+            sizes="(min-width: 768px) 30vw, 80vw"
+            class="block h-auto w-full"
+          />
+        </a>
+        <p class="label-caps text-sm text-ink">Male Vitality</p>
+        <h2 class="mt-2 text-2xl text-green font-black uppercase leading-[1.05]">Intimate Male Fitness</h2>
+        <p class="mt-2.5 text-lg text-ink leading-normal">Everyday nutritional support for men, in a gummy, not a pill bottle.</p>
+        <ButtonLink href="/male-vitality" size="sm" class="mt-6">Explore Male Vitality</ButtonLink>
       </li>
 
-      <li class="rounded-card flex flex-col items-start bg-beauty p-[clamp(24px,3vw,32px)]">
+      <li class="rounded-card flex flex-col items-start p-[clamp(24px,3vw,32px)]">
+        <a href="/beauty" tabindex="-1" aria-hidden="true" class="mx-auto mb-6 block w-full max-w-[380px]">
+          <Picture
+            src={beautyPouch}
+            alt=""
+            formats={["avif", "webp"]}
+            widths={[320, 480, 771]}
+            sizes="(min-width: 768px) 30vw, 80vw"
+            class="block h-auto w-full"
+          />
+        </a>
         <p class="label-caps text-sm">Beauty</p>
-        <h2 class="mt-2 text-2xl font-black uppercase leading-[1.05]">Beauty Nutrition</h2>
-        <p class="mt-2.5 text-lg leading-normal">Hair, skin and nail nutrition, built into an everyday gummy.</p>
-        <ButtonLink href="/beauty" variant="outline" size="sm" class="mt-6">Explore Beauty</ButtonLink>
+        <h2 class="mt-2 text-2xl font-black uppercase leading-[1.05]">Beauty<br>Nutrition</h2>
+        <p class="mt-2.5 text-lg text-ink leading-normal">Hair, skin and nail nutrition, built into an everyday gummy.</p>
+        <ButtonLink href="/beauty" size="sm" class="mt-6">Explore Beauty</ButtonLink>
       </li>
     </ul>
   </div>

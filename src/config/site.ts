@@ -68,7 +68,7 @@ export const routes = {
  * These are ordinary MailerLite identifiers, not secrets.
  */
 export const mailerLiteGroups: Readonly<Record<ProductId, string>> = {
-  'body-fresh': (import.meta.env.PUBLIC_MAILERLITE_GROUP_BODY_FRESH ?? '').trim(),
+  'close-contact': (import.meta.env.PUBLIC_MAILERLITE_GROUP_CLOSE_CONTACT ?? '').trim(),
   'male-vitality': (import.meta.env.PUBLIC_MAILERLITE_GROUP_MALE_VITALITY ?? '').trim(),
   beauty: (import.meta.env.PUBLIC_MAILERLITE_GROUP_BEAUTY ?? '').trim(),
 };

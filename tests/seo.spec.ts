@@ -36,7 +36,12 @@ test.describe('SEO', () => {
       const namelessMeaningfulSvgs = await page.locator('svg[role="img"]:not([aria-label]):not([aria-labelledby])').count();
       expect(namelessMeaningfulSvgs).toBe(0);
       const heroImage = page.locator('#hero img');
-      if (route === '/body-fresh') await expect(heroImage).toHaveAttribute('alt', /Snugglegum™ pouch/);
+      const pouchAlts: Record<string, RegExp> = {
+        '/close-contact': /Snugglegum™ Close Contact pouch/,
+        '/male-vitality': /Snugglegum™ Male Vitality pouch/,
+        '/beauty': /Snugglegum™ Beauty Nutrition pouch/,
+      };
+      if (pouchAlts[route]) await expect(heroImage).toHaveAttribute('alt', pouchAlts[route]);
     });
 
     test(`${route}: valid JSON-LD`, async ({ consented: page }) => {
@@ -71,7 +76,7 @@ test.describe('SEO', () => {
     const sitemap = await request.get('/sitemap.xml');
     expect(sitemap.ok()).toBe(true);
     const xml = await sitemap.text();
-    for (const path of ['/', '/body-fresh', '/male-vitality', '/beauty', '/imprint', '/privacy'])
+    for (const path of ['/', '/close-contact', '/male-vitality', '/beauty', '/imprint', '/privacy'])
       expect(xml).toContain(`${SITE}${path}`);
 
     expect((await request.get('/sitemap-index.xml')).ok()).toBe(true);

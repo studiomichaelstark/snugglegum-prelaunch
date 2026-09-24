@@ -170,5 +170,5 @@ dialogs: Supplement Facts (h2), Cookies, briefly (h2), each closed by default
 
 ## 8. Things I noticed that affect SEO
 
-- The pouch artwork includes the text "BODY FRESH". That is image text, so it is invisible to search engines but visible to users and it is a body claim. See the plan.
+- The pouch artwork includes the text "CLOSE CONTACT". That is image text, so it is invisible to search engines but visible to users and it is a body claim. See the plan.
 - The design's two footer email addresses differ (`gummyshot@…` and `gumshot@…`), which would hurt entity consistency. See the plan.

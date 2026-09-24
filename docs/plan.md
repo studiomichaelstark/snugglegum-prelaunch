@@ -42,7 +42,7 @@ You asked for the design's copy verbatim **and** no health, body-odor, "body tas
 | e | What's inside, Zinc | "Zinc contributes to normal immune function.*" | health claim (an authorized EU claim, but you excluded these) |
 | f | Marquee | "3 Snugglegum a day, helps you taste okay" / "Because you are the aftertaste" | body-taste claim |
 | g | Final CTA heading | "Can't wait to be tasted better?" | body-taste implication |
-| h | Hero pouch **artwork** | "BODY FRESH" printed on the pouch image | body claim in an image I cannot edit |
+| h | Hero pouch **artwork** | "CLOSE CONTACT" printed on the pouch image | body claim in an image I cannot edit |
 | i | Bottom of "What's inside" | "We can't promise perfect skin." | mentions a body outcome, though as a disclaimer |
 
 - **Option A (my recommendation):** you send replacement copy for a to g and i, I paste it in. Until then I build those blocks as designed, mark each with a `data-copy-review` attribute, and list them in the final open-items list. Nothing goes live because the production build will fail on the placeholder check until you resolve them. For h you send new pouch artwork.

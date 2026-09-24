@@ -227,11 +227,11 @@ export const placeholderSpecs = [
     blocking: false,
   },
   {
-    id: 'mailerLiteGroupBodyFresh',
-    env: 'PUBLIC_MAILERLITE_GROUP_BODY_FRESH',
+    id: 'mailerLiteGroupCloseContact',
+    env: 'PUBLIC_MAILERLITE_GROUP_CLOSE_CONTACT',
     group: 'mailerlite-groups',
-    label: 'MailerLite group ID for Body Fresh interest',
-    hint: 'Create a "Body Fresh" group in your MailerLite account and paste its numeric ID here. Until then, that interest is still recorded as a plain field, just not tagged to a native Group.',
+    label: 'MailerLite group ID for Close Contact interest',
+    hint: 'Create a "Close Contact" group in your MailerLite account and paste its numeric ID here. Until then, that interest is still recorded as a plain field, just not tagged to a native Group.',
     blocking: false,
   },
   {

@@ -51,7 +51,7 @@ function setBusy(form: HTMLFormElement, busy: boolean): void {
 }
 
 interface ProductInterest {
-  /** Product id, e.g. "body-fresh". Sent as-is in fields[product_interest]. */
+  /** Product id, e.g. "close-contact". Sent as-is in fields[product_interest]. */
   id: string;
   /** MailerLite Group ID for this product, or '' while that Group has not been created yet. */
   groupId: string;

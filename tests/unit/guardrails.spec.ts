@@ -56,8 +56,8 @@ test.describe('content guardrails', () => {
     expect(html).toContain('18+ only');
   });
 
-  test('the 18+ stamp is on the Body Fresh page', () => {
-    const html = read('dist/body-fresh.html');
+  test('the 18+ stamp is on the Close Contact page', () => {
+    const html = read('dist/close-contact.html');
     expect(html).toContain('Gummies for grownups only');
     expect(html).toContain('18+ only');
   });

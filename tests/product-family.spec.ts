@@ -1,7 +1,7 @@
 import { expect, jsonResponse, mockMailerLite, PRODUCT_ROUTES, ROUTES, test } from './fixtures';
 
 const PRODUCTS = [
-  { id: 'body-fresh', name: 'Body Fresh', path: '/body-fresh' },
+  { id: 'close-contact', name: 'Close Contact', path: '/close-contact' },
   { id: 'male-vitality', name: 'Male Vitality', path: '/male-vitality' },
   { id: 'beauty', name: 'Beauty', path: '/beauty' },
 ] as const;
@@ -24,7 +24,8 @@ test.describe('product family: homepage gateway', () => {
     expect(scrollWidth).toBeLessThanOrEqual(clientWidth + 1);
 
     const cardHeights = await page.locator('#hero li').evaluateAll((els) => els.map((el) => el.getBoundingClientRect().height));
-    for (const height of cardHeights) expect(height).toBeLessThan(600);
+    // Each card now leads with its pouch image, so "enormous" starts higher than for text-only cards.
+    for (const height of cardHeights) expect(height).toBeLessThan(720);
   });
 });
 
@@ -54,8 +55,6 @@ test.describe('product family: independent product pages', () => {
       await expect(page.locator('body')).toContainText(/18\+/);
 
       // A simple, non-nav way back to the homepage — not a conventional nav menu.
-      const home = page.getByRole('link', { name: 'Snugglegum™ home' });
-      await expect(home).toHaveAttribute('href', '/');
       await expect(page.getByRole('link', { name: 'All Snugglegum™ products' })).toHaveAttribute('href', '/');
     });
   }
@@ -140,7 +139,7 @@ test.describe('product family: SEO uniqueness', () => {
 test.describe('product family: UTM parameters are preserved', () => {
   test('submitting the newsletter form does not strip UTM query params from the URL', async ({ consented: page }) => {
     await mockMailerLite(page, (route) => jsonResponse(route, { success: true }));
-    await page.goto('/body-fresh?utm_source=instagram&utm_campaign=launch');
+    await page.goto('/close-contact?utm_source=instagram&utm_campaign=launch');
     await page.locator('input[name="fields[email]"]').first().fill('anna@example.com');
     await page.locator('input[name="consent"]').first().check();
     await page.locator('form:has(input[name="fields[email]"]) button[type="submit"]').first().click();

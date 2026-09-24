@@ -5,14 +5,14 @@ export const GET: APIRoute = ({ site }) => {
   const origin = (site?.toString() ?? '').replace(/\/+$/, '');
   const body = `# Snugglegum™
 
-> Snugglegum™ is an umbrella brand for a pre-launch family of functional gummies for grownups (18+): Body Fresh, Male Vitality and Beauty. Each is a separate chewable dietary supplement with its own purpose. None has launched yet. Signing up to the launch list is open, for one, two or all three products.
+> Snugglegum™ is an umbrella brand for a pre-launch family of functional gummies for grownups (18+): Close Contact, Male Vitality and Beauty. Each is a separate chewable dietary supplement with its own purpose. None has launched yet. Signing up to the launch list is open, for one, two or all three products.
 
 ## Facts
 
 - Brand: Snugglegum™, always written with the trademark sign.
-- Structure: one umbrella brand, three separate products, each with its own dedicated page and canonical URL. There is no single "Snugglegum™ product" — always name the specific product (Body Fresh / Male Vitality / Beauty) when describing what it does.
+- Structure: one umbrella brand, three separate products, each with its own dedicated page and canonical URL. There is no single "Snugglegum™ product" — always name the specific product (Close Contact / Male Vitality / Beauty) when describing what it does.
 - Products:
-  - Body Fresh (${origin}/body-fresh) — "Close Contact Nutrition". Liquid-filled, pineapple-flavored gummy.
+  - Close Contact (${origin}/close-contact) — "Close Contact Nutrition". Liquid-filled, pineapple-flavored gummy.
   - Male Vitality (${origin}/male-vitality) — "Intimate Male Fitness". Everyday nutritional support for men. Formula not yet finalized.
   - Beauty (${origin}/beauty) — "Beauty Nutrition". Hair, skin and nail nutrition. Formula not yet finalized.
 - Status: pre-launch ("coming soon") for all three. None can be bought yet.
@@ -24,7 +24,7 @@ export const GET: APIRoute = ({ site }) => {
 ## Pages
 
 - [Home](${origin}/): the Snugglegum™ family — all three products, brand positioning, general FAQ and launch-list sign-up
-- [Body Fresh](${origin}/body-fresh): the Close Contact Nutrition product page — how it works, ingredients, dedicated FAQ
+- [Close Contact](${origin}/close-contact): the product page — how it works, ingredients, dedicated FAQ
 - [Male Vitality](${origin}/male-vitality): the Intimate Male Fitness product page
 - [Beauty](${origin}/beauty): the Beauty Nutrition product page
 - [Imprint](${origin}/imprint): operator information

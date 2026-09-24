@@ -2,6 +2,8 @@
 /**
  * Snugglegum™ wordmark as inline SVG. Colored via currentColor, so set the color
  * with a text color class on the wrapper, e.g. class="text-green".
+ * The default width (100%) has zero specificity, so a width class passed via `class`
+ * (e.g. class="w-40") always overrides it.
  */
 interface Props {
   class?: string;
@@ -9,7 +11,7 @@ interface Props {
 const { class: className } = Astro.props;
 ---
 
-<div class:list={["aspect-[2720/484] w-full", className]}>
+<div class:list={["aspect-[2720/484] [:where(&)]:w-full", className]}>
   <svg role="img" aria-label="Snugglegum™" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2720.1 536.7" preserveAspectRatio="xMidYMid meet" width="100%" height="100%" focusable="false">
     <path
       fill="currentColor"

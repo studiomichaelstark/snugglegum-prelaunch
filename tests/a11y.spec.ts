@@ -45,15 +45,15 @@ test.describe('accessibility (WCAG 2.2 AA via axe)', () => {
     });
   }
 
-  test('/body-fresh: no violations with the Supplement Facts dialog open', async ({ consented: page }) => {
-    await page.goto('/body-fresh');
+  test('/close-contact: no violations with the Supplement Facts dialog open', async ({ consented: page }) => {
+    await page.goto('/close-contact');
     await page.locator('button[data-dialog-open]').first().click();
     await expect(page.getByRole('dialog', { name: 'Supplement Facts' })).toBeVisible();
     expect(await scan(page)).toEqual([]);
   });
 
-  test('/body-fresh: no violations with an FAQ answer open and the error message shown', async ({ consented: page }) => {
-    await page.goto('/body-fresh');
+  test('/close-contact: no violations with an FAQ answer open and the error message shown', async ({ consented: page }) => {
+    await page.goto('/close-contact');
     await page.locator('#faq summary').first().click();
     await page.locator('form:has(#newsletter-email-hero) button[type="submit"]').click();
     await expect(page.locator('#newsletter-error-hero')).toBeVisible();
@@ -62,7 +62,7 @@ test.describe('accessibility (WCAG 2.2 AA via axe)', () => {
 
   test('/: no violations with a product-interest checkbox checked', async ({ consented: page }) => {
     await page.goto('/');
-    await page.locator('input[data-interest="body-fresh"]').check();
+    await page.locator('input[data-interest="close-contact"]').check();
     expect(await scan(page)).toEqual([]);
   });
 });
@@ -118,7 +118,7 @@ test.describe('keyboard and motion', () => {
 
   test('without reduced motion the decorative animations do run', async ({ consented: page }) => {
     await page.emulateMedia({ reducedMotion: 'no-preference' });
-    await page.goto('/body-fresh');
+    await page.goto('/close-contact');
     const marquee = page.locator('.marquee-track');
     await expect(marquee).toHaveCSS('animation-name', 'sg-marquee');
   });

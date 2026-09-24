@@ -1,4 +1,5 @@
 ---
+import beautyPouch from '@/assets/snugglegum-doypack-beauty-nutrition.png';
 import BeautyBenefits from '@/components/sections/BeautyBenefits.astro';
 import BeautyFaq from '@/components/sections/BeautyFaq.astro';
 import BeautyHowItWorks from '@/components/sections/BeautyHowItWorks.astro';
@@ -15,14 +16,11 @@ const description =
 
 <Base title={title} description={description} path="/beauty" product={{ name: 'Snugglegum™ Beauty' }}>
   <main id="main" class="max-w-full overflow-x-clip">
-    <ProductHero bgClass="bg-beauty" tone="light">
-      <span class="label-caps inline-block rounded-full border-2 border-dashed border-green px-5 py-3 text-sm text-green">Snugglegum™ · Beauty</span>
-      <h1 class="display-word stretch-hero mt-6 text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.92] text-balance">Beauty nutrition, engineered in.</h1>
-      <p class="mx-auto mt-5 max-w-[48ch] text-[clamp(1.15rem,1.7vw,1.4rem)] leading-[1.5] font-medium">
-        Beauty is Snugglegum™'s Beauty Nutrition gummy — hair, skin and nail support in a chewable dietary supplement, coming soon
-        in the USA. 18+ only.
-      </p>
-      <div class="mt-8 flex justify-center">
+    <ProductHero bgClass="bg-beauty" pouch={beautyPouch} pouchAlt="Snugglegum™ Beauty Nutrition pouch" tone="light">
+      <Fragment slot="badge">Snugglegum™ · Beauty</Fragment>
+      <Fragment slot="headline">Beauty nutrition, engineered in.</Fragment>
+      <Fragment slot="subline">Beauty is Snugglegum™'s Beauty Nutrition gummy — hair, skin and nail support in a chewable dietary supplement, coming soon in the USA. 18+ only.</Fragment>
+      <div slot="cta" class="flex justify-center">
         <ButtonLink href="#newsletter-beauty" variant="solid">Get on the list</ButtonLink>
       </div>
     </ProductHero>

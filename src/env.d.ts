@@ -7,7 +7,7 @@ interface ImportMetaEnv {
   readonly PUBLIC_DISCOUNT_LABEL?: string;
   readonly PUBLIC_SUBSCRIBER_COUNT?: string;
   readonly PUBLIC_PROOF_THRESHOLD?: string;
-  readonly PUBLIC_MAILERLITE_GROUP_BODY_FRESH?: string;
+  readonly PUBLIC_MAILERLITE_GROUP_CLOSE_CONTACT?: string;
   readonly PUBLIC_MAILERLITE_GROUP_MALE_VITALITY?: string;
   readonly PUBLIC_MAILERLITE_GROUP_BEAUTY?: string;
 }

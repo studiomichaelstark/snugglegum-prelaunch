@@ -1,4 +1,5 @@
 ---
+import maleVitalityPouch from '@/assets/snugglegum-doypack-male-vitality.png';
 import Footer from '@/components/sections/Footer.astro';
 import MaleVitalityBenefits from '@/components/sections/MaleVitalityBenefits.astro';
 import MaleVitalityFaq from '@/components/sections/MaleVitalityFaq.astro';
@@ -15,14 +16,11 @@ const description =
 
 <Base title={title} description={description} path="/male-vitality" product={{ name: 'Snugglegum™ Male Vitality' }}>
   <main id="main" class="max-w-full overflow-x-clip">
-    <ProductHero bgClass="bg-vitality" tone="dark">
-      <span class="label-caps inline-block rounded-full border-2 border-dashed border-pink px-5 py-3 text-sm text-pink">Snugglegum™ · Male Vitality</span>
-      <h1 class="display-word stretch-hero mt-6 text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.92] text-balance">Engineered for everyday vitality.</h1>
-      <p class="mx-auto mt-5 max-w-[48ch] text-[clamp(1.15rem,1.7vw,1.4rem)] leading-[1.5] font-medium">
-        Male Vitality is Snugglegum™'s Intimate Male Fitness gummy — a chewable dietary supplement for men, coming soon in the USA.
-        18+ only.
-      </p>
-      <div class="mt-8 flex justify-center">
+    <ProductHero bgClass="bg-vitality" pouch={maleVitalityPouch} pouchAlt="Snugglegum™ Male Vitality pouch" tone="dark">
+      <Fragment slot="badge">Snugglegum™ · Male Vitality</Fragment>
+      <Fragment slot="headline">Engineered for everyday vitality.</Fragment>
+      <Fragment slot="subline">Male Vitality is Snugglegum™'s Intimate Male Fitness gummy — a chewable dietary supplement for men, coming soon in the USA. 18+ only.</Fragment>
+      <div slot="cta" class="flex justify-center">
         <ButtonLink href="#newsletter-vitality" variant="on-dark">Get on the list</ButtonLink>
       </div>
     </ProductHero>
