@@ -4,7 +4,8 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": ">=22.18"
+    "node": ">=22.18 <27",
+    "npm": "please-use-pnpm"
   },
   "scripts": {
     "dev": "astro dev",
