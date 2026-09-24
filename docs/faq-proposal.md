@@ -25,7 +25,7 @@ This whole group is generic, product-agnostic content about the gummy-supplement
 | 8 | Where will Snugglegum™ be available? | The USA launches first. Other markets, including the EU, are currently on the waitlist. |
 | 9 | What does Snugglegum™ taste like? | Pineapple — with a liquid center. |
 | 10 | Why is Snugglegum™ 18+? | Because our humor is. |
-| 11 | Will you spam me? | No. Launch news, early access and the occasional bad joke. Unsubscribe anytime. |
+| 11 | Will you spam me? | No. Launch news, your pre-launch offer and the occasional bad joke. Unsubscribe anytime. |
 | 12 | What's with the name? | Say "Snugglegum™" out loud. Then say it again. Slowly. |
 
 ## Left out of any schema proposal, on purpose

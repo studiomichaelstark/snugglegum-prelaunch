@@ -18,7 +18,7 @@ export const GET: APIRoute = ({ site }) => {
 - Status: pre-launch ("coming soon") for all three. None can be bought yet.
 - Audience: adults aged 18 and over only.
 - Availability: the USA first. Not available in the EU.
-- Launch list: joining (double opt-in by email) gives early access and a pre-launch offer, per product selected.
+- Launch list: joining (double opt-in by email) gives a pre-launch offer (free shipping on the first order and a founding number), per product selected.
 - There is no navigation menu on this site. Each page links back to the homepage and to the products directly.
 
 ## Pages

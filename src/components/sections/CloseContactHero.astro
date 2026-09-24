@@ -9,17 +9,13 @@ import ProductHero from "@/components/product/ProductHero.astro";
 ---
 
 <ProductHero bgClass="bg-pink" tone="light" pouch={pouch} pouchAlt="Snugglegum™ Close Contact pouch of liquid-filled pineapple gummies" pouchGlow="bg-white/90" vignetteClass="to-vignette-close-contact">
-  <Fragment slot="badge">Coming soon</Fragment>
+  <Fragment slot="badge">Snugglegum™ • Close Contact</Fragment>
   <Fragment slot="headline">For kisses that don't stop at the lips.</Fragment>
   <Fragment slot="subline">A pineapple gummy with a liquid center and a very specific purpose: getting you ready for closer contact. Join the list. You’ll want to be early.</Fragment>
 
   <PouchStickers slot="stickers" circleLines={['Built for', 'What Comes Next.']} />
 
   <Fragment slot="cta">
-    <HeroSignup tone="light" preselect="close-contact">
-      <p slot="after-error" data-copy-review="body-taste guide mention" class="mt-3.5 text-center text-2xl leading-[1.4] font-bold">
-        Free with sign-up: the "Body Taste Cheat Code" guide.
-      </p>
-    </HeroSignup>
+    <HeroSignup tone="light" preselect="close-contact" />
   </Fragment>
 </ProductHero>

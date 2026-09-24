@@ -125,7 +125,7 @@ The brief says copy must stay verbatim, so keywords cannot be worked into headin
 h1  For kisses that don't stop at the lips.
 h2  Three things for joining before launch              #offer
   h3  [discount] off        (hidden while discountLabel is empty)
-  h3  7 days early
+  h3  Free shipping
   h3  Founding number
 h2  How it works                                        #how-it-works
   h3  It starts with digestion          (see copy conflicts in plan)
