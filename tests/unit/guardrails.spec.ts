@@ -62,10 +62,16 @@ test.describe('content guardrails', () => {
     expect(html).toContain('18+ only');
   });
 
-  test('every product page states its 18+ audience', () => {
-    for (const file of ['dist/male-vitality.html', 'dist/beauty.html']) {
-      expect(read(file), file).toMatch(/18\+/);
-    }
+  test('Male Vitality states its 18+ audience', () => {
+    expect(read('dist/male-vitality.html')).toMatch(/18\+/);
+  });
+
+  test('the Beauty page copy, FAQ, stamp and description carry no 18+ notice', () => {
+    const html = read('dist/beauty.html');
+    expect(html).not.toContain('Gummies for grownups only');
+    expect(html).not.toContain('Under 18s');
+    expect(html).not.toMatch(/Why is Beauty 18\+/);
+    expect(html).not.toMatch(/<meta name="description" content="[^"]*18\+/);
   });
 
   test('offer variants: no discount card and no social proof by default', () => {

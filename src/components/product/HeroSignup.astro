@@ -1,0 +1,37 @@
+---
+/**
+ * Inline sign-up under a product hero: the newsletter form (product-interest checkboxes, consent)
+ * plus the social-proof line once the subscriber count passes the threshold. Shared by every
+ * product page so the hero form is identical everywhere; `after-error` lets a page add its own
+ * line under the form (Close Contact's guide mention).
+ */
+import NewsletterForm from '@/components/forms/NewsletterForm.astro';
+import { siteConfig } from '@/config/site';
+import { shouldShowSocialProof } from '@/config/variants';
+import type { ProductId } from '@/config/products';
+
+interface Props {
+  tone?: 'light' | 'dark';
+  preselect?: ProductId;
+}
+const { tone = 'light', preselect } = Astro.props;
+
+const showProof = shouldShowSocialProof(siteConfig.subscriberCount, siteConfig.proofThreshold);
+---
+
+<NewsletterForm id="hero" tone={tone} preselect={preselect}>
+  <slot name="after-error" slot="after-error" />
+</NewsletterForm>
+
+{showProof && (
+  <div class="mt-6 flex flex-wrap items-center justify-center gap-3.5">
+    <span class="inline-flex items-center gap-2.5 text-base font-bold">
+      <span class="inline-flex" aria-hidden="true">
+        <span class="size-8 rounded-full border-2 border-green bg-lime" />
+        <span class="-ml-2.5 size-8 rounded-full border-2 border-green bg-pink" />
+        <span class="-ml-2.5 size-8 rounded-full border-2 border-green bg-ink" />
+      </span>
+      {siteConfig.subscriberCount} people are already on the list
+    </span>
+  </div>
+)}

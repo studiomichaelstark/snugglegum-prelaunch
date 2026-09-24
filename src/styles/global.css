@@ -32,6 +32,9 @@
   --color-pink: var(--color-brand-pink);
   --color-lime: var(--color-brand-lime);
   --color-ink: var(--color-brand-ink);
+  --color-charcoal: var(--color-surface-charcoal);
+  --color-vignette-close-contact: var(--color-hero-vignette-close-contact);
+  --color-vignette-beauty: var(--color-hero-vignette-beauty);
   --color-white: var(--color-surface);
   --color-ink-muted: var(--color-text-muted-on-ink);
   --color-vitality: var(--color-accent-vitality);

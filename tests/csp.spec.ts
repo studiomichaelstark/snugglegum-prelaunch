@@ -42,6 +42,7 @@ test.describe('Content Security Policy (public/_headers)', () => {
       await page.getByRole('button', { name: 'Save choices' }).click();
       const form = page.locator('[data-newsletter][data-live="true"]').first();
       if (await form.count()) {
+        await form.locator('input[data-interest]').first().check();
         await form.locator('input[type="email"]').fill('anna@example.com');
         await form.locator('input[name="consent"]').check();
         await form.locator('button[type="submit"]').click();

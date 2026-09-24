@@ -7,31 +7,31 @@
  */
 import Audience from '@/components/sections/Audience.astro';
 import CloseContactFaq from '@/components/sections/CloseContactFaq.astro';
-import ChemistryOfGettingClose from '@/components/sections/ChemistryOfGettingClose.astro';
-import FinalCta from '@/components/sections/FinalCta.astro';
+import CloseContactChemistry from '@/components/sections/CloseContactChemistry.astro';
+import CloseContactFinalCta from '@/components/sections/CloseContactFinalCta.astro';
 import Footer from '@/components/sections/Footer.astro';
-import Hero from '@/components/sections/Hero.astro';
-import HowItWorks from '@/components/sections/HowItWorks.astro';
-import Marquee from '@/components/sections/Marquee.astro';
+import CloseContactHero from '@/components/sections/CloseContactHero.astro';
+import CloseContactHowItWorks from '@/components/sections/CloseContactHowItWorks.astro';
+import CloseContactMarquee from '@/components/sections/CloseContactMarquee.astro';
 import SupplementFacts from '@/components/sections/SupplementFacts.astro';
-import WhatsInside from '@/components/sections/WhatsInside.astro';
+import CloseContactBenefits from '@/components/sections/CloseContactBenefits.astro';
 import Base from '@/layouts/Base.astro';
 
-const title = 'Snugglegum™ Close Contact Nutrition Gummies';
+const title = 'Snugglegum™ Close Contact – Close Contact Nutrition Gummies';
 const description =
-  "Close Contact is Snugglegum™'s nutrition gummy: liquid-filled, pineapple-flavored, engineered to get you closer. Coming soon, 18+, USA first.";
+  "Close Contact is Snugglegum™'s Close Contact Nutrition gummy: liquid-filled, pineapple-flavored, engineered to get you closer. Coming soon, 18+, USA first.";
 ---
 
 <Base title={title} description={description} path="/close-contact" product={{ name: 'Snugglegum™ Close Contact' }}>
   <main id="main" class="max-w-full overflow-x-clip">
-    <Hero />
-    <HowItWorks />
-    <ChemistryOfGettingClose />
-    <WhatsInside />
+    <CloseContactHero />
+    <CloseContactHowItWorks />
+    <CloseContactChemistry />
+    <CloseContactBenefits />
     <Audience />
-    <Marquee />
+    <CloseContactMarquee />
     <CloseContactFaq />
-    <FinalCta />
+    <CloseContactFinalCta />
   </main>
   <Footer />
   <SupplementFacts />

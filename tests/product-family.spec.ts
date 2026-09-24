@@ -52,7 +52,8 @@ test.describe('product family: independent product pages', () => {
       await page.goto(product.path);
       await expect(page.locator('h1')).toHaveCount(1);
       await expect(page.locator('body')).toContainText('Snugglegum');
-      await expect(page.locator('body')).toContainText(/18\+/);
+      // Beauty has no age limit on its page copy, so no 18+ notice is expected there.
+      if (product.id !== 'beauty') await expect(page.locator('body')).toContainText(/18\+/);
 
       // A simple, non-nav way back to the homepage — not a conventional nav menu.
       await expect(page.getByRole('link', { name: 'All Snugglegum™ products' })).toHaveAttribute('href', '/');
@@ -149,4 +150,19 @@ test.describe('product family: UTM parameters are preserved', () => {
     expect(url.searchParams.get('utm_source')).toBe('instagram');
     expect(url.searchParams.get('utm_campaign')).toBe('launch');
   });
+});
+
+test.describe('product family: every product page has the same building blocks', () => {
+  for (const product of PRODUCTS) {
+    test(`${product.path}: hero signup, chemistry, what's inside, audience, marquee and closing signup`, async ({ consented: page }) => {
+      await page.goto(product.path);
+      await expect(page.locator('#hero form[data-newsletter-form]')).toHaveCount(1);
+      await expect(page.locator('section[id^="chemistry-of-"]')).toHaveCount(1);
+      for (const id of ['whats-inside', 'audience', 'marquee', 'faq']) {
+        await expect(page.locator(`section#${id}`), id).toHaveCount(1);
+      }
+      // The hero form plus the closing one.
+      await expect(page.locator('form[data-newsletter-form]')).toHaveCount(2);
+    });
+  }
 });

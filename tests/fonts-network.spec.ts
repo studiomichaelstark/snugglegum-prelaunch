@@ -40,6 +40,7 @@ test.describe('fonts and network', () => {
     expect(external).toEqual([]);
 
     const form = page.locator('[data-newsletter][data-live="true"]').first();
+    await form.locator('input[data-interest]').first().check();
     await form.locator('input[type="email"]').fill('anna@example.com');
     await form.locator('input[name="consent"]').check();
     await form.locator('button[type="submit"]').click();

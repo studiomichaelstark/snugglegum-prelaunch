@@ -3,7 +3,7 @@
  * visitor submits. Visible strings are read from <template> elements in NewsletterForm.astro.
  */
 
-type ErrorKind = 'invalid-email' | 'consent' | 'server' | 'already' | 'network' | 'rate-limit';
+type ErrorKind = 'invalid-email' | 'interest' | 'consent' | 'server' | 'already' | 'network' | 'rate-limit';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const REQUEST_TIMEOUT_MS = 15_000;
@@ -157,12 +157,21 @@ function bind(root: HTMLElement): void {
   const endpoint = root.dataset.endpoint ?? '';
   let submitting = false;
 
+  const interestInputs = Array.from(form.querySelectorAll<HTMLInputElement>('input[data-interest]'));
+
   emailInput?.addEventListener('input', () => clearError(form));
+  interestInputs.forEach((input) => input.addEventListener('change', () => clearError(form)));
   consentInput?.addEventListener('change', () => clearError(form));
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (submitting || !emailInput || !consentInput) return;
+
+    // Fields are validated in the order they appear: interests, email, consent.
+    if (!interestInputs.some((input) => input.checked)) {
+      showError(root, form, 'interest', interestInputs[0]);
+      return;
+    }
 
     const email = emailInput.value.trim();
     if (!EMAIL_PATTERN.test(email)) {

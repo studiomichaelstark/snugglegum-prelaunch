@@ -152,4 +152,39 @@ test.describe('newsletter form', () => {
     await expect(page.locator('[data-success-slot]').first()).toHaveAttribute('role', 'status');
     await expect(page.locator('#newsletter-error-hero')).toHaveAttribute('role', 'alert');
   });
+
+  test('requires at least one product interest', async ({ consented: page }) => {
+    const calls = await mockMailerLite(page, (route) => jsonResponse(route, { success: true }));
+    await page.goto('/');
+    const form = page.locator('[data-newsletter-form]').first();
+    await form.locator('input[type="email"]').fill('anna@example.com');
+    await form.locator('input[name="consent"]').check();
+    await form.locator('button[type="submit"]').click();
+
+    const alert = form.locator('[data-form-error]');
+    await expect(alert).toHaveText('Please pick at least one Snugglegum™ product.');
+    await expect(form.locator('input[data-interest]').first()).toBeFocused();
+    expect(calls).toHaveLength(0);
+
+    await form.locator('input[data-interest]').first().check();
+    await expect(alert).toBeHidden();
+  });
+
+  for (const route of ['/', '/close-contact', '/male-vitality', '/beauty']) {
+    test(`${route}: the interest picker is centered above the email field`, async ({ consented: page }) => {
+      await page.goto(route);
+      const forms = page.locator('[data-newsletter-form]');
+      for (let i = 0; i < (await forms.count()); i++) {
+        const form = forms.nth(i);
+        if (!(await form.isVisible())) continue;
+        const picker = (await form.locator('fieldset').boundingBox())!;
+        const email = (await form.locator('input[type="email"]').boundingBox())!;
+        expect(picker.y + picker.height).toBeLessThanOrEqual(email.y);
+        const chips = await form.locator('fieldset label').evaluateAll((els) => els.map((el) => el.getBoundingClientRect()));
+        const left = Math.min(...chips.map((c) => c.left));
+        const right = Math.max(...chips.map((c) => c.right));
+        expect(Math.abs((left + right) / 2 - (picker.x + picker.width / 2))).toBeLessThan(4);
+      }
+    });
+  }
 });

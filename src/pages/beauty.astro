@@ -1,36 +1,43 @@
 ---
 import beautyPouch from '@/assets/snugglegum-doypack-beauty-nutrition.png';
 import BeautyBenefits from '@/components/sections/BeautyBenefits.astro';
+import BeautyChemistry from '@/components/sections/BeautyChemistry.astro';
 import BeautyFaq from '@/components/sections/BeautyFaq.astro';
 import BeautyHowItWorks from '@/components/sections/BeautyHowItWorks.astro';
 import Footer from '@/components/sections/Footer.astro';
-import ButtonLink from '@/components/ui/ButtonLink.astro';
+import Audience from '@/components/sections/Audience.astro';
+import HeroSignup from '@/components/product/HeroSignup.astro';
+import ProductMarquee from '@/components/product/ProductMarquee.astro';
+import PouchStickers from '@/components/product/PouchStickers.astro';
 import ProductHero from '@/components/product/ProductHero.astro';
 import ProductNewsletter from '@/components/product/ProductNewsletter.astro';
+import SupplementFacts from '@/components/sections/SupplementFacts.astro';
 import Base from '@/layouts/Base.astro';
 
 const title = 'Snugglegum™ Beauty – Hair, Skin & Nail Nutrition Gummies';
 const description =
-  'Beauty is Snugglegum™’s Beauty Nutrition gummy: hair, skin and nail nutrition, engineered to get you closer. Coming soon, 18+, USA first.';
+  'Beauty is Snugglegum™’s Beauty Nutrition gummy: hair, skin and nail nutrition, engineered to get you closer. Coming soon, USA first.';
 ---
 
 <Base title={title} description={description} path="/beauty" product={{ name: 'Snugglegum™ Beauty' }}>
   <main id="main" class="max-w-full overflow-x-clip">
-    <ProductHero bgClass="bg-beauty" pouch={beautyPouch} pouchAlt="Snugglegum™ Beauty Nutrition pouch" tone="light">
+    <ProductHero bgClass="bg-beauty" pouch={beautyPouch} pouchAlt="Snugglegum™ Beauty Nutrition pouch" ageStamp={false} pouchGlow="bg-white/90" vignetteClass="to-vignette-beauty" tone="light">
       <Fragment slot="badge">Snugglegum™ · Beauty</Fragment>
-      <Fragment slot="headline">Beauty nutrition, engineered in.</Fragment>
-      <Fragment slot="subline">Beauty is Snugglegum™'s Beauty Nutrition gummy — hair, skin and nail support in a chewable dietary supplement, coming soon in the USA. 18+ only.</Fragment>
-      <div slot="cta" class="flex justify-center">
-        <ButtonLink href="#newsletter-beauty" variant="solid">Get on the list</ButtonLink>
-      </div>
+      <Fragment slot="headline">Your Beauty Routine Just Got Chewable.</Fragment>
+      <Fragment slot="subline">Beauty is Snugglegum’s daily gummy for hair, skin and nails — beauty nutrition in a seriously chewable form.<br>Get on the list and be first to try them.</Fragment>
+      <PouchStickers slot="stickers" circleLines={['Look Good.', 'Chew Better']} circleSide="right" reviewNote="Beauty stickers are copied from Close Contact (the 93 count is a placeholder)" />
+      <HeroSignup slot="cta" tone="light" preselect="beauty" />
     </ProductHero>
 
     <BeautyHowItWorks />
+    <BeautyChemistry />
     <BeautyBenefits />
+    <Audience showAgeLimit={false} />
+    <ProductMarquee phrases={['Beauty nutrition, engineered in', 'Gummies with benefits', 'Begum tasty', 'Gum once, thank me later']} />
     <BeautyFaq />
 
     <ProductNewsletter id="beauty" bgClass="bg-green" tone="dark" preselect="beauty">
-      <span slot="badge" class="label-caps inline-block animate-none rounded-full border-2 border-dashed border-ink bg-white px-[22px] py-[13px] text-base text-ink">
+      <span slot="badge" class="label-caps inline-block animate-[sg-bob_4.5s_ease-in-out_infinite] rounded-full border-2 border-dashed border-ink bg-white px-[22px] py-[13px] text-base text-ink">
         Pre-launch · list only
       </span>
       <h2 slot="heading" class="display-word stretch-display mt-6 text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] text-balance">
@@ -42,4 +49,5 @@ const description =
     </ProductNewsletter>
   </main>
   <Footer />
+  <SupplementFacts />
 </Base>

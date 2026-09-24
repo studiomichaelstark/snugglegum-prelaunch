@@ -23,12 +23,21 @@ interface Props {
   tone?: 'light' | 'dark';
   pouch: ImageMetadata;
   pouchAlt: string;
+  /** The "18+" stamp beside the pouch. Off for products without an age limit. */
+  ageStamp?: boolean;
+  /** Literal Tailwind fill class (e.g. "bg-pink/90") for a soft glow behind the pouch; pick a color that contrasts with bgClass. */
+  pouchGlow?: string;
+  /** Literal Tailwind end-color class for the edge vignette (e.g. "to-vignette-beauty"). Defaults to ink; the whole layer is drawn at 45% opacity. */
+  vignetteClass?: string;
 }
-const { bgClass, tone = 'light', pouch, pouchAlt } = Astro.props;
+const { bgClass, tone = 'light', pouch, pouchAlt, ageStamp = true, pouchGlow, vignetteClass } = Astro.props;
 const isDark = tone === 'dark';
+// Light edge vignette over the whole hero (back strip + section). Literal classes for Tailwind's scanner.
+const vignette = vignetteClass ?? 'to-ink';
 ---
 
-<div class:list={[bgClass, isDark ? 'on-dark text-white' : 'text-green']}>
+<div class:list={['relative isolate', bgClass, isDark ? 'on-dark text-white' : 'text-green']}>
+  <div aria-hidden="true" class:list={['pointer-events-none absolute inset-0 -z-10 bg-radial from-transparent from-75% opacity-45', vignette]}></div>
   <div class="px-[clamp(20px,5vw,48px)] pt-6">
     <div class="container-lg">
       <BackToHome />
@@ -56,6 +65,7 @@ const isDark = tone === 'dark';
 
         <div class="relative mt-[max(-80px,calc(-9vw+40px))] flex justify-center md:mt-[clamp(-80px,-9vw,-36px)]">
           <div class="relative aspect-[771/964] w-[min(75%,390px)] animate-[sg-bob_7s_ease-in-out_infinite] md:w-[min(100%,520px)]">
+            {pouchGlow && <div aria-hidden="true" class:list={["pointer-events-none absolute inset-[2%_-12%] rounded-full blur-[50px] md:blur-[70px]", pouchGlow]} />}
             <Picture
               src={pouch}
               alt={pouchAlt}
@@ -70,7 +80,9 @@ const isDark = tone === 'dark';
 
             <slot name="stickers" />
 
-            <StampBadge class="absolute top-[44%] right-[calc(-4%-32px)] z-[2] size-[104px] md:right-[calc(-4%-40px)] md:size-[130px] [transform:rotate(7deg)] text-white animate-[sg-float_6.8s_ease-in-out_infinite] [--r:7deg]" />
+            {ageStamp && (
+              <StampBadge class="absolute top-[44%] right-[calc(-4%-32px)] z-[2] size-[104px] md:right-[calc(-4%-40px)] md:size-[130px] [transform:rotate(7deg)] text-white animate-[sg-float_6.8s_ease-in-out_infinite] [--r:7deg]" />
+            )}
           </div>
         </div>
       </div>

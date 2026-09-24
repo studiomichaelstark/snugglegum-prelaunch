@@ -1,6 +1,12 @@
 ---
 import ArrowIcon from "@/components/ui/ArrowIcon.astro";
 
+interface Props {
+  /** Lists "Under 18s" under "Who it's not". Off for products without an age limit. */
+  showAgeLimit?: boolean;
+}
+const { showAgeLimit = true } = Astro.props;
+
 const item = "flex items-start gap-3.5";
 const box = "rounded-card p-[clamp(28px,3.5vw,48px)]";
 const heading = "display-word mt-3 text-[clamp(2rem,3.5vw,3rem)] leading-[0.92] tracking-normal stretch-hero";
@@ -34,10 +40,12 @@ const heading = "display-word mt-3 text-[clamp(2rem,3.5vw,3rem)] leading-[0.92] 
       <p class="label-caps text-[17px]">Not really</p>
       <h2 class:list={[heading]}>Who it's not</h2>
       <ul class="mt-[26px] grid gap-4 text-xl leading-[1.4]">
-        <li class:list={[item]}>
-          <ArrowIcon class="mt-[0.3em]" />
-          <span>Under 18s (come back later).</span>
-        </li>
+        {showAgeLimit && (
+          <li class:list={[item]}>
+            <ArrowIcon class="mt-[0.3em]" />
+            <span>Under 18s (come back later).</span>
+          </li>
+        )}
         <li class:list={[item]}>
           <ArrowIcon class="mt-[0.3em]" />
           <span>The easily offended.</span>

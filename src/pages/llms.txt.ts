@@ -24,7 +24,7 @@ export const GET: APIRoute = ({ site }) => {
 ## Pages
 
 - [Home](${origin}/): the Snugglegum™ family — all three products, brand positioning, general FAQ and launch-list sign-up
-- [Close Contact](${origin}/close-contact): the product page — how it works, ingredients, dedicated FAQ
+- [Close Contact](${origin}/close-contact): the Close Contact Nutrition product page — how it works, ingredients, dedicated FAQ
 - [Male Vitality](${origin}/male-vitality): the Intimate Male Fitness product page
 - [Beauty](${origin}/beauty): the Beauty Nutrition product page
 - [Imprint](${origin}/imprint): operator information

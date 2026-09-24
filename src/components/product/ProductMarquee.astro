@@ -1,0 +1,25 @@
+---
+/**
+ * Scrolling brand-line band, same look and motion as CloseContactMarquee.astro (Close Contact's, whose lines
+ * are body-taste specific). Takes plain phrases so each product page brings its own; the second
+ * list is the aria-hidden duplicate that makes the loop seamless.
+ */
+interface Props {
+  phrases: string[];
+}
+const { phrases } = Astro.props;
+
+const list = "stretch-tight flex gap-10 pr-10 text-[clamp(1.7rem,4.4vw,3.25rem)] leading-none font-black whitespace-nowrap text-pink uppercase";
+const phrase = 'after:ml-10 after:content-["•"]';
+---
+
+<section id="marquee" aria-label="Made for" class="overflow-hidden bg-green py-[clamp(3rem,7vw,5rem)]">
+  <div class="marquee-track flex w-max animate-[sg-marquee_22s_linear_infinite]">
+    <ul class:list={[list]}>
+      {phrases.map((text) => <li class:list={[phrase]}>{text}</li>)}
+    </ul>
+    <ul aria-hidden="true" class:list={[list]}>
+      {phrases.map((text) => <li class:list={[phrase]}>{text}</li>)}
+    </ul>
+  </div>
+</section>

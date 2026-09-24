@@ -8,7 +8,7 @@
   /* Brand */
   --color-brand-green: #045442;
   --color-brand-pink: #f9cee1;
-  --color-brand-lime: #c7e44c;
+  --color-brand-lime: #b89cff;
   --color-brand-ink: #0e0e0e;
 
   /* Semantic */
@@ -18,6 +18,11 @@
   --color-link-hover: #0a7a5f;
   --color-selection: #e4bdcf;
   --color-text-muted-on-ink: #cccccc;
+  /* Dark charcoal surface behind every product page's "How it works" (white text: 16.1:1). */
+  --color-surface-charcoal: #202020;
+  /* Edge color of the hero vignette on the Close Contact and Beauty pages. */
+  --color-hero-vignette-close-contact: #cba9bb;
+  --color-hero-vignette-beauty: #c4ad9c;
 
   /*
    * Per-product accent surfaces (product-family site). Close Contact keeps the brand tokens above

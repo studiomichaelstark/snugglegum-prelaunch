@@ -1,0 +1,33 @@
+---
+/**
+ * The two floating stickers over a product pouch ("93 chews inside", "You know why pineapple").
+ * Absolutely positioned, so it must sit inside ProductHero's `stickers` slot. `reviewNote` flags
+ * the copy for approval on pages where it was carried over from Close Contact; `circleLines` sets
+ * the round sticker's text, one entry per line; `circleSide="right"` moves it to where the 18+ stamp
+ * sits (for pages without that stamp).
+ */
+interface Props {
+  reviewNote?: string;
+  circleLines?: string[];
+  circleSide?: 'left' | 'right';
+}
+const { reviewNote, circleLines = ['You know why', 'pineapple'], circleSide = 'left' } = Astro.props;
+
+// Literal class strings so Tailwind's scanner sees them.
+const circlePosition = {
+  left: 'bottom-5 left-[-2%] [transform:rotate(-5deg)] animate-[sg-float_8s_ease-in-out_infinite] [--r:-5deg]',
+  right: 'top-[44%] right-[calc(-4%-32px)] md:right-[calc(-4%-40px)] [transform:rotate(7deg)] animate-[sg-float_6.8s_ease-in-out_infinite] [--r:7deg]',
+};
+
+const sticker = "sticker-shadow absolute z-[2] font-bold leading-[1.3] tracking-[0.06em] text-ink uppercase text-center text-[clamp(12px,1.15vw,16px)] border-2 border-dashed border-ink bg-white";
+---
+
+<span class:list={[sticker, "top-[calc(8%+110px)] left-[-14%] w-[120px] [transform:rotate(-8deg)] rounded-[10px] px-[14px] py-[11px] animate-[sg-float_5.5s_ease-in-out_infinite] [--r:-8deg] md:w-[150px] md:px-[18px] md:py-3.5"]} data-copy-review={reviewNote}>
+  93 chews
+  <br />
+  inside
+</span>
+
+<span class:list={[sticker, circlePosition[circleSide], "flex size-[112px] items-center justify-center rounded-full p-2 md:size-[140px] md:p-[22px]"]} data-copy-review={reviewNote}>
+  {circleLines.map((line, index) => (<>{index > 0 && <br />}{line}</>))}
+</span>
