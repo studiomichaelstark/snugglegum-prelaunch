@@ -1,7 +1,7 @@
 ---
 /**
  * Shared hero for every product page: back-to-home strip, wordmark, badge pill, headline, subline,
- * the giant "GUMMIES" backdrop word, the product pouch with the 18+ stamp, and a CTA. The look and
+ * the giant "GUMMIES" backdrop word, the product pouch, and a CTA. The look and
  * motion (bobbing pill and pouch, floating stamp/stickers) are defined once here; each page only
  * supplies its own copy through slots:
  *   badge     – text inside the pill above the headline
@@ -9,13 +9,12 @@
  *   subline   – paragraph under the headline
  *   stickers  – optional absolutely-positioned stickers over the pouch (Close Contact only)
  *   cta       – call to action under the pouch (button or inline form)
- * `bgClass` is a literal Tailwind class from the caller (e.g. "bg-vitality" or "bg-beauty") — never
+ * `bgClass` is a literal Tailwind class from the caller (e.g. "bg-sport" or "bg-beauty") — never
  * built from a variable at runtime, so Tailwind's build-time scanner always sees it.
  */
 import { Picture } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Logo from '@/components/logo/Logo.astro';
-import StampBadge from '@/components/logo/StampBadge.astro';
 import BackToHome from './BackToHome.astro';
 
 interface Props {
@@ -23,14 +22,12 @@ interface Props {
   tone?: 'light' | 'dark';
   pouch: ImageMetadata;
   pouchAlt: string;
-  /** The "18+" stamp beside the pouch. Off for products without an age limit. */
-  ageStamp?: boolean;
   /** Literal Tailwind fill class (e.g. "bg-pink/90") for a soft glow behind the pouch; pick a color that contrasts with bgClass. */
   pouchGlow?: string;
   /** Literal Tailwind end-color class for the edge vignette (e.g. "to-vignette-beauty"). Defaults to ink; the whole layer is drawn at 45% opacity. */
   vignetteClass?: string;
 }
-const { bgClass, tone = 'light', pouch, pouchAlt, ageStamp = true, pouchGlow, vignetteClass } = Astro.props;
+const { bgClass, tone = 'light', pouch, pouchAlt, pouchGlow, vignetteClass } = Astro.props;
 const isDark = tone === 'dark';
 // Light edge vignette over the whole hero (back strip + section). Literal classes for Tailwind's scanner.
 const vignette = vignetteClass ?? 'to-ink';
@@ -80,9 +77,6 @@ const vignette = vignetteClass ?? 'to-ink';
 
             <slot name="stickers" />
 
-            {ageStamp && (
-              <StampBadge class="absolute top-[44%] right-[calc(-4%-32px)] z-[2] size-[104px] md:right-[calc(-4%-40px)] md:size-[130px] [transform:rotate(7deg)] text-white animate-[sg-float_6.8s_ease-in-out_infinite] [--r:7deg]" />
-            )}
           </div>
         </div>
       </div>

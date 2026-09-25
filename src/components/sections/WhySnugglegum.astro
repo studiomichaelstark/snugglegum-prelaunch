@@ -5,15 +5,16 @@ import Brand from '@/components/ui/Brand.astro';
 ---
 
 <section id="why-snugglegum" class="section-px section-py bg-pink">
-  <div class="mx-auto max-w-[1000px]">
-    <h2 class="display-word text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] stretch-display">
+  <div class="mx-auto max-w-[1100px]">
+    <h2 class="display-word text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] stretch-display pb-10">
       Why <Brand size="display" />
     </h2>
   </div>
 
-  <div class="mx-auto mt-5 max-w-[1000px] grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-[clamp(32px,5vw,72px)]">
+  <div class="mx-auto mt-5 max-w-[1100px] grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-[clamp(32px,5vw,72px)]">
     <div>
-      <p class="max-w-[36ch] text-xl leading-normal">One family, one attitude, three ways to get closer.</p>
+      <h3 class="max-w-[36ch] text-[20px] leading-[1.25] font-black uppercase pb-2">One family. Three ways to get closer to the way you want to feel.</h3>
+      <p class="max-w-[36ch] text-xl leading-normal">Different goals, different formulas — one unapologetically cheeky approach to functional nutrition.</p>
     </div>
 
     <div>
@@ -35,10 +36,6 @@ import Brand from '@/components/ui/Brand.astro';
             Every <Brand /> product launches to the pre-launch list before it goes public —
             discount, free shipping and a founding number included.
           </Fragment>
-        </ProductBenefit>
-        <ProductBenefit>
-          <Fragment slot="name">18+, on purpose</Fragment>
-          <Fragment slot="description">Because our humor is.</Fragment>
         </ProductBenefit>
       </ul>
     </div>

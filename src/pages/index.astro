@@ -2,7 +2,7 @@
 /**
  * Homepage: the Snugglegum™ product-family gateway. Presents all three products and the umbrella
  * brand; detailed, product-specific content (how it works, ingredients, dedicated FAQs) lives on
- * each product's own page instead (see /close-contact, /male-vitality, /beauty).
+ * each product's own page instead (see /close-contact, /protein-energy, /beauty).
  */
 import FamilyHero from '@/components/sections/FamilyHero.astro';
 import Footer from '@/components/sections/Footer.astro';
@@ -14,7 +14,7 @@ import Base from '@/layouts/Base.astro';
 
 const title = 'Snugglegum™ — Functional Gummies Engineered to Get Closer';
 const description =
-  'Snugglegum™ is a family of functional gummies: Close Contact, Male Vitality and Beauty. Coming soon in the USA, 18+ only. Join the list to hear first.';
+  'Snugglegum™ is a family of functional gummies: Close Contact, Protein Energy and Beauty. Coming soon in the USA. Join the list to hear first.';
 ---
 
 <Base title={title} description={description} path="/">
@@ -31,9 +31,6 @@ const description =
       <h2 slot="heading" class="display-word stretch-display mt-6 text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] text-balance">
         Ready to get closer?
       </h2>
-      <p slot="subline" class="mt-[30px] text-center text-2xl leading-[1.4] font-bold text-white">
-        Pick your product (or all three) and join the pre-launch list.
-      </p>
     </ProductNewsletter>
   </main>
   <Footer />

@@ -1,0 +1,51 @@
+---
+/**
+ * "The chemistry of protein energy" — the same editorial explainer as CloseContactChemistry.astro
+ * (Close Contact), written for this product. Headline and closing line are client copy; the rest stays
+ * conservative (no amounts, no muscle or recovery claims). Every paragraph carries data-copy-review, so
+ * `pnpm check:placeholders` lists it until it is approved.
+ */
+import Brand from "@/components/ui/Brand.astro";
+const h3 = "text-[26px] leading-[1.05] font-black uppercase";
+const body = "mt-2 text-xl leading-[1.6]";
+const block = "border-t-2 border-dashed border-green pt-[clamp(24px,3vw,40px)]";
+---
+
+<section id="chemistry-of-protein-energy" class="section-px section-py bg-white">
+  <div class="container-lg">
+    <div class="mx-auto max-w-[760px]">
+      <p class="label-caps flex items-center gap-3 text-[17px] text-green">
+        <span aria-hidden="true" class="size-2.5 flex-none animate-[sg-blink_1.6s_ease-in-out_infinite] rounded-full bg-green"></span>
+        The chemistry of protein energy
+      </p>
+
+      <h2 class="display-word stretch-display mt-4 text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88]">Looks like candy. Works like fuel.</h2>
+
+      <div class="mt-[clamp(28px,3vw,44px)] grid gap-[clamp(20px,3vw,32px)]">
+        <p class="text-xl leading-[1.6]" data-copy-review="Protein Energy copy: no claims while the formula is pending (intro)">
+          Whatever you train for, it starts with what your body has to work with. <strong><Brand /> Protein Energy is designed to fit into your training routine</strong> — a chewable extra, not a shortcut.
+        </p>
+
+        <div class:list={[block]}>
+          <h3 class:list={[h3]}>Your training is the whole story.</h3>
+          <p class:list={[body]} data-copy-review="Protein Energy copy: no claims while the formula is pending (block 1)">
+            Sessions, food, sleep and rest days all shape how you feel from one day to the next. <strong>No gummy replaces any of them</strong> — Protein Energy is meant to sit alongside your training.
+          </p>
+        </div>
+
+        <div class:list={[block]}>
+          <h3 class:list={[h3]}>That's where Protein Energy comes in.</h3>
+          <p class:list={[body]} data-copy-review="Protein Energy copy: no claims while the formula is pending (block 2)">
+            A chewable dietary supplement built around protein, with a liquid center and no shaker required. The formula is still being finalized — we will share exactly what is in it once it is locked in.
+          </p>
+        </div>
+
+        <div class:list={[block]}>
+          <p class="text-xl leading-[1.6]" data-copy-review="Protein Energy copy: no claims while the formula is pending (close)">
+            Because getting your protein shouldn’t require carrying a shaker bottle everywhere you go. <strong>It doesn't replace good food, sleep, training or a doctor's advice.</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

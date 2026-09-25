@@ -1,6 +1,6 @@
 # Snugglegum™ pre-launch landing page
 
-A fully static, one-page landing site (plus `/imprint` and `/privacy`) for Snugglegum™, built from the Claude Design handoff. US-English, adults 18+ only.
+A fully static, one-page landing site (plus `/imprint` and `/privacy`) for Snugglegum™, built from the Claude Design handoff. US-English.
 
 ## Stack
 
@@ -200,7 +200,7 @@ Projects: Chromium, Firefox and WebKit, each at a desktop and a mobile viewport,
 | `a11y` | axe at WCAG 2.2 AA on every route and with each dialog open, keyboard navigation, focus outlines, reduced motion, touch targets |
 | `fonts-network` | Only local fonts, no external origins, MailerLite contacted only after submit |
 | `csp` | Every page runs under the real CSP from `public/_headers` without a violation |
-| `unit/guardrails` | No banned words in built output, sources or docs; ™ on every brand mention (`<Brand />` in visible text, no `<sup>`); 18+ notice; offer variants |
+| `unit/guardrails` | No banned words in built output, sources or docs; ™ on every brand mention (`<Brand />` in visible text, no `<sup>`); offer variants |
 | `unit/colors`, `unit/variants` | Color rule, design knobs |
 | `unit/placeholders` | `.env` resolution (empty, value, `n/a`, fallback, review flag) and the `check:placeholders` report |
 | `unit/rendered-check` | The post-build HTML check: every failure above on a synthetic `dist/`, plus the real build |

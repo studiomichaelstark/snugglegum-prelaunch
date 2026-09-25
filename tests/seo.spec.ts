@@ -38,7 +38,7 @@ test.describe('SEO', () => {
       const heroImage = page.locator('#hero img');
       const pouchAlts: Record<string, RegExp> = {
         '/close-contact': /Snugglegum™ Close Contact pouch/,
-        '/male-vitality': /Snugglegum™ Male Vitality pouch/,
+        '/protein-energy': /Snugglegum™ Protein Energy pouch/,
         '/beauty': /Snugglegum™ Beauty Nutrition pouch/,
       };
       if (pouchAlts[route]) await expect(heroImage).toHaveAttribute('alt', pouchAlts[route]);
@@ -76,7 +76,7 @@ test.describe('SEO', () => {
     const sitemap = await request.get('/sitemap.xml');
     expect(sitemap.ok()).toBe(true);
     const xml = await sitemap.text();
-    for (const path of ['/', '/close-contact', '/male-vitality', '/beauty', '/imprint', '/privacy'])
+    for (const path of ['/', '/close-contact', '/protein-energy', '/beauty', '/imprint', '/privacy'])
       expect(xml).toContain(`${SITE}${path}`);
 
     expect((await request.get('/sitemap-index.xml')).ok()).toBe(true);

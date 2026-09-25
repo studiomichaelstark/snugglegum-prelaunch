@@ -87,27 +87,14 @@ test.describe('content guardrails', () => {
     expect(read('dist/index.html').match(BRAND_MARKUP)?.length ?? 0).toBeGreaterThan(5);
   });
 
-  test('the 18+ notice is in the built home page', () => {
-    const html = read('dist/index.html');
-    expect(html).toContain('18+ only');
-  });
-
-  test('the 18+ stamp is on the Close Contact page', () => {
-    const html = read('dist/close-contact.html');
-    expect(html).toContain('Gummies for grownups only');
-    expect(html).toContain('18+ only');
-  });
-
-  test('Male Vitality states its 18+ audience', () => {
-    expect(read('dist/male-vitality.html')).toMatch(/18\+/);
-  });
-
-  test('the Beauty page copy, FAQ, stamp and description carry no 18+ notice', () => {
-    const html = read('dist/beauty.html');
-    expect(html).not.toContain('Gummies for grownups only');
-    expect(html).not.toContain('Under 18s');
-    expect(html).not.toMatch(/Why is Beauty 18\+/);
-    expect(html).not.toMatch(/<meta name="description" content="[^"]*18\+/);
+  test('no page, llms.txt or manifest mentions an age limit (18+, "18 or older", "under 18", the stamp)', () => {
+    const offenders = builtFiles().flatMap((file) => {
+      const text = read(file);
+      return [...text.matchAll(/18\+|18 or older|[Uu]nder 18|18 and over|aged 18|grownups only/g)].map(
+        (m) => `${file}: ${context(text, m.index!)}`,
+      );
+    });
+    expect(offenders).toEqual([]);
   });
 
   test('offer variants: no discount card and no social proof by default', () => {

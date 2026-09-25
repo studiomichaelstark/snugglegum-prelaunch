@@ -43,7 +43,7 @@ test.describe('newsletter form', () => {
     await page.locator('form:has(#newsletter-email-hero) button[type="submit"]').click();
 
     await expect(page.locator('#newsletter-error-hero')).toHaveText(
-      'Please confirm you’re 18 or older and agree to the emails.',
+      'Please confirm you agree to the emails.',
     );
     await expect(page.locator(CONSENT_FIELD)).toBeFocused();
     expect(calls).toHaveLength(0);
@@ -170,7 +170,7 @@ test.describe('newsletter form', () => {
     await expect(alert).toBeHidden();
   });
 
-  for (const route of ['/', '/close-contact', '/male-vitality', '/beauty']) {
+  for (const route of ['/', '/close-contact', '/protein-energy', '/beauty']) {
     test(`${route}: the interest picker is centered above the email field`, async ({ consented: page }) => {
       await page.goto(route);
       const forms = page.locator('[data-newsletter-form]');

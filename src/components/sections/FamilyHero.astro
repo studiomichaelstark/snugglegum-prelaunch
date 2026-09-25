@@ -7,7 +7,7 @@
 import { Picture } from 'astro:assets';
 import Logo from '@/components/logo/Logo.astro';
 import closeContactPouch from '@/assets/snugglegum-doypack-close-contact.png';
-import maleVitalityPouch from '@/assets/snugglegum-doypack-male-vitality.png';
+import proteinEnergyPouch from '@/assets/snugglegum-doypack-protein-energy.png';
 import beautyPouch from '@/assets/snugglegum-doypack-beauty-nutrition.png';
 import ButtonLink from '@/components/ui/ButtonLink.astro';
 import Brand from '@/components/ui/Brand.astro';
@@ -67,10 +67,10 @@ import Brand from '@/components/ui/Brand.astro';
       </li>
 
       <li class="on-dark rounded-card flex flex-col items-center text-center p-[clamp(24px,3vw,32px)] text-white">
-        <a href="/male-vitality" tabindex="-1" aria-hidden="true" class="relative isolate mx-auto mb-6 block w-full max-w-[380px]">
+        <a href="/protein-energy" tabindex="-1" aria-hidden="true" class="relative isolate mx-auto mb-6 block w-full max-w-[380px]">
           <div aria-hidden="true" class="pointer-events-none absolute inset-[2%_-12%] -z-10 rounded-full bg-white/90 blur-[30px] md:blur-[40px]"></div>
           <Picture
-            src={maleVitalityPouch}
+            src={proteinEnergyPouch}
             alt=""
             formats={["avif", "webp"]}
             widths={[320, 480, 771]}
@@ -78,10 +78,10 @@ import Brand from '@/components/ui/Brand.astro';
             class="block h-auto w-full"
           />
         </a>
-        <p class="label-caps text-sm text-ink">Male Vitality</p>
-        <h2 class="mt-2 text-2xl text-green font-black uppercase leading-[1.05]">Intimate Male Fitness</h2>
-        <p class="mt-2.5 text-lg text-ink leading-normal">Everyday nutritional support for men, in a gummy, not a pill bottle.</p>
-        <ButtonLink href="/male-vitality" size="sm" class="mt-6">Explore Male Vitality</ButtonLink>
+        <p class="label-caps text-sm text-ink">Protein Energy</p>
+        <h2 class="mt-2 text-2xl text-green font-black uppercase leading-[1.05]">Protein Sport Nutrition</h2>
+        <p class="mt-2.5 text-lg text-ink leading-normal" data-copy-review="nutrient content and energy claims (protein, energy, zero sugar): formula not final, needs legal review">Protein. Energy. Zero sugar. No shaker required.</p>
+        <ButtonLink href="/protein-energy" size="sm" class="mt-6">Explore Protein Energy</ButtonLink>
       </li>
     </ul>
   </div>

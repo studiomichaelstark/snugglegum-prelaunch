@@ -1,0 +1,94 @@
+---
+/**
+ * Protein Energy's "what's inside". Item copy is supplied by the client (high protein, fast carbs, caffeine,
+ * more functional ingredients). No amounts, flavor or serving size are stated because the formula is not
+ * final; every formula-dependent line is flagged with data-copy-review (same mechanism CloseContactFaq.astro
+ * uses for pending copy). Replace or tighten the items once the formula is written.
+ */
+const item = "flex items-start gap-[18px] border-b-2 border-dashed border-white/40 py-[22px] last:border-b-0";
+const plus = "flex size-11 flex-none items-center justify-center rounded-full border-2 border-pink text-2xl leading-none font-black";
+const name = "text-[26px] leading-[1.05] font-black uppercase";
+const desc = "mt-2 text-[19px] leading-normal";
+---
+
+<section id="whats-inside" class="on-dark section-px section-py bg-sport text-white">
+  <div class="container-lg grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-[clamp(32px,5vw,72px)]">
+    <div>
+      <h2 class="display-word text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] stretch-display text-pink">What's inside</h2>
+      <p class="mt-5 max-w-[36ch] text-xl leading-normal" data-copy-review="Protein Energy formula not yet finalized: no ingredient list to show">
+        The formula is still being finalized. Here's what we can already tell you.
+      </p>
+      <button type="button" data-dialog-open="supplement-facts" aria-haspopup="dialog" class="label-caps rounded-card mt-8 flex w-full cursor-pointer items-center justify-between gap-3 border-2 border-dashed border-pink bg-white/10 text-white px-6 py-5 text-[17px]">
+        Supplement Facts
+        <span aria-hidden="true" class="text-xl font-black">
+          +
+        </span>
+      </button>
+    </div>
+
+    <div>
+      <ul>
+        <li class:list={[item]}>
+          <span aria-hidden="true" class:list={[plus]}>
+            +
+          </span>
+          <div>
+            <h3 class:list={[name]}>High protein</h3>
+            <p class:list={[desc]} data-copy-review="nutrient content claim (high-protein): protein amount not final, needs legal review">A serious dose of protein in a seriously chewable format.</p>
+          </div>
+        </li>
+        <li class:list={[item]}>
+          <span aria-hidden="true" class:list={[plus]}>
+            +
+          </span>
+          <div>
+            <h3 class:list={[name]}>Fast carbs</h3>
+            <p class:list={[desc]} data-copy-review="energy claim (glucose): carb amount not final, needs legal review">Glucose for quick, readily available energy when you need fuel fast.</p>
+          </div>
+        </li>
+        <li class:list={[item]}>
+          <span aria-hidden="true" class:list={[plus]}>
+            +
+          </span>
+          <div>
+            <h3 class:list={[name]}>Caffeine</h3>
+            <p class:list={[desc]} data-copy-review="caffeine content and effect claim: amount not final, caffeine warning/labeling needs legal review">A purposeful caffeine kick for moments when you want to feel more switched on.</p>
+          </div>
+        </li>
+        <li class:list={[item]}>
+          <span aria-hidden="true" class:list={[plus]}>
+            +
+          </span>
+          <div>
+            <h3 class:list={[name]}>More functional ingredients</h3>
+            <p class:list={[desc]} data-copy-review="vague performance/energy claim; ingredient list not yet finalized">A carefully selected combination of ingredients commonly found in performance and energy products.</p>
+          </div>
+        </li>
+        <li class:list={[item]}>
+          <span aria-hidden="true" class:list={[plus]}>
+            +
+          </span>
+          <div>
+            <h3 class:list={[name]}>Zero sugar</h3>
+            <p class:list={[desc]} data-copy-review="zero sugar claim (nutrient content claim): conflicts with glucose (fast carbs) in the same copy and with the Supplement Facts placeholder (8g added sugar); needs legal review">All the candy fun, none of the sugar.</p>
+          </div>
+        </li>
+        <li class:list={[item]}>
+          <span aria-hidden="true" class:list={[plus]}>
+            +
+          </span>
+          <div>
+            <h3 class:list={[name]}>Liquid center</h3>
+            <p class:list={[desc]} data-copy-review="flavor not stated on the page; the pouch artwork says Energy flavor (Energy-supporting ingredients), confirm it and the wording">Because a solid chew is just candy.</p>
+          </div>
+        </li>
+      </ul>
+      <p class="mt-6 text-lg leading-[1.6] opacity-90" data-copy-review="Protein Energy serving size not yet finalized; the Supplement Facts panel is still the Close Contact placeholder">
+        Serving size: to be confirmed once the formula is final. The label is the definitive source. Please don't exceed the recommended amount, more isn't better, it's just more.
+        <button type="button" data-dialog-open="supplement-facts" aria-haspopup="dialog" class="cursor-pointer underline">
+          See Supplement Facts
+        </button>
+      </p>
+    </div>
+  </div>
+</section>

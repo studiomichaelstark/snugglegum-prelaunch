@@ -1,0 +1,62 @@
+---
+import proteinEnergyPouch from '@/assets/snugglegum-doypack-protein-energy.png';
+import Footer from '@/components/sections/Footer.astro';
+import ProteinEnergyBenefits from '@/components/sections/ProteinEnergyBenefits.astro';
+import ProteinEnergyChemistry from '@/components/sections/ProteinEnergyChemistry.astro';
+import ProteinEnergyFaq from '@/components/sections/ProteinEnergyFaq.astro';
+import ProteinEnergyHowItWorks from '@/components/sections/ProteinEnergyHowItWorks.astro';
+import Audience from '@/components/sections/Audience.astro';
+import HeroSignup from '@/components/product/HeroSignup.astro';
+import ProductMarquee from '@/components/product/ProductMarquee.astro';
+import PouchStickers from '@/components/product/PouchStickers.astro';
+import ProductHero from '@/components/product/ProductHero.astro';
+import ProductNewsletter from '@/components/product/ProductNewsletter.astro';
+import SupplementFacts from '@/components/sections/SupplementFacts.astro';
+import Base from '@/layouts/Base.astro';
+import Brand from '@/components/ui/Brand.astro';
+
+const title = 'Snugglegum™ Protein Energy – Protein Sport Nutrition';
+const description =
+  'Protein Energy is Snugglegum™’s Protein Sport Nutrition gummy: protein, fast carbs and caffeine, zero sugar, no shaker required. Coming soon, USA first.';
+---
+
+<Base title={title} description={description} path="/protein-energy" product={{ name: 'Snugglegum™ Protein Energy' }}>
+  <main id="main" class="max-w-full overflow-x-clip">
+    <ProductHero bgClass="bg-sport" pouch={proteinEnergyPouch} pouchAlt="Snugglegum™ Protein Energy pouch of liquid-filled gummies" pouchGlow="bg-pink/90" tone="dark">
+      <Fragment slot="badge"><Brand /> · Protein Energy</Fragment>
+      <Fragment slot="headline"><span data-copy-review="nutrient content and energy claims (protein, energy, caffeine): formula not final, needs legal review">Protein. Energy. No shaker required.</span></Fragment>
+      <Fragment slot="subline">A <strong>high-protein</strong>, <span data-copy-review="zero sugar claim (nutrient content claim): conflicts with glucose (fast carbs) in the same copy and with the Supplement Facts placeholder (8g added sugar); needs legal review"><strong>zero-sugar</strong></span> gummy loaded with protein, fast carbs and a kick of <strong>caffeine</strong> — made for workouts.<br>Join the list. You’ll want to be early.</Fragment>
+      <PouchStickers slot="stickers" circleLines={['Daily', 'Muscle', 'Candy']} circleSide="right" reviewNote="Protein Energy stickers are copied from Close Contact (the 93 count is a placeholder)" />
+      <HeroSignup slot="cta" tone="dark" preselect="protein-energy" />
+    </ProductHero>
+
+    <ProteinEnergyHowItWorks />
+    <ProteinEnergyChemistry />
+    <ProteinEnergyBenefits />
+    <Audience
+      forItems={[
+        'Lifters who track every set and read every label.',
+        'Runners, riders and swimmers with a full kit bag.',
+        'Weekend warriors and team-sport regulars.',
+        'Anyone whose gym bag is one shaker too heavy.',
+      ]}
+      notItems={['Anyone hoping a gummy can do the training for them.', 'People who genuinely enjoy washing shakers.']}
+    />
+    <ProductMarquee phrases={['Looks like candy. Works like fuel.', 'Zero sugar. Zero shaker.', 'Begum tasty', 'Gum once, thank me later']} />
+    <ProteinEnergyFaq />
+
+    <ProductNewsletter id="protein-energy" bgClass="bg-green" tone="dark" preselect="protein-energy">
+      <span slot="badge" class="label-caps inline-block animate-[sg-bob_4.5s_ease-in-out_infinite] rounded-full border-2 border-dashed border-ink bg-white px-[22px] py-[13px] text-base text-ink">
+        Pre-launch · list only
+      </span>
+      <h2 slot="heading" class="display-word stretch-display mt-6 text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] text-balance">
+        Ready to ditch the shaker?
+      </h2>
+      <p slot="subline" class="mt-[30px] text-center text-2xl leading-[1.4] font-bold text-white">
+        Join the list for the pre-launch offer: free shipping on your first order.
+      </p>
+    </ProductNewsletter>
+  </main>
+  <Footer />
+  <SupplementFacts />
+</Base>

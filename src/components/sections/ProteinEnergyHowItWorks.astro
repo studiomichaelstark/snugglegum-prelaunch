@@ -1,8 +1,8 @@
 ---
 /**
- * Male Vitality's "how it works". Deliberately generic and claim-free: no ejaculation volume,
- * fertility, testosterone or sperm count claims, and no specific ingredient promised until the
- * formula is final (see the data-copy-review flag in step 2, and MaleVitalityBenefits.astro).
+ * Protein Energy's "how it works". Copy supplied by the client (protein, glucose, caffeine, "energy"). The
+ * claims are flagged data-copy-review for legal review; no amounts are stated until the formula is final
+ * (see the flag in step 2, and ProteinEnergyBenefits.astro).
  */
 import ProductStep from '@/components/product/ProductStep.astro';
 import ImagePlaceholder from '@/components/ui/ImagePlaceholder.astro';
@@ -12,15 +12,16 @@ import ImagePlaceholder from '@/components/ui/ImagePlaceholder.astro';
   <div class="container-lg">
     <div class="flex flex-wrap items-end justify-between gap-6">
       <h2 class="display-word stretch-display text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] text-pink">How it works</h2>
-      <p class="max-w-[34ch] text-xl leading-[1.4]">Vitality isn't one thing. Neither is the routine that supports it.</p>
+      <p class="max-w-[34ch] text-xl leading-[1.4]">Protein to build. Carbs to fuel. Caffeine to get you moving.</p>
     </div>
 
     <ol class="mt-[clamp(40px,5vw,72px)] grid gap-[clamp(20px,3vw,32px)]">
       <ProductStep number={1} dot="blink" tone="dark">
-        <Fragment slot="title">It starts with the everyday stuff</Fragment>
+        <Fragment slot="title">Your protein fix just got a lot more fun.</Fragment>
         <Fragment slot="body">
-          Energy, focus and confidence don't come from one thing — sleep, food, movement and stress all play a part.
-          Male Vitality is built to sit alongside that, not replace it.
+          <span data-copy-review="ingredient and energy claims (protein, glucose, caffeine): formula not final, needs legal review">
+            Protein Energy combines high-quality protein with glucose, caffeine and selected energy-supporting ingredients in a chewy gummy format.
+          </span>
         </Fragment>
         <ImagePlaceholder slot="image" />
       </ProductStep>
@@ -28,7 +29,7 @@ import ImagePlaceholder from '@/components/ui/ImagePlaceholder.astro';
       <ProductStep number={2} dot="burst" imageFirst tone="dark">
         <Fragment slot="title">The formula backs it up</Fragment>
         <Fragment slot="body">
-          <span data-copy-review="Male Vitality formula not yet finalized">
+          <span data-copy-review="Protein Energy formula not yet finalized">
             The exact formula is still being finalized. Once it's locked in, this is where we'll explain what's inside and why.
           </span>
         </Fragment>
@@ -36,10 +37,9 @@ import ImagePlaceholder from '@/components/ui/ImagePlaceholder.astro';
       </ProductStep>
 
       <ProductStep number={3} dot="burst" tone="dark">
-        <Fragment slot="title">Make it a rhythm</Fragment>
+        <Fragment slot="title">Just chew, enjoy and get on with it.</Fragment>
         <Fragment slot="body">
-          One gummy, most days. Like everything else that actually works, the effect isn't a single hit — it's
-          consistency.
+          No powder.<br>No shaker.<br>No sad protein bar.
         </Fragment>
         <ImagePlaceholder slot="image" />
       </ProductStep>

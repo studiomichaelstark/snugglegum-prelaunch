@@ -3,7 +3,7 @@
  * Homepage FAQ: general Snugglegum™ (the family/brand) questions, plus the generic, product-
  * agnostic "gummy supplements" GEO group (answers what/whether/how gummy supplements work, kept
  * brand-neutral so it can rank without being tied to one product). Detailed, product-specific
- * questions live on each product's own page (CloseContactFaq.astro, and Male Vitality's / Beauty's
+ * questions live on each product's own page (CloseContactFaq.astro, and Protein Energy's / Beauty's
  * FAQ sections) instead.
  */
 import ProductFaqGroup from '@/components/product/ProductFaqGroup.astro';
@@ -39,7 +39,7 @@ const badgeClass = 'bg-pink text-ink';
           </summary>
           <p class:list={[answer]}>
             <Brand /> is a family of functional gummies engineered to get you closer — one product
-            per goal. Close Contact is first, with Male Vitality and Beauty joining it before launch.
+            per goal. Close Contact is first, with Protein Energy and Beauty joining it before launch.
           </p>
         </details>
 
@@ -93,16 +93,6 @@ const badgeClass = 'bg-pink text-ink';
             <span aria-hidden="true" class:list={[plus]}>+</span>
           </summary>
           <p class:list={[answer]}>The USA launches first. Other markets, including the EU, are currently on the waitlist.</p>
-        </details>
-
-        <details name="faq-general" class:list={[item]}>
-          <summary class:list={[question]}>
-            <span>
-              Why is <Brand /> 18+?
-            </span>
-            <span aria-hidden="true" class:list={[plus]}>+</span>
-          </summary>
-          <p class:list={[answer]}>Because our humor is.</p>
         </details>
 
         <details name="faq-general" class:list={[item]}>

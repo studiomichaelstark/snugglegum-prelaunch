@@ -2,10 +2,20 @@
 import ArrowIcon from "@/components/ui/ArrowIcon.astro";
 
 interface Props {
-  /** Lists "Under 18s" under "Who it's not". Off for products without an age limit. */
-  showAgeLimit?: boolean;
+  /** "Who it's for" entries. Defaults to the brand-wide list; a product page can bring its own. */
+  forItems?: string[];
+  /** "Who it's not" entries (after the optional age line). Defaults to the brand-wide list. */
+  notItems?: string[];
 }
-const { showAgeLimit = true } = Astro.props;
+const {
+  forItems = [
+    "Gym regulars who read every label.",
+    "Date-night optimists.",
+    "People who don't do boring.",
+    "Anyone with good taste and questionable jokes.",
+  ],
+  notItems = ["The easily offended.", "People who think pineapple on pizza is the real scandal."],
+} = Astro.props;
 
 const item = "flex items-start gap-3.5";
 const box = "rounded-card p-[clamp(28px,3.5vw,48px)]";
@@ -18,42 +28,24 @@ const heading = "display-word mt-3 text-[clamp(2rem,3.5vw,3rem)] leading-[0.92] 
       <p class="label-caps text-[17px]">Yes</p>
       <h2 class:list={[heading]}>Who it's for</h2>
       <ul class="mt-[26px] grid gap-4 text-xl leading-[1.4]">
-        <li class:list={[item]}>
-          <ArrowIcon class="mt-[0.3em] text-pink" />
-          <span>Gym regulars who read every label.</span>
-        </li>
-        <li class:list={[item]}>
-          <ArrowIcon class="mt-[0.3em] text-pink" />
-          <span>Date-night optimists.</span>
-        </li>
-        <li class:list={[item]}>
-          <ArrowIcon class="mt-[0.3em] text-pink" />
-          <span>People who don't do boring.</span>
-        </li>
-        <li class:list={[item]}>
-          <ArrowIcon class="mt-[0.3em] text-pink" />
-          <span>Anyone with good taste and questionable jokes.</span>
-        </li>
+        {forItems.map((text) => (
+          <li class:list={[item]}>
+            <ArrowIcon class="mt-[0.3em] text-pink" />
+            <span>{text}</span>
+          </li>
+        ))}
       </ul>
     </div>
     <div class:list={[box, "bg-pink text-green"]}>
       <p class="label-caps text-[17px]">Not really</p>
       <h2 class:list={[heading]}>Who it's not</h2>
       <ul class="mt-[26px] grid gap-4 text-xl leading-[1.4]">
-        {showAgeLimit && (
+        {notItems.map((text) => (
           <li class:list={[item]}>
             <ArrowIcon class="mt-[0.3em]" />
-            <span>Under 18s (come back later).</span>
+            <span>{text}</span>
           </li>
-        )}
-        <li class:list={[item]}>
-          <ArrowIcon class="mt-[0.3em]" />
-          <span>The easily offended.</span>
-        </li>
-        <li class:list={[item]}>
-          <ArrowIcon class="mt-[0.3em]" />
-          <span>People who think pineapple on pizza is the real scandal.</span>
-        </li>
+        ))}
       </ul>
     </div>
   </div>

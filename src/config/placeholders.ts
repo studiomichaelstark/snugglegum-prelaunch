@@ -235,11 +235,11 @@ export const placeholderSpecs = [
     blocking: false,
   },
   {
-    id: 'mailerLiteGroupMaleVitality',
-    env: 'PUBLIC_MAILERLITE_GROUP_MALE_VITALITY',
+    id: 'mailerLiteGroupProteinEnergy',
+    env: 'PUBLIC_MAILERLITE_GROUP_PROTEIN_ENERGY',
     group: 'mailerlite-groups',
-    label: 'MailerLite group ID for Male Vitality interest',
-    hint: 'Create a "Male Vitality" group in your MailerLite account and paste its numeric ID here.',
+    label: 'MailerLite group ID for Protein Energy interest',
+    hint: 'Create a "Protein Energy" group in your MailerLite account and paste its numeric ID here.',
     blocking: false,
   },
   {

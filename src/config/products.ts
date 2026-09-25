@@ -4,10 +4,10 @@
  * identifiers, routing and the accent token each product's pages/components key off.
  */
 
-export type ProductId = 'close-contact' | 'male-vitality' | 'beauty';
+export type ProductId = 'close-contact' | 'protein-energy' | 'beauty';
 
 /** Tailwind color name from the `--color-*` tokens in global.css (e.g. `bg-{accent}`, `text-{accent}`). */
-export type ProductAccent = 'pink' | 'vitality' | 'beauty';
+export type ProductAccent = 'pink' | 'sport' | 'beauty';
 
 export interface ProductSummary {
   readonly id: ProductId;
@@ -23,7 +23,7 @@ export interface ProductSummary {
 
 export const products: readonly ProductSummary[] = [
   { id: 'close-contact', path: '/close-contact', name: 'Close Contact', accent: 'pink', accentTone: 'light' },
-  { id: 'male-vitality', path: '/male-vitality', name: 'Male Vitality', accent: 'vitality', accentTone: 'dark' },
+  { id: 'protein-energy', path: '/protein-energy', name: 'Protein Energy', accent: 'sport', accentTone: 'dark' },
   { id: 'beauty', path: '/beauty', name: 'Beauty', accent: 'beauty', accentTone: 'light' },
 ] as const;
 

@@ -37,7 +37,7 @@
   --color-vignette-beauty: var(--color-hero-vignette-beauty);
   --color-white: var(--color-surface);
   --color-ink-muted: var(--color-text-muted-on-ink);
-  --color-vitality: var(--color-accent-vitality);
+  --color-sport: var(--color-accent-sport);
   --color-beauty: var(--color-accent-beauty);
 }
 
@@ -110,6 +110,46 @@
   }
 }
 
+/*
+ * Body copy, site-wide: paragraphs sit a step below the section's text color and only their <strong>
+ * text is at full strength, so the emphasis stands out (light sections: soft green + full green; dark
+ * sections: soft gray + white). Only <p>; headings and other text keep their color. The tokens follow the
+ * nearest text-* color class, so every section (green, white, pink, ink) gets its own pair.
+ * In the components layer on purpose: a paragraph with its own color utility (label, callout) still wins.
+ * The sign-up form and dialogs are left alone.
+ */
+@layer components {
+  :root,
+  .text-green {
+    --copy-soft: color-mix(in srgb, var(--color-text) 88%, transparent);
+    --copy-strong: var(--color-text);
+  }
+
+  .text-white {
+    --copy-soft: var(--color-text-soft-on-dark);
+    --copy-strong: var(--color-surface);
+  }
+
+  .text-pink {
+    --copy-soft: color-mix(in srgb, var(--color-brand-pink) 88%, transparent);
+    --copy-strong: var(--color-surface);
+  }
+
+  .text-ink {
+    --copy-soft: color-mix(in srgb, var(--color-brand-ink) 88%, transparent);
+    --copy-strong: var(--color-brand-ink);
+  }
+
+  /* Paragraphs that already carry an opacity utility are dimmed enough; stacking both would drop the contrast. */
+  p:not(dialog p, [data-newsletter] p, [class*="opacity-"]) {
+    color: var(--copy-soft);
+  }
+
+  p:not(dialog p, [data-newsletter] p) strong {
+    color: var(--copy-strong);
+  }
+}
+
 /* Display type helpers (design tokens from the prototype). */
 @utility display-word {
   font-weight: 900;
@@ -125,20 +165,22 @@
 
 /*
  * Trademark sign after the brand name (<Brand />). A plain span, not <sup>: the sign is part of the name,
- * not a superscript with typographic meaning. Reproduces what Preflight gives <sup> (raised half its own
- * height, zero line-height so it never changes the line box), at 0.55em of the surrounding text; large
- * headings use tm-display (0.4em).
+ * not a superscript with typographic meaning. It is scaled to --tm-size of the surrounding text and lifted
+ * so that its top edge lines up with the cap height of that text (in Archivo the sign's top is exactly at
+ * cap height, 0.688em), whatever the scale. Zero line-height, so it never changes the line box.
+ * Large headings use tm-display (a smaller sign, lifted higher by the same formula).
  */
 @utility tm {
+  --tm-size: 0.55;
   position: relative;
-  top: -0.5em;
-  font-size: var(--tm-size, 0.55em);
+  top: calc(-0.688 * (1 - var(--tm-size)) / var(--tm-size) * 1em);
+  font-size: calc(var(--tm-size) * 1em);
   line-height: 0;
   vertical-align: baseline;
 }
 
 @utility tm-display {
-  --tm-size: 0.4em;
+  --tm-size: 0.4;
 }
 
 @utility sr-only-important {

@@ -2,7 +2,7 @@ import { expect, jsonResponse, mockMailerLite, PRODUCT_ROUTES, ROUTES, test } fr
 
 const PRODUCTS = [
   { id: 'close-contact', name: 'Close Contact', path: '/close-contact' },
-  { id: 'male-vitality', name: 'Male Vitality', path: '/male-vitality' },
+  { id: 'protein-energy', name: 'Protein Energy', path: '/protein-energy' },
   { id: 'beauty', name: 'Beauty', path: '/beauty' },
 ] as const;
 
@@ -52,8 +52,6 @@ test.describe('product family: independent product pages', () => {
       await page.goto(product.path);
       await expect(page.locator('h1')).toHaveCount(1);
       await expect(page.locator('body')).toContainText('Snugglegum');
-      // Beauty has no age limit on its page copy, so no 18+ notice is expected there.
-      if (product.id !== 'beauty') await expect(page.locator('body')).toContainText(/18\+/);
 
       // A simple, non-nav way back to the homepage — not a conventional nav menu.
       await expect(page.getByRole('link', { name: 'All Snugglegum™ products' })).toHaveAttribute('href', '/');
@@ -93,9 +91,9 @@ test.describe('product family: newsletter interests', () => {
 
   test('selecting multiple products still sends exactly one subscription with both interests', async ({ consented: page }) => {
     const calls = await mockMailerLite(page, (route) => jsonResponse(route, { success: true }));
-    await page.goto('/male-vitality');
+    await page.goto('/protein-energy');
 
-    await page.locator('input[data-interest="male-vitality"]').first().check();
+    await page.locator('input[data-interest="protein-energy"]').first().check();
     await page.locator('input[data-interest="beauty"]').first().check();
     const emailField = page.locator('input[name="fields[email]"]').first();
     await emailField.fill('anna@example.com');
@@ -104,7 +102,7 @@ test.describe('product family: newsletter interests', () => {
 
     await expect.poll(() => calls.length).toBe(1);
     const body = calls[0]?.body ?? '';
-    expect(body).toMatch(/name="fields\[product_interest\]"\s*[\r\n]+\s*male-vitality,beauty/);
+    expect(body).toMatch(/name="fields\[product_interest\]"\s*[\r\n]+\s*protein-energy,beauty/);
   });
 });
 

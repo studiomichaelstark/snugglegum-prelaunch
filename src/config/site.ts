@@ -62,6 +62,6 @@ export const mailerLite = {
  */
 export const mailerLiteGroups: Readonly<Record<ProductId, string>> = {
   'close-contact': (import.meta.env.PUBLIC_MAILERLITE_GROUP_CLOSE_CONTACT ?? '').trim(),
-  'male-vitality': (import.meta.env.PUBLIC_MAILERLITE_GROUP_MALE_VITALITY ?? '').trim(),
+  'protein-energy': (import.meta.env.PUBLIC_MAILERLITE_GROUP_PROTEIN_ENERGY ?? '').trim(),
   beauty: (import.meta.env.PUBLIC_MAILERLITE_GROUP_BEAUTY ?? '').trim(),
 };

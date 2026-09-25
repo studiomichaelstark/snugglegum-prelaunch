@@ -22,7 +22,7 @@ const description =
 
 <Base title={title} description={description} path="/beauty" product={{ name: 'Snugglegum™ Beauty' }}>
   <main id="main" class="max-w-full overflow-x-clip">
-    <ProductHero bgClass="bg-beauty" pouch={beautyPouch} pouchAlt="Snugglegum™ Beauty Nutrition pouch" ageStamp={false} pouchGlow="bg-white/90" vignetteClass="to-vignette-beauty" tone="light">
+    <ProductHero bgClass="bg-beauty" pouch={beautyPouch} pouchAlt="Snugglegum™ Beauty Nutrition pouch" pouchGlow="bg-white/90" vignetteClass="to-vignette-beauty" tone="light">
       <Fragment slot="badge"><Brand /> · Beauty</Fragment>
       <Fragment slot="headline">Your Beauty Routine Just Got Chewable.</Fragment>
       <Fragment slot="subline">Beauty is <Brand />’s daily gummy for hair, skin and nails — beauty nutrition in a seriously chewable form.<br>Get on the list and be first to try them.</Fragment>
@@ -33,7 +33,7 @@ const description =
     <BeautyHowItWorks />
     <BeautyChemistry />
     <BeautyBenefits />
-    <Audience showAgeLimit={false} />
+    <Audience />
     <ProductMarquee phrases={['Beauty nutrition, engineered in', 'Gummies with benefits', 'Begum tasty', 'Gum once, thank me later']} />
     <BeautyFaq />
 
