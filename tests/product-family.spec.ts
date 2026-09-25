@@ -7,10 +7,10 @@ const PRODUCTS = [
 ] as const;
 
 test.describe('product family: homepage gateway', () => {
-  test('shows all 3 products with working Explore CTAs', async ({ consented: page }) => {
+  test('shows all 3 products with working Learn more CTAs', async ({ consented: page }) => {
     await page.goto('/');
     for (const product of PRODUCTS) {
-      const cta = page.getByRole('link', { name: `Explore ${product.name}` });
+      const cta = page.getByRole('link', { name: `Learn more about ${product.name}` });
       await expect(cta).toBeVisible();
       await expect(cta).toHaveAttribute('href', product.path);
     }

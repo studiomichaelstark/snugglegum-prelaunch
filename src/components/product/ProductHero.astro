@@ -35,7 +35,7 @@ const vignette = vignetteClass ?? 'to-ink';
 
 <div class:list={['relative isolate', bgClass, isDark ? 'on-dark text-white' : 'text-green']}>
   <div aria-hidden="true" class:list={['pointer-events-none absolute inset-0 -z-10 bg-radial from-transparent from-75% opacity-45', vignette]}></div>
-  <div class="px-[clamp(20px,5vw,48px)] pt-6">
+  <div class="section-px pt-6">
     <div class="container-lg">
       <BackToHome />
     </div>
@@ -63,7 +63,7 @@ const vignette = vignetteClass ?? 'to-ink';
         </div>
 
         <div class="relative mt-[max(-80px,calc(-9vw+40px))] flex justify-center md:mt-[clamp(-80px,-9vw,-36px)]">
-          <div class="relative aspect-[771/964] w-[min(75%,390px)] animate-[sg-bob_7s_ease-in-out_infinite] md:w-[min(100%,520px)]">
+          <div class="relative aspect-[771/964] w-[min(75%,390px,calc(80svh*0.8))] animate-[sg-bob_7s_ease-in-out_infinite] md:w-[min(100%,520px,calc(80svh*0.8))]">
             {pouchGlow && <div aria-hidden="true" class:list={["pointer-events-none absolute inset-[2%_-12%] rounded-full blur-[50px] md:blur-[70px]", pouchGlow]} />}
             <Picture
               src={pouch}

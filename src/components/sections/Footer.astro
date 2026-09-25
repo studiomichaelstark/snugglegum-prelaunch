@@ -31,9 +31,9 @@ const footLink = "inline-flex min-h-11 cursor-pointer items-center text-[15px] u
     </div>
   </div>
 
-  <div class="on-dark flex flex-wrap items-center justify-between gap-3.5 bg-ink px-5 py-[26px] max-md:pr-[86px]">
+  <div class="on-dark flex flex-wrap items-center justify-between gap-3.5 bg-ink pt-[26px] pb-[max(26px,env(safe-area-inset-bottom))] pl-[max(1.25rem,env(safe-area-inset-left))] pr-[max(1.25rem,env(safe-area-inset-right))] max-md:pr-[calc(86px+env(safe-area-inset-right))]">
     <p class="w-full text-[17px] font-bold tracking-[0.02em] text-ink-muted text-center md:w-auto md:text-left">
-      ©{year}by
+      © {year} by
       <OperatorInfo variant="name" />. All rights reserved.
     </p>
   </div>
@@ -42,7 +42,7 @@ const footLink = "inline-flex min-h-11 cursor-pointer items-center text-[15px] u
   <a
     href="#top"
     aria-label="Back to top"
-    class="fixed right-4 bottom-4 z-40 inline-flex size-[50px] items-center justify-center rounded-full border-2 border-pink bg-ink text-pink no-underline shadow-[0_8px_20px_color-mix(in_srgb,var(--color-brand-ink)_32%,transparent)] transition duration-200 hover:-translate-y-[3px] hover:scale-[1.03] hover:border-green hover:bg-white hover:text-green md:right-6 md:bottom-6"
+    class="fixed right-[max(1rem,env(safe-area-inset-right))] bottom-[max(1rem,env(safe-area-inset-bottom))] z-40 inline-flex size-[50px] items-center justify-center rounded-full border-2 border-pink bg-ink text-pink no-underline shadow-[0_8px_20px_color-mix(in_srgb,var(--color-brand-ink)_32%,transparent)] transition duration-200 hover:-translate-y-[3px] hover:scale-[1.03] hover:border-green hover:bg-white hover:text-green md:right-6 md:bottom-6"
   >
     <ArrowUpIcon />
   </a>

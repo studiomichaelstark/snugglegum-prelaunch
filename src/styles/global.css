@@ -21,6 +21,9 @@
   line-gap-override: 0%;
 }
 
+/* Short viewports (phones in landscape): `short:` utilities apply below 520px height. */
+@custom-variant short (@media (max-height: 520px));
+
 /* Only tokens from colors.css are available as color utilities. */
 @theme {
   --color-*: initial;
@@ -194,7 +197,8 @@
 
 /* Shared section shell: identical horizontal/vertical rhythm across every landing section. */
 @utility section-px {
-  padding-inline: clamp(20px, 5vw, 48px);
+  padding-left: max(clamp(20px, 5vw, 48px), env(safe-area-inset-left));
+  padding-right: max(clamp(20px, 5vw, 48px), env(safe-area-inset-right));
 }
 
 @utility section-py {

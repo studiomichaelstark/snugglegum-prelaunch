@@ -27,8 +27,8 @@ import Brand from '@/components/ui/Brand.astro';
       <strong><Brand /> is a family of functional gummies</strong>.<br>Not on the shelves yet. Join the list and we’ll let you know when they’re ready to chew.
     </p>
 
-    <ul class="mt-[clamp(40px,5vw,64px)] grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-5 text-left">
-      <li class="rounded-card flex flex-col items-center text-center p-[clamp(24px,3vw,32px)]">
+    <ul class="mt-[clamp(40px,5vw,64px)] grid grid-cols-1 gap-5 text-left sm:grid-cols-3">
+      <li class="rounded-card flex flex-col items-center text-center sm:row-span-5 sm:grid sm:grid-rows-subgrid sm:items-stretch sm:gap-y-0 p-[clamp(24px,3vw,32px)] sm:p-[clamp(14px,3vw,32px)]">
         <a href="/close-contact" tabindex="-1" aria-hidden="true" class="relative isolate mx-auto mb-6 block w-full max-w-[380px]">
           <div aria-hidden="true" class="pointer-events-none absolute inset-[2%_-12%] -z-10 rounded-full bg-white/90 blur-[30px] md:blur-[40px]"></div>
           <Picture
@@ -41,14 +41,14 @@ import Brand from '@/components/ui/Brand.astro';
           />
         </a>
         <p class="label-caps text-sm text-ink">Close Contact</p>
-        <h2 class="mt-2 text-2xl text-green font-black uppercase leading-[1.05]">Close Contact Nutrition</h2>
+        <h2 class="mt-2 text-2xl sm:text-[clamp(1rem,2.4vw,1.5rem)] text-green font-black uppercase leading-[1.05]">Close Contact Nutrition</h2>
         <p class="mt-2.5 text-lg text-ink leading-normal">
           Body taste is biochemistry — and it's fixable.
         </p>
-        <ButtonLink href="/close-contact" size="sm" class="mt-6">Explore Close Contact</ButtonLink>
+        <ButtonLink href="/close-contact" size="sm" class="mt-6 px-4 sm:justify-self-center">Learn more<span class="sr-only"> about Close Contact</span></ButtonLink>
       </li>
 
-      <li class="rounded-card flex flex-col items-center text-center p-[clamp(24px,3vw,32px)]">
+      <li class="rounded-card flex flex-col items-center text-center sm:row-span-5 sm:grid sm:grid-rows-subgrid sm:items-stretch sm:gap-y-0 p-[clamp(24px,3vw,32px)] sm:p-[clamp(14px,3vw,32px)]">
         <a href="/beauty" tabindex="-1" aria-hidden="true" class="relative isolate mx-auto mb-6 block w-full max-w-[380px]">
           <div aria-hidden="true" class="pointer-events-none absolute inset-[2%_-12%] -z-10 rounded-full bg-white/90 blur-[30px] md:blur-[40px]"></div>
           <Picture
@@ -61,12 +61,12 @@ import Brand from '@/components/ui/Brand.astro';
           />
         </a>
         <p class="label-caps text-sm text-ink">Beauty</p>
-        <h2 class="mt-2 text-2xl font-black uppercase leading-[1.05]">Beauty<br>Nutrition</h2>
+        <h2 class="mt-2 text-2xl sm:text-[clamp(1rem,2.4vw,1.5rem)] font-black uppercase leading-[1.05]">Beauty<br>Nutrition</h2>
         <p class="mt-2.5 text-lg text-ink leading-normal">Hair, skin and nail nutrition, built into an everyday gummy.</p>
-        <ButtonLink href="/beauty" size="sm" class="mt-6">Explore Beauty</ButtonLink>
+        <ButtonLink href="/beauty" size="sm" class="mt-6 px-4 sm:justify-self-center">Learn more<span class="sr-only"> about Beauty</span></ButtonLink>
       </li>
 
-      <li class="on-dark rounded-card flex flex-col items-center text-center p-[clamp(24px,3vw,32px)] text-white">
+      <li class="on-dark rounded-card flex flex-col items-center text-center sm:row-span-5 sm:grid sm:grid-rows-subgrid sm:items-stretch sm:gap-y-0 p-[clamp(24px,3vw,32px)] sm:p-[clamp(14px,3vw,32px)] text-white">
         <a href="/protein-energy" tabindex="-1" aria-hidden="true" class="relative isolate mx-auto mb-6 block w-full max-w-[380px]">
           <div aria-hidden="true" class="pointer-events-none absolute inset-[2%_-12%] -z-10 rounded-full bg-white/90 blur-[30px] md:blur-[40px]"></div>
           <Picture
@@ -79,9 +79,9 @@ import Brand from '@/components/ui/Brand.astro';
           />
         </a>
         <p class="label-caps text-sm text-ink">Protein Energy</p>
-        <h2 class="mt-2 text-2xl text-green font-black uppercase leading-[1.05]">Protein Sport Nutrition</h2>
+        <h2 class="mt-2 text-2xl sm:text-[clamp(1rem,2.4vw,1.5rem)] text-green font-black uppercase leading-[1.05]">Protein Sport Nutrition</h2>
         <p class="mt-2.5 text-lg text-ink leading-normal" data-copy-review="nutrient content and energy claims (protein, energy, zero sugar): formula not final, needs legal review">Protein. Energy. Zero sugar. No shaker required.</p>
-        <ButtonLink href="/protein-energy" size="sm" class="mt-6">Explore Protein Energy</ButtonLink>
+        <ButtonLink href="/protein-energy" size="sm" class="mt-6 px-4 sm:justify-self-center">Learn more<span class="sr-only"> about Protein Energy</span></ButtonLink>
       </li>
     </ul>
   </div>

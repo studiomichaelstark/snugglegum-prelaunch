@@ -7,7 +7,7 @@ interface Props {
 const { title, id } = Astro.props;
 ---
 
-<section aria-labelledby={id ? `${id}-heading` : undefined}>
+<section id={id} aria-labelledby={id ? `${id}-heading` : undefined}>
   <h2 id={id ? `${id}-heading` : undefined} class="text-[26px] leading-[1.1] font-black uppercase">
     {title}
   </h2>

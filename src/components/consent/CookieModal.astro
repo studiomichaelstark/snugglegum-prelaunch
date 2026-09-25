@@ -8,17 +8,17 @@ import ButtonLink from "@/components/ui/ButtonLink.astro";
 ---
 
 <dialog id="cookie-modal" role="dialog" aria-modal="true" aria-labelledby="cookie-modal-title" class="rounded-card fixed inset-0 m-0 mx-auto mt-auto mb-4 max-h-[86vh] w-[calc(100%-2rem)] max-w-[580px] overflow-auto border-2 border-green bg-white p-0 text-green animate-[sg-slide_.3s_ease-out]">
-  <div class="p-[clamp(22px,3vw,34px)]">
+  <div class="p-[clamp(22px,3vw,34px)] short:p-4">
     <h2 id="cookie-modal-title" tabindex="-1" data-dialog-initial-focus class="display-word stretch-hero text-[clamp(1.5rem,3vw,2.1rem)] leading-[0.95] outline-none">
       Cookies, briefly
     </h2>
-    <p class="mt-3.5 text-[17px] leading-[1.55]">
+    <p class="mt-3.5 text-[17px] leading-[1.55] short:mt-2">
       We only store what is strictly necessary to run the site: a note of your choice here, kept in this browser. No cookies are set.{hasOptionalCategories && "Analytics and marketing tools only load if you say yes. "}
       You can change this anytime under "Cookie settings".
       <a href="/privacy#cookies">Cookie policy</a>
     </p>
 
-    <div id="cookie-panel" data-consent-panel hidden class="rounded-panel mt-[22px] grid gap-4 border-2 border-dashed border-green p-[18px]">
+    <div id="cookie-panel" data-consent-panel hidden class="rounded-panel mt-[22px] grid gap-4 border-2 border-dashed border-green p-[18px] short:mt-3 short:gap-2 short:p-3">
       <div class="flex items-center justify-between gap-4">
         <label for="cookie-necessary" class="text-base font-bold">
           Necessary<span class="font-normal opacity-80">· always on</span>
@@ -26,7 +26,7 @@ import ButtonLink from "@/components/ui/ButtonLink.astro";
         <input id="cookie-necessary" type="checkbox" checked disabled class="size-6 accent-green" />
       </div>
       {consentCategories.analytics.enabled && (
-        <div class="flex items-center justify-between gap-4 border-t-2 border-dashed border-green/20 pt-4">
+        <div class="flex items-center justify-between gap-4 border-t-2 border-dashed border-green/20 pt-4 short:pt-2">
           <label for="cookie-analytics" class="text-base font-bold">
             Analytics
           </label>
@@ -34,17 +34,17 @@ import ButtonLink from "@/components/ui/ButtonLink.astro";
         </div>
       )}
       {consentCategories.marketing.enabled && (
-        <div class="flex items-center justify-between gap-4 border-t-2 border-dashed border-green/20 pt-4">
+        <div class="flex items-center justify-between gap-4 border-t-2 border-dashed border-green/20 pt-4 short:pt-2">
           <label for="cookie-marketing" class="text-base font-bold">
             Marketing
           </label>
           <input id="cookie-marketing" type="checkbox" data-consent-category="marketing" class="size-6 accent-green" />
         </div>
       )}
-      {!hasOptionalCategories && <p class="border-t-2 border-dashed border-green/20 pt-4 text-base leading-normal">We don't currently use any optional cookies or trackers.</p>}
+      {!hasOptionalCategories && <p class="border-t-2 border-dashed border-green/20 pt-4 short:pt-2 text-base leading-normal">We don't currently use any optional cookies or trackers.</p>}
     </div>
 
-    <div class="mt-6 grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-2.5">
+    <div class="mt-6 grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-2.5 short:mt-3">
       <ButtonLink type="button" variant="solid" size="sm" class="w-full" data-consent-accept>
         Accept all
       </ButtonLink>

@@ -18,25 +18,25 @@ const toneFor = (position: number) => (position % 2 === 1 ? "pink" : "outline");
     <h2 class="display-word stretch-display mt-3 max-w-[20ch] text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88]">{discount ? "Three" : "Two"} things for joining before launch</h2>
     <p class="mt-5 max-w-[52ch] text-xl leading-normal">All {discount ? "three" : "two"}, only for the list. Once it's public, the offer closes.</p>
 
-    <ul class="mt-[clamp(32px,4vw,56px)] grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-[clamp(16px,2vw,24px)]" data-card-count={cardCount}>
+    <ul class:list={["mt-[clamp(32px,4vw,56px)] grid grid-cols-1 gap-[clamp(16px,2vw,24px)]", discount ? "sm:grid-cols-3" : "sm:grid-cols-2"]} data-card-count={cardCount}>
       {discount && (
         <OfferCard number={1} tone="pink">
-          <h3 class="mt-[18px] text-[26px] leading-none font-black uppercase">{siteConfig.discountLabel} off</h3>
-          <p class="mt-2.5 text-lg leading-normal">On your first order, once it launches. One code, one order.</p>
+          <h3 class="mt-[18px] text-[26px] leading-none sm:text-[clamp(1rem,2.6vw,1.625rem)] font-black uppercase">{siteConfig.discountLabel} off</h3>
+          <p class="mt-2.5 text-lg leading-normal sm:text-[clamp(0.9375rem,2vw,1.125rem)]">On your first order, once it launches. One code, one order.</p>
         </OfferCard>
       )}
       <OfferCard number={shipping} tone={toneFor(shipping)}>
-        <h3 class="mt-[18px] text-[26px] leading-none font-black uppercase">Free shipping</h3>
-        <p class="mt-2.5 text-lg leading-normal" data-copy-review="new pre-launch benefit: free shipping on the first order (replaces '7 days early')">Your first order ships on us, no minimum. The first batch is limited, so the list gets the good part.</p>
+        <h3 class="mt-[18px] text-[26px] leading-none sm:text-[clamp(1rem,2.6vw,1.625rem)] font-black uppercase">Free shipping</h3>
+        <p class="mt-2.5 text-lg leading-normal sm:text-[clamp(0.9375rem,2vw,1.125rem)]" data-copy-review="new pre-launch benefit: free shipping on the first order (replaces '7 days early')">Your first order ships on us, no minimum. The first batch is limited, so the list gets the good part.</p>
       </OfferCard>
       <OfferCard number={guide} tone={toneFor(guide)}>
-        <h3 class="mt-[18px] text-[26px] leading-none font-black uppercase">Free guide</h3>
-        <p class="mt-2.5 text-lg leading-normal" data-copy-review="body-taste guide mention">Free with sign-up: the "<strong>Body Taste Cheat Code</strong>" guide (PDF).</p>
+        <h3 class="mt-[18px] text-[26px] leading-none sm:text-[clamp(1rem,2.6vw,1.625rem)] font-black uppercase">Free guide</h3>
+        <p class="mt-2.5 text-lg leading-normal sm:text-[clamp(0.9375rem,2vw,1.125rem)]" data-copy-review="body-taste guide mention">Free with sign-up: the "<strong>Body Taste Cheat Code</strong>" guide (PDF).</p>
       </OfferCard>
     </ul>
 
     <div class="mt-[clamp(32px,4vw,48px)] flex justify-center">
-      <ButtonLink href="#final-cta">Get on the list</ButtonLink>
+      <ButtonLink href="#newsletter-home">Get on the list</ButtonLink>
     </div>
 
     <p class="mt-6 text-center text-[17px] leading-[1.6] opacity-85">Offer terms: valid for confirmed double opt-in subscribers, while the first batch lasts, USA only.</p>
