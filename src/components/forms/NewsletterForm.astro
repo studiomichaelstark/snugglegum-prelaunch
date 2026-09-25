@@ -93,12 +93,8 @@ const consentId = `newsletter-consent-${id}`;
     <label for={consentId} class="mt-[18px] block cursor-pointer text-center text-base leading-normal">
       <input id={consentId} type="checkbox" name="consent" required class:list={["m-0 mr-1 inline-block size-6 align-middle", isDark ? "accent-lime" : "accent-green"]} />
       <span>
-        I'm 18 or older and agree to receive Snugglegum
-        <sup class="text-[0.55em]">™</sup>launch emails. I can unsubscribe anytime. See our
-        <a href="/privacy" class:list={[isDark ? "text-white" : ""]}>
-          Privacy Policy
-        </a>
-        .
+        I'm 18 or older and agree to receive Snugglegum<sup class="text-[0.55em]">™</sup> launch emails. I can unsubscribe anytime. See our
+        <a href="/privacy" class:list={[isDark ? "text-white" : ""]}>Privacy Policy</a>.
       </span>
     </label>
 
@@ -116,7 +112,7 @@ const consentId = `newsletter-consent-${id}`;
 
     <slot name="after-error" />
 
-    <p class="mt-4 text-center text-sm leading-normal opacity-60">(No spam. Double opt-in: we email you a confirmation link first. Unsubscribe anytime. 18+ only.)</p>
+    <p class:list={["mt-4 text-center text-sm leading-normal", isDark ? "opacity-80" : "opacity-85"]}>(No spam. Double opt-in: we email you a confirmation link first. Unsubscribe anytime. 18+ only.)</p>
   </form>
 
   <template data-message="invalid-email">That email doesn’t look right. Check it and try again.</template>

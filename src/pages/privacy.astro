@@ -62,10 +62,7 @@ import Legal from "@/layouts/Legal.astro";
   <LegalSection title="7. MailerLite (processor)">
     <p>
       We use MailerLite to collect sign-ups and send emails. Provider:{sentence(legal.mailerLiteEntity.display ?? "")}MailerLite processes your data on our behalf under a data processing agreement pursuant to Art. 28 GDPR. Its own privacy policy is available at
-      <a href="https://www.mailerlite.com/legal/privacy-policy" rel="noopener">
-        mailerlite.com/legal/privacy-policy
-      </a>
-      .
+      <a href="https://www.mailerlite.com/legal/privacy-policy" rel="noopener">mailerlite.com/legal/privacy-policy</a>.
     </p>
     <p>When you press the sign-up button, your browser sends the email address directly to MailerLite's servers, so MailerLite also receives your IP address.</p>
     {legal.mailerLiteTracking.display && <p>{legal.mailerLiteTracking.display}</p>}

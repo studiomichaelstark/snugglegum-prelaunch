@@ -54,13 +54,6 @@ export const mailerLite = {
       : '',
 } as const;
 
-/** Pages that exist, for sitemap-like lists. */
-export const routes = {
-  home: '/',
-  imprint: '/imprint',
-  privacy: '/privacy',
-} as const;
-
 /**
  * MailerLite Group IDs, one per product interest, set once each is created in the MailerLite
  * dashboard (see .env, "MailerLite interest groups"). A blank entry means: still record that

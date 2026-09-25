@@ -11,7 +11,7 @@ const logoSvg = /<svg[\s\S]*<\/svg>/.exec(read('src/components/logo/Logo.astro')
 if (!logoSvg) throw new Error('Could not find the logo SVG in Logo.astro');
 
 const fontBase64 = read('src/assets/fonts/archivo-latin-wdth-normal.woff2').toString('base64');
-const pouchBase64 = read('src/assets/snugglegum-doypack.png').toString('base64');
+const pouchBase64 = read('src/assets/snugglegum-doypack-close-contact.png').toString('base64');
 
 const html = `<!doctype html>
 <html><head><meta charset="utf-8"><style>
