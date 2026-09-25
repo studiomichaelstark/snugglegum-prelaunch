@@ -9,6 +9,7 @@
  * flagged copy in Hero, HowItWorks and WhatsInside), so they carry data-copy-review and are
  * listed by `pnpm check:placeholders`, which blocks the production build until approved.
  */
+import Brand from "@/components/ui/Brand.astro";
 const h3 = "text-[26px] leading-[1.05] font-black uppercase";
 const body = "mt-2 text-xl leading-[1.6]";
 const block = "border-t-2 border-dashed border-green pt-[clamp(24px,3vw,40px)]";
@@ -27,7 +28,7 @@ const block = "border-t-2 border-dashed border-green pt-[clamp(24px,3vw,40px)]";
       <div class="mt-[clamp(28px,3vw,44px)] grid gap-[clamp(20px,3vw,32px)]">
         <p class="text-xl leading-[1.6]" data-copy-review="body-odor / attraction claim">
           You know the saying: you have to like <strong>someone's smell</strong>. Your natural scent is influenced by what you eat, how your body processes nutrients and the compounds your body naturally produces.
-          <strong>Snugglegum<sup class="text-[0.55em]">™</sup> is designed to work with that chemistry — not cover it up with perfume.</strong>
+          <strong><Brand /> is designed to work with that chemistry — not cover it up with perfume.</strong>
         </p>
 
         <div class:list={[block]}>
@@ -39,7 +40,7 @@ const block = "border-t-2 border-dashed border-green pt-[clamp(24px,3vw,40px)]";
 
         <div class:list={[block]}>
           <h3 class:list={[h3]}>
-            That's where Snugglegum<sup class="text-[0.55em]">™</sup> comes in.
+            That's where <Brand /> comes in.
           </h3>
           <p class:list={[body]} data-copy-review="ingredient benefit claim (zinc: metabolism, skin, taste perception)">
             Its combination of ingredients provides nutritional support for processes your body already relies on. Zinc, for example, contributes to normal metabolism and the maintenance of normal skin and plays a role in normal taste perception.

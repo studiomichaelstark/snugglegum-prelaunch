@@ -29,7 +29,7 @@ test.describe('button hover: white background, dark green border', () => {
     { name: 'hero submit', route: '/close-contact', find: (p) => p.locator('form:has(#newsletter-email-hero) button[type="submit"]') },
     { name: 'offer call to action', find: (p) => p.locator('#offer').getByRole('link', { name: 'Get on the list' }) },
     { name: 'final call to action submit', route: '/close-contact', find: (p) => p.locator('form:has(#newsletter-email-final) button[type="submit"]') },
-    { name: 'bottom bar call to action', find: (p) => p.locator('footer').getByRole('link', { name: 'Get on the list' }) },
+    { name: 'bottom bar back-to-top button', find: (p) => p.locator('footer').getByRole('link', { name: 'Back to top' }) },
     { name: 'cookie modal "Accept all"', open: 'cookie', find: (p) => p.getByRole('button', { name: 'Accept all' }) },
   ];
 

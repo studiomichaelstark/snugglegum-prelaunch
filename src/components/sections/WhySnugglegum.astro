@@ -1,16 +1,17 @@
 ---
 /** Homepage-only: brand-level differentiators (no product-specific ingredient claims). */
 import ProductBenefit from '@/components/product/ProductBenefit.astro';
+import Brand from '@/components/ui/Brand.astro';
 ---
 
 <section id="why-snugglegum" class="section-px section-py bg-pink">
-  <div class="container-lg">
+  <div class="mx-auto max-w-[1000px]">
     <h2 class="display-word text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] stretch-display">
-      Why Snugglegum<sup class="text-[0.4em]">™</sup>
+      Why <Brand size="display" />
     </h2>
   </div>
 
-  <div class="container-lg mt-5 grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-[clamp(32px,5vw,72px)]">
+  <div class="mx-auto mt-5 max-w-[1000px] grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-[clamp(32px,5vw,72px)]">
     <div>
       <p class="max-w-[36ch] text-xl leading-normal">One family, one attitude, three ways to get closer.</p>
     </div>
@@ -20,7 +21,7 @@ import ProductBenefit from '@/components/product/ProductBenefit.astro';
         <ProductBenefit>
           <Fragment slot="name">One family, one attitude</Fragment>
           <Fragment slot="description">
-            Cheeky, confident and never boring — every Snugglegum<sup class="text-[0.55em]">™</sup> product is built with the same
+            Cheeky, confident and never boring — every <Brand /> product is built with the same
             voice and the same standards.
           </Fragment>
         </ProductBenefit>
@@ -31,7 +32,7 @@ import ProductBenefit from '@/components/product/ProductBenefit.astro';
         <ProductBenefit>
           <Fragment slot="name">The list gets it first</Fragment>
           <Fragment slot="description">
-            Every Snugglegum<sup class="text-[0.55em]">™</sup> product launches to the pre-launch list before it goes public —
+            Every <Brand /> product launches to the pre-launch list before it goes public —
             discount, free shipping and a founding number included.
           </Fragment>
         </ProductBenefit>

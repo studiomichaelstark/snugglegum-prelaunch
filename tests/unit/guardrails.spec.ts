@@ -40,15 +40,51 @@ test.describe('content guardrails', () => {
     expect(offenders).toEqual([]);
   });
 
+  // <Brand /> renders the name plus the sign in a plain span (see src/components/ui/Brand.astro).
+  const BRAND_MARKUP = /Snugglegum<span class="tm[^"]*">™<\/span>/g;
+  const context = (text: string, index: number, length = 0) =>
+    `…${text.slice(Math.max(0, index - 25), index + length + 35).replace(/\s+/g, ' ')}…`;
+
   test('every mention of the brand name carries the trademark sign', () => {
     // Case-sensitive on purpose: domains and email addresses are lowercase (snugglegum.com).
+    // Accepted: the bare "Snugglegum™" (head, attributes, llms.txt, manifest) or the <Brand /> markup.
     const missing = builtFiles().flatMap((file) => {
       const text = read(file);
-      return [...text.matchAll(/Snugglegum(?!™|<sup[^>]*>™<\/sup>)/g)].map(
-        (m) => `${file}: …${text.slice(Math.max(0, m.index! - 25), m.index! + 35).replace(/\s+/g, ' ')}…`,
+      return [...text.matchAll(/Snugglegum(?!™|<span class="tm[^"]*">™<\/span>)/g)].map(
+        (m) => `${file}: ${context(text, m.index!)}`,
       );
     });
     expect(missing).toEqual([]);
+  });
+
+  test('the trademark sign is never a <sup>', () => {
+    const offenders = builtFiles()
+      .filter((file) => extname(file) === '.html')
+      .flatMap((file) => {
+        const text = read(file);
+        return [...text.matchAll(/<sup[^>]*>\s*™|Snugglegum\s*<sup\b/g)].map((m) => `${file}: ${context(text, m.index!)}`);
+      });
+    expect(offenders).toEqual([]);
+  });
+
+  test('visible body text uses the <Brand /> markup, never the bare "Snugglegum™"', () => {
+    const bare = builtFiles()
+      .filter((file) => extname(file) === '.html')
+      .flatMap((file) => {
+        const body = /<body[\s\S]*<\/body>/.exec(read(file))?.[0] ?? '';
+        const text = body
+          .replace(/<!--[\s\S]*?-->/g, '')
+          .replace(/<(script|style)\b[\s\S]*?<\/\1>/g, '')
+          .replace(BRAND_MARKUP, '\u0000BRAND\u0000')
+          // Tags (quoted attribute values may contain ">"), so attribute text is not treated as visible text.
+          .replace(/<\/?[a-zA-Z][^\s>/]*(?:"[^"]*"|'[^']*'|[^>"'])*>/g, ' ');
+        return [...text.matchAll(/Snugglegum™/g)].map((m) => `${file}: ${context(text, m.index!)}`);
+      });
+    expect(bare).toEqual([]);
+  });
+
+  test('<Brand /> is in use on the built pages', () => {
+    expect(read('dist/index.html').match(BRAND_MARKUP)?.length ?? 0).toBeGreaterThan(5);
   });
 
   test('the 18+ notice is in the built home page', () => {

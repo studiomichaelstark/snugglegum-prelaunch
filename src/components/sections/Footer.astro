@@ -2,7 +2,8 @@
 import ContactEmail from "@/components/legal/ContactEmail.astro";
 import Logo from "@/components/logo/Logo.astro";
 import OperatorInfo from "@/components/legal/OperatorInfo.astro";
-import ButtonLink from "@/components/ui/ButtonLink.astro";
+import ArrowUpIcon from "@/components/ui/ArrowUpIcon.astro";
+import Brand from "@/components/ui/Brand.astro";
 
 const year = new Date().getFullYear();
 const footLink = "inline-flex min-h-11 cursor-pointer items-center text-[15px] underline";
@@ -15,7 +16,7 @@ const footLink = "inline-flex min-h-11 cursor-pointer items-center text-[15px] u
         <p class="text-[17px] leading-[1.6] opacity-90">*These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>
         <p class="text-[17px] leading-[1.6] opacity-90">Contact: <ContactEmail /></p>
         <p class="text-[17px] leading-[1.6] opacity-90">
-          Snugglegum<sup class="text-[0.55em]">™</sup>is a trademark by
+          <Brand /> is a trademark by
           <OperatorInfo variant="name" />
         </p>
       </div>
@@ -30,13 +31,19 @@ const footLink = "inline-flex min-h-11 cursor-pointer items-center text-[15px] u
     </div>
   </div>
 
-  <div class="on-dark flex flex-wrap items-center justify-between gap-3.5 bg-ink px-5 py-[26px]">
+  <div class="on-dark flex flex-wrap items-center justify-between gap-3.5 bg-ink px-5 py-[26px] max-md:pr-[86px]">
     <p class="w-full text-[17px] font-bold tracking-[0.02em] text-ink-muted text-center md:w-auto md:text-left">
       ©{year}by
       <OperatorInfo variant="name" />. All rights reserved.
     </p>
-    <div class="flex w-full justify-center md:contents">
-      <ButtonLink href="#final-cta" variant="on-dark" size="sm"> Get on the list </ButtonLink>
-    </div>
   </div>
+
+  <!-- Fixed to the viewport corner on every page, whatever the scroll position. Ink fill + pink ring so it reads on pink, white and green sections alike. -->
+  <a
+    href="#top"
+    aria-label="Back to top"
+    class="fixed right-4 bottom-4 z-40 inline-flex size-[50px] items-center justify-center rounded-full border-2 border-pink bg-ink text-pink no-underline shadow-[0_8px_20px_color-mix(in_srgb,var(--color-brand-ink)_32%,transparent)] transition duration-200 hover:-translate-y-[3px] hover:scale-[1.03] hover:border-green hover:bg-white hover:text-green md:right-6 md:bottom-6"
+  >
+    <ArrowUpIcon />
+  </a>
 </footer>

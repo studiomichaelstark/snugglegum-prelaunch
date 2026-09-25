@@ -5,6 +5,7 @@
  * physiological or cosmetic claims while the formula is unfinalized. Every paragraph carries
  * data-copy-review, so `pnpm check:placeholders` lists it until it is approved.
  */
+import Brand from "@/components/ui/Brand.astro";
 const h3 = "text-[26px] leading-[1.05] font-black uppercase";
 const body = "mt-2 text-xl leading-[1.6]";
 const block = "border-t-2 border-dashed border-green pt-[clamp(24px,3vw,40px)]";
@@ -22,7 +23,7 @@ const block = "border-t-2 border-dashed border-green pt-[clamp(24px,3vw,40px)]";
 
       <div class="mt-[clamp(28px,3vw,44px)] grid gap-[clamp(20px,3vw,32px)]">
         <p class="text-xl leading-[1.6]" data-copy-review="Beauty copy: no cosmetic claims while the formula is pending (intro)">
-          Hair, skin and nails are built from what your body has to work with every day. <strong>Snugglegum<sup class="text-[0.55em]">™</sup> Beauty is designed to fit into your everyday routine</strong> — nutrition from within, not another product to layer on.
+          Hair, skin and nails are built from what your body has to work with every day. <strong><Brand /> Beauty is designed to fit into your everyday routine</strong> — nutrition from within, not another product to layer on.
         </p>
 
         <div class:list={[block]}>

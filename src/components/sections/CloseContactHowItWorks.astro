@@ -3,6 +3,7 @@ import ImagePlaceholder from "@/components/ui/ImagePlaceholder.astro";
 import chemistry from "@/assets/chemistry.jpg";
 import smellGood from "@/assets/smell-good.jpg";
 import thingsGetCloser from "@/assets/things-get-closer.jpg";
+import Brand from "@/components/ui/Brand.astro";
 
 const row = "grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] items-center gap-[clamp(20px,3vw,40px)] border-t-2 border-dashed border-white/20 pt-[clamp(24px,3vw,40px)]";
 const number = "text-[clamp(4rem,9vw,8rem)] leading-[0.75] font-black text-pink stretch-wide";
@@ -36,7 +37,7 @@ const body = "mt-3.5 max-w-[38ch] text-xl leading-normal";
           <h3 class:list={[title]}>First, you have to smell good</h3>
           <p class:list={[body]} data-copy-review="body-odor claim">
             You know the saying: <strong>you have to like someone’s smell</strong>. Your natural scent is shaped by what you eat, how your body metabolizes it and what your body naturally produces.
-            <strong>Snugglegum™ works from within — not to cover you up, but to help you smell a little more inviting</strong>.
+            <strong><Brand /> works from within — not to cover you up, but to help you smell a little more inviting</strong>.
           </p>
         </div>
         <div class="aspect-[4/3] overflow-hidden transition-transform duration-300 hover:scale-[1.03] hover:-rotate-1 bg-pink rounded-3xl">
@@ -59,7 +60,7 @@ const body = "mt-3.5 max-w-[38ch] text-xl leading-normal";
           <h3 class:list={[title]}>Then things get closer</h3>
           <p class:list={[body]} data-copy-review="ingredient benefit claim">
             Perfume stays on your skin. <strong>You don’t</strong>. Breath, sweat, saliva — and the other fluids involved when things get really close — all have their own chemistry.
-            <strong>Snugglegum™ is made for what happens beyond the bottle of perfume</strong>.
+            <strong><Brand /> is made for what happens beyond the bottle of perfume</strong>.
           </p>
         </div>
         <div class="order-2 sm:order-1 aspect-[4/3] overflow-hidden transition-transform duration-300 hover:scale-[1.03] hover:-rotate-1 bg-pink rounded-3xl">
@@ -81,7 +82,7 @@ const body = "mt-3.5 max-w-[38ch] text-xl leading-normal";
           </div>
           <h3 class:list={[title]}>Feed the chemistry</h3>
           <p class:list={[body]}>
-            Snugglegum™ doesn’t replace a balanced diet. But let’s be honest: sometimes dinner is healthy. <strong>Sometimes it’s fries. Sometimes it’s just coffee.</strong>
+            <Brand /> doesn’t replace a balanced diet. But let’s be honest: sometimes dinner is healthy. <strong>Sometimes it’s fries. Sometimes it’s just coffee.</strong>
             Zinc and the other ingredients in the formula provide nutritional support for processes your body already relies on.
             <strong>Think of it as a little backup for your everyday chemistry</strong>.
           </p>

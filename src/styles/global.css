@@ -123,6 +123,24 @@
   text-transform: uppercase;
 }
 
+/*
+ * Trademark sign after the brand name (<Brand />). A plain span, not <sup>: the sign is part of the name,
+ * not a superscript with typographic meaning. Reproduces what Preflight gives <sup> (raised half its own
+ * height, zero line-height so it never changes the line box), at 0.55em of the surrounding text; large
+ * headings use tm-display (0.4em).
+ */
+@utility tm {
+  position: relative;
+  top: -0.5em;
+  font-size: var(--tm-size, 0.55em);
+  line-height: 0;
+  vertical-align: baseline;
+}
+
+@utility tm-display {
+  --tm-size: 0.4em;
+}
+
 @utility sr-only-important {
   position: absolute;
   width: 1px;

@@ -64,7 +64,7 @@ Every visible word is plain HTML text inside the `.astro` files, so edit it righ
 
 Only behavior values (thresholds, form preview state, IDs) live in `src/config/`.
 
-**Always write the brand name as `Snugglegum™`.** A test fails if any built page, `llms.txt` or manifest has "Snugglegum" without ™. Never use the two banned words (see `docs/`); a test fails on them too.
+**Always write the brand name with the trademark sign.** In visible markup use the `<Brand />` component (`src/components/ui/Brand.astro`), e.g. `<Brand /> Close Contact`, `<Brand />’s daily gummy`. It renders `Snugglegum` plus the sign in a plain `<span class="tm">` (small and raised via CSS, size `tm-display` for big headings); never `<sup>`, which is meant for superscripts with their own meaning. Put a following punctuation mark directly behind the tag, never on its own line (Astro renders a line break there as a space). In plain text where markup is impossible (`<title>`, meta and Open Graph tags, JSON-LD, `alt`/`aria-label` attributes, `llms.txt`, `robots.txt`, the manifest, `src/config/*.ts`, string props) write the bare `Snugglegum™`. Tests fail if a built page, `llms.txt` or the manifest has "Snugglegum" without ™, if a `<sup>` carries the sign, or if the bare `Snugglegum™` appears in visible body text. Never use the two banned words (see `docs/`); a test fails on them too.
 
 ### Design knobs (`src/config/site.ts`)
 
@@ -200,7 +200,7 @@ Projects: Chromium, Firefox and WebKit, each at a desktop and a mobile viewport,
 | `a11y` | axe at WCAG 2.2 AA on every route and with each dialog open, keyboard navigation, focus outlines, reduced motion, touch targets |
 | `fonts-network` | Only local fonts, no external origins, MailerLite contacted only after submit |
 | `csp` | Every page runs under the real CSP from `public/_headers` without a violation |
-| `unit/guardrails` | No banned words in built output, sources or docs; ™ on every brand mention; 18+ notice; offer variants |
+| `unit/guardrails` | No banned words in built output, sources or docs; ™ on every brand mention (`<Brand />` in visible text, no `<sup>`); 18+ notice; offer variants |
 | `unit/colors`, `unit/variants` | Color rule, design knobs |
 | `unit/placeholders` | `.env` resolution (empty, value, `n/a`, fallback, review flag) and the `check:placeholders` report |
 | `unit/rendered-check` | The post-build HTML check: every failure above on a synthetic `dist/`, plus the real build |

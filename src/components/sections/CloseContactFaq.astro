@@ -7,6 +7,7 @@
  * still pending approval.
  */
 import ProductFaqGroup from '@/components/product/ProductFaqGroup.astro';
+import Brand from '@/components/ui/Brand.astro';
 
 const item = 'border-b-2 border-dashed border-green';
 const question = 'flex min-h-12 items-center justify-between gap-5 py-6 text-[clamp(1.15rem,2vw,1.5rem)] font-black uppercase';
@@ -25,7 +26,7 @@ const answer = 'max-w-[60ch] pb-6 text-[19px] leading-[1.55]';
         <details name="faq-close-contact" class:list={[item]}>
           <summary class:list={[question]}>
             <span>
-              What is Snugglegum<sup class="text-[0.55em]">™</sup> Close Contact?
+              What is <Brand /> Close Contact?
             </span>
             <span aria-hidden="true" class:list={[plus]}>+</span>
           </summary>
@@ -124,7 +125,7 @@ const answer = 'max-w-[60ch] pb-6 text-[19px] leading-[1.55]';
           <p class:list={[answer]}>
             <strong>Bright, juicy pineapple with a soft gummy bite — and a liquid center that pops when you chew</strong>. It
             starts fruity, finishes fresh and leaves you with that little "okay, what was that?" moment.
-            <strong>It's not gum. It's not candy. It's Snugglegum<sup class="text-[0.55em]">™</sup> Close Contact</strong>.
+            <strong>It's not gum. It's not candy. It's <Brand /> Close Contact</strong>.
           </p>
         </details>
 

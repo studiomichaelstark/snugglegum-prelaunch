@@ -12,6 +12,7 @@ import { isPreviewState } from "@/config/variants";
 import { products, type ProductId } from "@/config/products";
 import ArrowIcon from "@/components/ui/ArrowIcon.astro";
 import NewsletterSuccess from "./NewsletterSuccess.astro";
+import Brand from "@/components/ui/Brand.astro";
 
 interface Props {
   /** Unique suffix for element ids (the page has two forms on a page). */
@@ -50,7 +51,7 @@ const consentId = `newsletter-consent-${id}`;
   <form data-newsletter-form method="post" action={mailerLite.endpoint || undefined} hidden={showSuccess} aria-busy={isSubmitting ? "true" : undefined}>
     <fieldset class="mb-5 min-w-0 border-0 p-0 text-center">
       <legend class="label-caps mx-auto text-center text-[clamp(1rem,1.6vw,1.2rem)] leading-[1.3]">
-        Which Snugglegum<sup class="text-[0.55em]">™</sup> are you interested in?
+        Which <Brand /> are you interested in?
       </legend>
       <!-- <p class="mt-1 text-sm leading-normal opacity-60">Pick at least one.</p> -->
       <div class="mt-3 flex flex-wrap justify-center gap-x-6 gap-y-2.5">
@@ -93,7 +94,7 @@ const consentId = `newsletter-consent-${id}`;
     <label for={consentId} class="mt-[18px] block cursor-pointer text-center text-base leading-normal">
       <input id={consentId} type="checkbox" name="consent" required class:list={["m-0 mr-1 inline-block size-6 align-middle", isDark ? "accent-lime" : "accent-green"]} />
       <span>
-        I'm 18 or older and agree to receive Snugglegum<sup class="text-[0.55em]">™</sup> launch emails. I can unsubscribe anytime. See our
+        I'm 18 or older and agree to receive <Brand /> launch emails. I can unsubscribe anytime. See our
         <a href="/privacy" class:list={[isDark ? "text-white" : ""]}>Privacy Policy</a>.
       </span>
     </label>
@@ -116,7 +117,7 @@ const consentId = `newsletter-consent-${id}`;
   </form>
 
   <template data-message="invalid-email">That email doesn’t look right. Check it and try again.</template>
-  <template data-message="interest">Please pick at least one Snugglegum™ product.</template>
+  <template data-message="interest">Please pick at least one <Brand /> product.</template>
   <template data-message="consent">Please confirm you’re 18 or older and agree to the emails.</template>
   <template data-message="server">Something went wrong on our side. Try again.</template>
   <template data-message="already">You’re already on the list. Nice taste.</template>

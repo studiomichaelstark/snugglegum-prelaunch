@@ -4,11 +4,12 @@ import LegalSection from "@/components/legal/LegalSection.astro";
 import OperatorInfo from "@/components/legal/OperatorInfo.astro";
 import { legal } from "@/config/legal";
 import Legal from "@/layouts/Legal.astro";
+import Brand from "@/components/ui/Brand.astro";
 ---
 
 <Legal title="Imprint – Snugglegum™" description="Legal notice and operator information for Snugglegum™, the pre-launch brand of liquid-filled pineapple gummies for adults 18+." path="/imprint" heading="Imprint">
   <LegalSection title="1. Operator">
-    <p>The website Snugglegum™ is operated by:</p>
+    <p>The website <Brand /> is operated by:</p>
     <OperatorInfo />
     {legal.commercialRegister.display && <p>Commercial register: {legal.commercialRegister.display}</p>}
     {legal.vatId.display && <p>VAT ID: {legal.vatId.display}</p>}
@@ -27,7 +28,7 @@ import Legal from "@/layouts/Legal.astro";
   </LegalSection>
 
   <LegalSection title="4. Liability for content">
-    <p>We create the content of this website with care. We cannot guarantee that it is complete, accurate or up to date at all times. Snugglegum™ is in its pre-launch phase. Product details, offers and dates on this page may change before launch.</p>
+    <p>We create the content of this website with care. We cannot guarantee that it is complete, accurate or up to date at all times. <Brand /> is in its pre-launch phase. Product details, offers and dates on this page may change before launch.</p>
   </LegalSection>
 
   <LegalSection title="5. Liability for links">
@@ -36,7 +37,7 @@ import Legal from "@/layouts/Legal.astro";
 
   <LegalSection title="6. Trademark and copyright">
     <p>
-      Snugglegum™ is a trademark by
+      <Brand /> is a trademark by
       <OperatorInfo variant="name" />. Texts, images, logos and design of this website are protected by copyright. Any use beyond what the law allows requires our prior written consent.
     </p>
   </LegalSection>

@@ -4,11 +4,12 @@
  * from a product page: a single text link with a back arrow. Not a nav — just a link. It takes
  * the surrounding text color, so it works on light and dark heroes alike.
  */
+import Brand from "@/components/ui/Brand.astro";
 ---
 
 <a href="/" class="label-caps group inline-flex text-inherit items-center gap-2 py-2 text-sm no-underline transition-opacity duration-200 hover:opacity-70">
   <svg aria-hidden="true" focusable="false" viewBox="0 0 16 16" class="size-4 shrink-0 transition-transform duration-200 group-hover:-translate-x-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M13 8H3M7.5 3.5 3 8l4.5 4.5"></path>
   </svg>
-  All Snugglegum™ products
+  <span>All <Brand /> products</span>
 </a>

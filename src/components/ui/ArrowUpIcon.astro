@@ -1,0 +1,11 @@
+---
+/** Decorative up arrow (an SVG, so no glyph outside the Latin font subset is needed). */
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" class:list={["size-6 flex-none", className]}>
+  <path d="M12 20V5M6 11l6-6 6 6"></path>
+</svg>

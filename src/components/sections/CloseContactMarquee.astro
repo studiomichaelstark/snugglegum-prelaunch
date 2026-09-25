@@ -1,4 +1,5 @@
 ---
+import Brand from "@/components/ui/Brand.astro";
 const list = "stretch-tight flex gap-10 pr-10 text-[clamp(1.7rem,4.4vw,3.25rem)] leading-none font-black whitespace-nowrap text-pink uppercase";
 const phrase = 'after:ml-10 after:content-["•"]';
 ---
@@ -7,7 +8,7 @@ const phrase = 'after:ml-10 after:content-["•"]';
   <div class="marquee-track flex w-max animate-[sg-marquee_22s_linear_infinite]">
     <ul class:list={[list]}>
       <li class:list={[phrase]} data-copy-review="body-taste claim">
-        3 Snugglegum<sup class="text-[0.55em]">™</sup>a day, helps you taste okay
+        3 <Brand /> a day, helps you taste okay
       </li>
       <li class:list={[phrase]} data-copy-review="body-taste claim">
         Because you are the aftertaste
@@ -17,7 +18,7 @@ const phrase = 'after:ml-10 after:content-["•"]';
     </ul>
     <ul aria-hidden="true" class:list={[list]}>
       <li class:list={[phrase]}>
-        3 Snugglegum<sup class="text-[0.55em]">™</sup>a day, helps you taste okay
+        3 <Brand /> a day, helps you taste okay
       </li>
       <li class:list={[phrase]}>Because you are the aftertaste</li>
       <li class:list={[phrase]}>Begum tasty</li>

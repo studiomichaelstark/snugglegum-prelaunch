@@ -1,0 +1,12 @@
+---
+/**
+ * The brand name with its trademark sign: Snugglegum™. Use this in visible markup; plain text (title, meta,
+ * JSON-LD, alt/aria attributes, llms.txt, config strings) keeps the bare "Snugglegum™" character sequence.
+ * `size="display"` shrinks the sign for large headings. Renders no whitespace of its own.
+ */
+interface Props {
+  size?: "default" | "display";
+}
+const { size = "default" } = Astro.props;
+---
+Snugglegum<span class:list={["tm", size === "display" && "tm-display"]}>™</span>
