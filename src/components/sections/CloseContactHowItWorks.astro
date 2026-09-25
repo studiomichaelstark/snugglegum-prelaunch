@@ -1,8 +1,5 @@
 ---
 import ImagePlaceholder from "@/components/ui/ImagePlaceholder.astro";
-import chemistry from "@/assets/chemistry.jpg";
-import smellGood from "@/assets/smell-good.jpg";
-import thingsGetCloser from "@/assets/things-get-closer.jpg";
 import Brand from "@/components/ui/Brand.astro";
 
 const row = "grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] items-center gap-[clamp(20px,3vw,40px)] border-t-2 border-dashed border-white/20 pt-[clamp(24px,3vw,40px)]";
@@ -40,8 +37,8 @@ const body = "mt-3.5 max-w-[38ch] text-xl leading-normal";
             <strong><Brand /> works from within — not to cover you up, but to help you smell a little more inviting</strong>.
           </p>
         </div>
-        <div class="aspect-[4/3] overflow-hidden transition-transform duration-300 hover:scale-[1.03] hover:-rotate-1 bg-pink rounded-3xl">
-          <ImagePlaceholder src={smellGood} alt="Illustration of a couple: one recoils, annoyed, while the other looks on, confused" />
+        <div class="aspect-[4/3] overflow-hidden rounded-3xl transition-transform duration-300 hover:scale-[1.03]">
+          <ImagePlaceholder />
         </div>
       </li>
 
@@ -63,8 +60,8 @@ const body = "mt-3.5 max-w-[38ch] text-xl leading-normal";
             <strong><Brand /> is made for what happens beyond the bottle of perfume</strong>.
           </p>
         </div>
-        <div class="order-2 sm:order-1 aspect-[4/3] overflow-hidden transition-transform duration-300 hover:scale-[1.03] hover:-rotate-1 bg-pink rounded-3xl">
-          <ImagePlaceholder src={thingsGetCloser} alt="Illustration of a couple embracing closely, hearts floating around them" />
+        <div class="order-2 sm:order-1 aspect-[4/3] overflow-hidden rounded-3xl transition-transform duration-300 hover:scale-[1.03]">
+          <ImagePlaceholder />
         </div>
       </li>
 
@@ -87,8 +84,8 @@ const body = "mt-3.5 max-w-[38ch] text-xl leading-normal";
             <strong>Think of it as a little backup for your everyday chemistry</strong>.
           </p>
         </div>
-        <div class="aspect-[4/3] overflow-hidden transition-transform duration-300 hover:scale-[1.03] hover:-rotate-1 bg-pink rounded-3xl">
-          <ImagePlaceholder src={chemistry} alt="Illustration of a scientist in a lab coat holding two test tubes, surrounded by molecule diagrams" />
+        <div class="aspect-[4/3] overflow-hidden rounded-3xl transition-transform duration-300 hover:scale-[1.03]">
+          <ImagePlaceholder />
         </div>
       </li>
     </ol>

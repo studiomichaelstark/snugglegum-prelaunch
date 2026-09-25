@@ -23,7 +23,7 @@ const description =
 <Base title={title} description={description} path="/beauty" product={{ name: 'Snugglegum™ Beauty' }}>
   <main id="main" class="max-w-full overflow-x-clip">
     <ProductHero bgClass="bg-beauty" pouch={beautyPouch} pouchAlt="Snugglegum™ Beauty Nutrition pouch" pouchGlow="bg-white/90" vignetteClass="to-vignette-beauty" tone="light">
-      <Fragment slot="badge"><Brand /> · Beauty</Fragment>
+      <Fragment slot="badge">Beauty</Fragment>
       <Fragment slot="headline">Your Beauty Routine Just Got Chewable.</Fragment>
       <Fragment slot="subline">Beauty is <Brand />’s daily gummy for hair, skin and nails — beauty nutrition in a seriously chewable form.<br>Get on the list and be first to try them.</Fragment>
       <PouchStickers slot="stickers" circleLines={['Look Good.', 'Chew Better']} circleSide="right" reviewNote="Beauty stickers are copied from Close Contact (the 93 count is a placeholder)" />
@@ -38,7 +38,7 @@ const description =
     <BeautyFaq />
 
     <ProductNewsletter id="beauty" bgClass="bg-green" tone="dark" preselect="beauty">
-      <span slot="badge" class="label-caps inline-block animate-[sg-bob_4.5s_ease-in-out_infinite] rounded-full border-2 border-dashed border-ink bg-white px-[22px] py-[13px] text-base text-ink">
+      <span slot="badge" class="label-caps inline-block animate-[sg-bob_4.5s_ease-in-out_infinite] rounded-full border-2 border-dashed border-ink bg-white pl-[calc(22px+0.14em)] pr-[22px] text-center py-[13px] text-base text-ink">
         Pre-launch · list only
       </span>
       <h2 slot="heading" class="display-word stretch-display mt-6 text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] text-balance">

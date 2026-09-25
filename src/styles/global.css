@@ -350,6 +350,18 @@ dialog[data-dialog='supplement-facts']::backdrop {
     radial-gradient(circle 9px at 100% 100%, transparent 98%, black) 100% 100% / 51% 51% no-repeat;
 }
 
+/*
+ * Hero wordmark size, identical on the home page and every product page: 60% of the column up to 600px
+ * (the home page's size) from md up, 30% larger (78%) on phones.
+ */
+@utility logo-hero {
+  width: min(78%, 600px);
+
+  @media (min-width: 48rem) {
+    width: min(60%, 600px);
+  }
+}
+
 /* Hero wordmark glow and sticker drop shadow (design values, colors from tokens). */
 .logo-glow {
   filter: drop-shadow(0 0 10px color-mix(in srgb, var(--color-glow) 40%, transparent))

@@ -1,6 +1,6 @@
 import { siteConfig } from '@/config/site';
 
-const LOGO_PATH = '/favicon/android-chrome-512x512.png';
+const LOGO_PATH = '/android-chrome-512x512.png';
 
 export interface PageMeta {
   title: string;

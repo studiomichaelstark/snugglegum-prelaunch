@@ -13,7 +13,6 @@ import ProductHero from '@/components/product/ProductHero.astro';
 import ProductNewsletter from '@/components/product/ProductNewsletter.astro';
 import SupplementFacts from '@/components/sections/SupplementFacts.astro';
 import Base from '@/layouts/Base.astro';
-import Brand from '@/components/ui/Brand.astro';
 
 const title = 'Snugglegum™ Protein Energy – Protein Sport Nutrition';
 const description =
@@ -23,7 +22,7 @@ const description =
 <Base title={title} description={description} path="/protein-energy" product={{ name: 'Snugglegum™ Protein Energy' }}>
   <main id="main" class="max-w-full overflow-x-clip">
     <ProductHero bgClass="bg-sport" pouch={proteinEnergyPouch} pouchAlt="Snugglegum™ Protein Energy pouch of liquid-filled gummies" pouchGlow="bg-pink/90" tone="dark">
-      <Fragment slot="badge"><Brand /> · Protein Energy</Fragment>
+      <Fragment slot="badge">Protein Energy</Fragment>
       <Fragment slot="headline"><span data-copy-review="nutrient content and energy claims (protein, energy, caffeine): formula not final, needs legal review">Protein. Energy. No shaker required.</span></Fragment>
       <Fragment slot="subline">A <strong>high-protein</strong>, <span data-copy-review="zero sugar claim (nutrient content claim): conflicts with glucose (fast carbs) in the same copy and with the Supplement Facts placeholder (8g added sugar); needs legal review"><strong>zero-sugar</strong></span> gummy loaded with protein, fast carbs and a kick of <strong>caffeine</strong> — made for workouts.<br>Join the list. You’ll want to be early.</Fragment>
       <PouchStickers slot="stickers" circleLines={['Daily', 'Muscle', 'Candy']} circleSide="right" reviewNote="Protein Energy stickers are copied from Close Contact (the 93 count is a placeholder)" />
@@ -46,7 +45,7 @@ const description =
     <ProteinEnergyFaq />
 
     <ProductNewsletter id="protein-energy" bgClass="bg-green" tone="dark" preselect="protein-energy">
-      <span slot="badge" class="label-caps inline-block animate-[sg-bob_4.5s_ease-in-out_infinite] rounded-full border-2 border-dashed border-ink bg-white px-[22px] py-[13px] text-base text-ink">
+      <span slot="badge" class="label-caps inline-block animate-[sg-bob_4.5s_ease-in-out_infinite] rounded-full border-2 border-dashed border-ink bg-white pl-[calc(22px+0.14em)] pr-[22px] text-center py-[13px] text-base text-ink">
         Pre-launch · list only
       </span>
       <h2 slot="heading" class="display-word stretch-display mt-6 text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] text-balance">

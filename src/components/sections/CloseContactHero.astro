@@ -6,15 +6,14 @@ import pouch from "@/assets/snugglegum-doypack-close-contact.png";
 import HeroSignup from "@/components/product/HeroSignup.astro";
 import PouchStickers from "@/components/product/PouchStickers.astro";
 import ProductHero from "@/components/product/ProductHero.astro";
-import Brand from "@/components/ui/Brand.astro";
 ---
 
 <ProductHero bgClass="bg-pink" tone="light" pouch={pouch} pouchAlt="Snugglegum™ Close Contact pouch of liquid-filled pineapple gummies" pouchGlow="bg-white/90" vignetteClass="to-vignette-close-contact">
-  <Fragment slot="badge"><Brand /> • Close Contact</Fragment>
+  <Fragment slot="badge">Close Contact</Fragment>
   <Fragment slot="headline">For kisses that don't stop at the lips.</Fragment>
   <Fragment slot="subline">A pineapple gummy with a liquid center and a very specific purpose: getting you ready for closer contact. Join the list. You’ll want to be early.</Fragment>
 
-  <PouchStickers slot="stickers" circleLines={['Built for', 'What Comes Next.']} />
+  <PouchStickers slot="stickers" circleLines={['Built for', 'What Comes Next.']} circleSide="right" />
 
   <Fragment slot="cta">
     <HeroSignup tone="light" preselect="close-contact" />

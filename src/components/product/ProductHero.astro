@@ -44,19 +44,21 @@ const vignette = vignetteClass ?? 'to-ink';
   <section id="hero" class="section-px relative overflow-hidden pt-9 pb-[clamp(56px,7vw,96px)]">
     <div class="container-lg relative">
       <div class="flex justify-center">
-        <Logo class="logo-glow w-[min(40%,450px)] text-white md:w-[min(60%,580px)]" />
+        <a href="/" aria-label="Snugglegum™ home" class="logo-hero block">
+          <Logo class="logo-glow text-white" />
+        </a>
       </div>
 
       <div class="mt-[clamp(28px,4vw,44px)] flex flex-wrap items-center justify-center gap-[clamp(16px,3vw,32px)]">
-        <span class="stretch-tight m-auto inline-block animate-[sg-bob_4s_ease-in-out_infinite] rounded-full bg-ink px-8 py-[10px] text-[clamp(12.8px,1.76vw,20.8px)] font-black tracking-[0.12em] text-pink uppercase"><slot name="badge" /></span>
+        <span class="stretch-tight m-auto inline-block animate-[sg-bob_4s_ease-in-out_infinite] rounded-full bg-ink pl-[calc(2rem+0.12em)] pr-8 py-[10px] text-center text-[clamp(12.8px,1.76vw,20.8px)] font-black tracking-[0.12em] text-pink uppercase"><slot name="badge" /></span>
       </div>
 
       <h1 class="stretch-hero mx-auto mt-[clamp(28px,4vw,44px)] max-w-[30ch] text-center text-[clamp(2.5rem,6.5vw,5.5rem)] leading-[0.9] font-black tracking-[-0.02em] text-balance uppercase"><slot name="headline" /></h1>
 
       <p class="mx-auto mt-[clamp(18px,2.5vw,26px)] max-w-[48ch] text-center text-[clamp(1.15rem,1.7vw,1.4rem)] leading-[1.5] font-medium"><slot name="subline" /></p>
 
-      <div class="relative mt-[clamp(28px,4vw,48px)]">
-        <div aria-hidden="true" data-decorative-text class="stretch-wide ml-[calc(50%-50vw)] w-screen text-center text-[clamp(3.2rem,15vw,13rem)] leading-[0.8] font-black tracking-[-0.035em] opacity-[0.14]">
+      <div class="relative mt-16 md:mt-[clamp(28px,4vw,48px)]">
+        <div aria-hidden="true" data-decorative-text="" class="hidden md:block stretch-wide ml-[calc(50%-50vw)] w-screen text-center text-[clamp(3.2rem,15vw,13rem)] leading-[0.8] font-black tracking-[-0.035em] opacity-[0.14]">
           GUMMIES
         </div>
 
