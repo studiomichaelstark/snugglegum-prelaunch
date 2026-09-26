@@ -15,7 +15,7 @@ const desc = "mt-2 text-[19px] leading-normal";
   <div class="container-lg grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-[clamp(32px,5vw,72px)]">
     <div>
       <h2 class="display-word text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] stretch-display text-pink">What's inside</h2>
-      <p class="mt-5 max-w-[36ch] text-xl leading-normal" data-copy-review="Protein Energy formula not yet finalized: no ingredient list to show">
+      <p class="mt-5 max-w-[36ch] text-xl leading-normal" data-copy-review="PENDING - Notion Regulatory & Compliance §5: the formula is a target only (protein 10 g, glucose 5 g, caffeine 50 mg and 4 gummies per serving; B6/B12 optional) and the full ingredient list is not final. The section shows no amounts until it is.">
         The formula is still being finalized. Here's what we can already tell you.
       </p>
       <button type="button" data-dialog-open="supplement-facts" aria-haspopup="dialog" class="label-caps rounded-card mt-8 flex w-full cursor-pointer items-center justify-between gap-3 border-2 border-dashed border-pink bg-white/10 text-white px-6 py-5 text-[17px]">
@@ -34,7 +34,7 @@ const desc = "mt-2 text-[19px] leading-normal";
           </span>
           <div>
             <h3 class:list={[name]}>High protein</h3>
-            <p class:list={[desc]} data-copy-review="nutrient content claim (high-protein): protein amount not final, needs legal review">A serious dose of protein in a seriously chewable format.</p>
+            <p class:list={[desc]} data-copy-review="PENDING - Notion Regulatory & Compliance §5 (Protein-Claim-Strategie): do not print 'High Protein' before the FDA nutrient-content-claim analysis and the final serving/label are confirmed; the interim wording is '10g PROTEIN PER SERVING'. The 10 g is a proposed target, not final.">A serious dose of protein in a seriously chewable format.</p>
           </div>
         </li>
         <li class:list={[item]}>
@@ -43,7 +43,7 @@ const desc = "mt-2 text-[19px] leading-normal";
           </span>
           <div>
             <h3 class:list={[name]}>Fast carbs</h3>
-            <p class:list={[desc]} data-copy-review="energy claim (glucose): carb amount not final, needs legal review">Glucose for quick, readily available energy when you need fuel fast.</p>
+            <p class:list={[desc]} data-copy-review="PENDING - Notion §5: glucose/dextrose 5 g per serving is a proposed target (final TBD). 'quick, readily available energy ... fuel fast' sits close to the §5/§9 Avoid items ('Gives you instant energy', 'Works instantly'); Notion's own description is 'carbohydrate component'. Decision needed on a softer line.">Glucose for quick, readily available energy when you need fuel fast.</p>
           </div>
         </li>
         <li class:list={[item]}>
@@ -52,7 +52,7 @@ const desc = "mt-2 text-[19px] leading-normal";
           </span>
           <div>
             <h3 class:list={[name]}>Caffeine</h3>
-            <p class:list={[desc]} data-copy-review="caffeine content and effect claim: amount not final, caffeine warning/labeling needs legal review">A purposeful caffeine kick for moments when you want to feel more switched on.</p>
+            <p class:list={[desc]} data-copy-review="PENDING - Notion §5: caffeine 50 mg per serving is a proposed target and the regulated direction is 'With 50mg caffeine per serving'. 'feel more switched on' is an alertness effect claim (§8: needs an ingredient-specific, substantiated claim; Avoid: 'Prevents fatigue'). Caffeine warning language must be checked against the final formula and serving.">A purposeful caffeine kick for moments when you want to feel more switched on.</p>
           </div>
         </li>
         <li class:list={[item]}>
@@ -61,7 +61,7 @@ const desc = "mt-2 text-[19px] leading-normal";
           </span>
           <div>
             <h3 class:list={[name]}>More functional ingredients</h3>
-            <p class:list={[desc]} data-copy-review="vague performance/energy claim; ingredient list not yet finalized">A carefully selected combination of ingredients commonly found in performance and energy products.</p>
+            <p class:list={[desc]} data-copy-review="PENDING - Notion §5: only B6, B12 and Vitamin C are named as optional extras, none confirmed. 'performance' wording is rated yellow in §8 (needs stronger substantiation) and 'functional ingredients' is vague. Re-base on the final ingredient list.">A carefully selected combination of ingredients commonly found in performance and energy products.</p>
           </div>
         </li>
         <li class:list={[item]}>
@@ -70,7 +70,7 @@ const desc = "mt-2 text-[19px] leading-normal";
           </span>
           <div>
             <h3 class:list={[name]}>Zero sugar</h3>
-            <p class:list={[desc]} data-copy-review="zero sugar claim (nutrient content claim): conflicts with glucose (fast carbs) in the same copy and with the Supplement Facts placeholder (8g added sugar); needs legal review">All the candy fun, none of the sugar.</p>
+            <p class:list={[desc]} data-copy-review="PENDING - CONFLICT with Notion Regulatory & Compliance §5: the target formulation contains glucose/dextrose 5 g per serving, and glucose is a sugar, so 'zero sugar' contradicts the current formula (Notion lists no zero-sugar claim anywhere). Drop the claim or change the formula; decision needed.">All the candy fun, none of the sugar.</p>
           </div>
         </li>
         <li class:list={[item]}>
@@ -79,11 +79,11 @@ const desc = "mt-2 text-[19px] leading-normal";
           </span>
           <div>
             <h3 class:list={[name]}>Liquid center</h3>
-            <p class:list={[desc]} data-copy-review="flavor not stated on the page; the pouch artwork says Energy flavor (Energy-supporting ingredients), confirm it and the wording">Because a solid chew is just candy.</p>
+            <p class:list={[desc]} data-copy-review="PENDING - Notion Produkt & Rezeptur: the Protein Energy flavor is TBD (liquid center is set). The pouch artwork prints 'Energy flavor (Energy-supporting ingredients)'; confirm that wording, it reads as an energy claim on the pack.">Because a solid chew is just candy.</p>
           </div>
         </li>
       </ul>
-      <p class="mt-6 text-lg leading-[1.6] opacity-90" data-copy-review="Protein Energy serving size not yet finalized; the Supplement Facts panel is still the Close Contact placeholder">
+      <p class="mt-6 text-lg leading-[1.6] opacity-90" data-copy-review="PENDING - Notion Regulatory & Compliance §5 proposes 4 gummies per serving (not final) and defines no suggested use per day. The Supplement Facts panel is still the Close Contact placeholder.">
         Serving size: to be confirmed once the formula is final. The label is the definitive source. Please don't exceed the recommended amount, more isn't better, it's just more.
         <button type="button" data-dialog-open="supplement-facts" aria-haspopup="dialog" class="cursor-pointer underline">
           See Supplement Facts
