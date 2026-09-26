@@ -1,9 +1,76 @@
 # Snugglegum™ Brand Voice Guidelines
 
+> **Version 2 (2026-09-25) — additive update.** The v1 text below is unchanged except for short notes marked *(v2)*. Where v1 and this section disagree, this section wins. Sources: the current site code (product pages, `Brand.astro`, `llms.txt.ts`, `guardrails.spec.ts`), the output of `pnpm check:placeholders`, and product decisions taken since v1. The Notion page "Brand Voice Guidelines" carries the same update.
+
+## Version 2 update (2026-09-25)
+
+### 1. Product family (replaces v1's single-product framing)
+
+| Product | Category subtitle | Page | What is fixed today |
+|---------|-------------------|------|---------------------|
+| Close Contact | Close Contact Nutrition | /close-contact | Liquid-filled, pineapple-flavored gummy |
+| Beauty | Beauty Nutrition | /beauty | Hair, skin and nail nutrition; formula not final |
+| Protein Energy | Protein Sport Nutrition | /protein-energy | High-protein gummy with glucose and caffeine (per llms.txt); amounts and full ingredient list not final |
+
+- Snugglegum™ is an umbrella brand with three separate products, each with its own page and canonical URL. There is no single "Snugglegum™ product": always name the specific product.
+- **Product change (2026-09-25):** "Male Vitality" ("Intimate Male Fitness") was replaced by **Protein Energy** ("Protein Sport Nutrition"). Reason: the product should not be limited to men and is now positioned as a protein sport product. The old name, slug and wording must not come back.
+- **Descriptor:** v1's primary descriptor "liquid-filled pineapple gummies" now describes Close Contact only. Do not transfer "pineapple" to Protein Energy (its pouch says "Energy flavor"); Beauty's flavor is not final (flagged in its FAQ).
+
+### 2. Audience and language
+
+- Protein Energy is for anyone who trains (lifters, runners, riders, swimmers, weekend warriors) — as written in the Audience section of its page.
+- **Gender-neutral language:** no "for men," "male," "his/him" and no intimate or sexual angle in this product's copy. All male references were removed from copy, file names, identifiers and config (a repo-wide search finds none left).
+- **Humor register for this product (as shipped):** training and routine jokes ("No powder. No shaker. No sad protein bar."), not innuendo. The family line "engineered to get you closer" stays at umbrella level.
+- Language is US English (en-US); USA first, not available in the EU (unchanged from v1).
+
+### 3. Trademark sign convention (extends v1's Must-Use Terms)
+
+- Every mention of the name carries ™ (unchanged, test-enforced).
+- **In visible text**, the name is written with the `<Brand />` component: "Snugglegum" plus a small, raised ™ that comes from a CSS class, not from a `<sup>` tag. Possessive: Snugglegum™’s.
+- **In plain text** (page titles, meta tags, JSON-LD, alt and aria attributes, llms.txt, config strings) it stays the bare character sequence "Snugglegum™".
+- Why no `<sup>`: MDN says a wordmark with a raised baseline should be styled with CSS (`vertical-align`), not with `<sup>`, which is meant for typographic conventions such as exponents and ordinals.
+- `guardrails.spec.ts` enforces all three rules: ™ on every mention, never a `<sup>`, and the `<Brand />` markup in visible body text.
+
+### 4. CTA and link wording
+
+- Product cards use one uniform, short label: **"Learn more"** (replaces "Explore <Product>"). Screen readers hear "Learn more about <Product>" through a visually hidden suffix. Reason: short, common in the US, and it fits three columns on a phone in landscape.
+- The primary conversion CTA stays **"Get on the list"** and scrolls to the nearest newsletter form. v1's ban on "shop / buy / price" as live CTAs still applies.
+
+### 5. Claims: how flagged copy is handled (extends v1 Open Question 1)
+
+- **Mechanism:** every claim-like line carries `data-copy-review="…"`. `pnpm check:placeholders` lists them, and the production `pnpm build` fails until they are resolved. On 2026-09-25 there were **64 flags** (v1 counted nine lines).
+- **Protein Energy:** the client-supplied copy uses nutrient-content and energy claims (high-protein, zero-sugar, glucose, caffeine, "energy-supporting ingredients"). It is kept but flagged. We add no amounts, ingredients, muscle or recovery claims of our own.
+- **Resolving a flag is a decision, not an edit.** For each claim, decide with counsel: substantiate and keep, reword, or remove. Removing the marker is the sign-off. Recommended, not yet set up: a claim register in `docs/legal-review.md` (location, text, decision, evidence, date, reviewer). The FDA disclaimer does not cure an unsubstantiated claim (`docs/legal-review.md` point 8).
+- **Known gaps on Protein Energy (2026-09-25):**
+  - "Protein to build. Carbs to fuel. Caffeine to get you moving." (How it works) has no review flag although it reads as a muscle-building and performance claim.
+  - "Zero sugar" sits next to glucose in the same copy, and the Supplement Facts panel is still Close Contact's placeholder (8 g added sugar).
+  - The pouch artwork carries text ("PROTEIN+ENERGY," "Energy flavor," "Energy-supporting ingredients") and belongs to the claim surface.
+  - The "Daily Muscle Candy" sticker is copied from Close Contact and only flagged as a placeholder.
+
+### 6. Terminology clarifications (extend v1's tables)
+
+- **Product names** Beauty and Protein Energy are allowed as names. v1's never-use words (energy, beauty, recovery, …) stay banned as effect claims in running copy.
+- **Nutrient-content wording** ("protein," "high-protein," "zero sugar") stays flagged until the formula is final and the numbers are substantiated. "Zero sugar" must not appear next to glucose or added sugar in the Supplement Facts panel.
+- **New avoid list:** gendered address ("for men," "male," "for him"), the former product name "Male Vitality" and its wording ("vitality," "intimate").
+
+### 7. Text for AI systems (llms.txt)
+
+- `llms.txt` is factual and claim-free: no jokes, no health claims. It tells AI systems not to add health or medical claims and not to infer ingredients or dosages for Protein Energy and Beauty. `robots.txt` allows the named search and AI crawlers.
+
+### 8. New open questions (v2)
+
+1. **"Functional":** the homepage meta description and `llms.txt` still say "a family of functional gummies," while v1 keeps "functional" on the avoid list until a decision is made. Decide one way.
+2. **Umbrella descriptor:** since "pineapple" is now product-specific, the brand needs a one-line descriptor that fits all three products.
+3. **Age gate per product:** Close Contact carries the 18+ stamp, Beauty carries no 18+ notice (guardrail-tested), Protein Energy is not decided. The sign-up checkbox says 18+ for everyone.
+4. **Tone:** how far the innuendo-forward family voice should reach into a sport product, and how far the sport register should reach back into the family.
+
+---
+
 ## Generation Metadata
 - Created: 2026-09-22
-- Version: 1
-- Replaces: n/a (first generation)
+- Updated: 2026-09-25 (Version 2, additive)
+- Version: 2
+- Replaces: n/a (v2 extends v1; v1 text kept)
 - Sources: shipped site copy (~15 `.astro` files), `docs/plan.md`, `docs/seo-keywords.md`, `docs/faq-proposal.md`, `docs/legal-review.md`, `src/config/site.ts`, `tests/unit/guardrails.spec.ts`
 - Documents processed: 7 planning/config documents + the full shipped copy surface
 - Conversations analyzed: 0 (no sales/support transcripts exist for this project)
@@ -183,7 +250,7 @@ Voice (the "We Are" table) stays constant. These three dimensions flex by contex
 ### Preferred Terms
 | Term | Usage | Example |
 |------|-------|---------|
-| liquid-filled pineapple gummies | Primary product descriptor — verified as the strongest, most truthful differentiator in `docs/seo-keywords.md` | "Liquid-filled pineapple gummies. They haven't launched yet." |
+| liquid-filled pineapple gummies | Primary product descriptor *(v2: now specific to Close Contact — see Version 2 update, section 1)* — verified as the strongest, most truthful differentiator in `docs/seo-keywords.md` | "Liquid-filled pineapple gummies. They haven't launched yet." |
 | the list / pre-launch list | The waitlist mechanism | "The list is how you get in first." |
 
 ### Avoid These Terms
@@ -196,7 +263,7 @@ Voice (the "We Are" table) stays constant. These three dimensions flex by contex
 | Term | Reason |
 |------|--------|
 | "superfood," "sex" | Hard-banned — a Playwright test fails the build if either appears anywhere in source or built output |
-| gut health, digestive, immune support, detox, weight loss, probiotics, energy, focus, beauty, recovery | Health/effect claims requiring substantiation the brand has ruled out |
+| gut health, digestive, immune support, detox, weight loss, probiotics, energy, focus, beauty, recovery | Health/effect claims requiring substantiation the brand has ruled out *(v2: as effect claims in running copy; "Beauty" and "Protein Energy" are product names and allowed as names — see Version 2 update, section 6)* |
 | sugar-free, vegan, gluten-free, organic, natural | Unverified, and the Supplement Facts panel lists 8g added sugar — "sugar-free" would be factually false |
 | clinical, science-backed, doctor-recommended, third-party tested | Unverifiable claims |
 | best, #1, top-rated | Unsubstantiated superlatives |
