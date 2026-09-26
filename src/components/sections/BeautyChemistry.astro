@@ -2,8 +2,9 @@
 /**
  * "The chemistry of beauty" — the same editorial explainer as CloseContactChemistry.astro
  * (Close Contact), written for this product. Deliberately conservative: no ingredient names and no
- * physiological or cosmetic claims while the formula is unfinalized. Every paragraph carries
- * a review flag, so `pnpm check:placeholders` lists it until it is approved.
+ * physiological or cosmetic claims while the formula is unfinalized. The wording stays inside the language
+ * approved in Notion "Regulatory & Compliance" §4, so the paragraphs carry no review flag; re-check them
+ * when the final formula and claims land.
  */
 import Brand from "@/components/ui/Brand.astro";
 const h3 = "text-[26px] leading-[1.05] font-black uppercase";
@@ -22,26 +23,26 @@ const block = "border-t-2 border-dashed border-green pt-[clamp(24px,3vw,40px)]";
       <h2 class="display-word stretch-display mt-4 text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88]">Beauty is chemistry, too.</h2>
 
       <div class="mt-[clamp(28px,3vw,44px)] grid gap-[clamp(20px,3vw,32px)]">
-        <p class="text-xl leading-[1.6]" data-copy-review="Beauty copy: no cosmetic claims while the formula is pending (intro)">
+        <p class="text-xl leading-[1.6]">
           Hair, skin and nails are built from what your body has to work with every day. <strong><Brand /> Beauty is designed to fit into your everyday routine</strong> — nutrition from within, not another product to layer on.
         </p>
 
         <div class:list={[block]}>
           <h3 class:list={[h3]}>Your routine is the whole story.</h3>
-          <p class:list={[body]} data-copy-review="Beauty copy: no cosmetic claims while the formula is pending (block 1)">
+          <p class:list={[body]}>
             Food, hydration, sleep and everything you put on your skin all play a part. <strong>No gummy replaces any of them</strong> — Beauty is meant to sit alongside them.
           </p>
         </div>
 
         <div class:list={[block]}>
           <h3 class:list={[h3]}>That's where Beauty comes in.</h3>
-          <p class:list={[body]} data-copy-review="Beauty copy: no cosmetic claims while the formula is pending (block 2)">
+          <p class:list={[body]}>
             A chewable dietary supplement for hair, skin and nail nutrition, with a liquid center and a flavor you look forward to. The formula is still being finalized — we will share exactly what is in it once it is locked in.
           </p>
         </div>
 
         <div class:list={[block]}>
-          <p class="text-xl leading-[1.6]" data-copy-review="Beauty copy: no cosmetic claims while the formula is pending (close)">
+          <p class="text-xl leading-[1.6]">
             It doesn't replace a balanced diet, water, sunscreen or the routine you already love. <strong>It's the little extra</strong> — for the days when "I'll take care of myself properly tomorrow" has become a lifestyle.
           </p>
         </div>
