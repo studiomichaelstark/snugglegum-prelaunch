@@ -8,7 +8,9 @@ import FamilyHero from '@/components/sections/FamilyHero.astro';
 import Footer from '@/components/sections/Footer.astro';
 import GeneralFaq from '@/components/sections/GeneralFaq.astro';
 import Offer from '@/components/sections/Offer.astro';
+import ProductFamily from '@/components/sections/ProductFamily.astro';
 import WhySnugglegum from '@/components/sections/WhySnugglegum.astro';
+import ProductMarquee from '@/components/product/ProductMarquee.astro';
 import ProductNewsletter from '@/components/product/ProductNewsletter.astro';
 import Base from '@/layouts/Base.astro';
 
@@ -20,6 +22,8 @@ const description =
 <Base title={title} description={description} path="/">
   <main id="main" class="max-w-full overflow-x-clip">
     <FamilyHero />
+    <ProductFamily />
+    <ProductMarquee phrases={['One family, one attitude', 'Gummies with benefits', 'Begum tasty', 'Gum once, thank me later']} />
     <Offer />
     <WhySnugglegum />
     <GeneralFaq />

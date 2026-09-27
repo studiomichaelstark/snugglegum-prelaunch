@@ -16,14 +16,14 @@ test.describe('product family: homepage gateway', () => {
     }
   });
 
-  test('mobile: the 3-product hero does not overflow or stack into enormous cards', async ({ consented: page }) => {
+  test('mobile: the product grid does not overflow or stack into enormous cards', async ({ consented: page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/');
     const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
     const clientWidth = await page.evaluate(() => document.documentElement.clientWidth);
     expect(scrollWidth).toBeLessThanOrEqual(clientWidth + 1);
 
-    const cardHeights = await page.locator('#hero li').evaluateAll((els) => els.map((el) => el.getBoundingClientRect().height));
+    const cardHeights = await page.locator('#products li').evaluateAll((els) => els.map((el) => el.getBoundingClientRect().height));
     // Each card now leads with its pouch image, so "enormous" starts higher than for text-only cards.
     for (const height of cardHeights) expect(height).toBeLessThan(720);
   });
