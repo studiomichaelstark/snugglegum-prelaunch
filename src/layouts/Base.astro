@@ -14,7 +14,7 @@ type Props = PageMeta;
 const { title, description, path, productLines, noindex = false } = Astro.props;
 const canonical = absoluteUrl(path);
 const ogImage = `${siteConfig.url}/og-image.png`;
-const ogImageAlt = "Snugglegum™: Sweet Vitamins for Generations. Coming soon.";
+const ogImageAlt = "Snugglegum™: Poppin' Vitamin Gummies. An illustrated gummy bursts open and spills its liquid center.";
 const themeColor = colorToken("--color-brand-pink");
 const jsonLd = JSON.stringify(buildJsonLd({ title, description, path, productLines }));
 ---

@@ -1,43 +1,55 @@
 /**
- * Generates public/og-image.png (1200x630) from the design: brand colors (colors.css), the wordmark,
- * the pouch and the self-hosted Archivo font. Run `pnpm og` after changing any of them and commit the PNG.
+ * Generates public/og-image.png (1200x630) as a screenshot of the home page hero.
+ * Run `pnpm og` after the hero changed and commit the PNG. It builds the site first, then screenshots
+ * a 1600x840 window at 0.75 scale so the headline, the illustration and the circular note fit in 1200x630.
  */
-import { readFileSync } from 'node:fs';
+import { spawn, spawnSync } from 'node:child_process';
 import { chromium } from '@playwright/test';
+import sharp from 'sharp';
 
-const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url));
-const colorsCss = read('src/styles/colors.css').toString('utf8');
-const logoSvg = /<svg[\s\S]*<\/svg>/.exec(read('src/components/logo/Logo.astro').toString('utf8'))?.[0];
-if (!logoSvg) throw new Error('Could not find the logo SVG in Logo.astro');
+const PORT = 4323;
+const WIDTH = 1200;
+const HEIGHT = 630;
+const SCALE = 0.75;
+const output = new URL('../public/og-image.png', import.meta.url).pathname;
 
-const fontBase64 = read('src/assets/fonts/archivo-latin-wdth-normal.woff2').toString('base64');
+const build = spawnSync('pnpm', ['exec', 'astro', 'build'], { stdio: 'inherit' });
+if (build.status !== 0) process.exit(build.status ?? 1);
 
-const html = `<!doctype html>
-<html><head><meta charset="utf-8"><style>
-${colorsCss}
-@font-face { font-family: Archivo; src: url(data:font/woff2;base64,${fontBase64}) format('woff2'); font-weight: 400 900; font-stretch: 100% 125%; }
-* { box-sizing: border-box; margin: 0; }
-body { width: 1200px; height: 630px; overflow: hidden; position: relative; background: var(--color-brand-pink); font-family: Archivo, sans-serif; }
-.logo { position: absolute; left: 64px; top: 190px; width: 640px; color: var(--color-surface);
-  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--color-glow) 40%, transparent)) drop-shadow(0 0 20px color-mix(in srgb, var(--color-glow) 30%, transparent)); }
-.logo svg { display: block; width: 100%; height: auto; }
-.pill { position: absolute; left: 64px; top: 345px; background: var(--color-brand-ink); color: var(--color-brand-pink);
-  padding: 16px 30px; border-radius: 999px; font-weight: 900; font-stretch: 112%; letter-spacing: .12em; text-transform: uppercase; font-size: 24px; }
-.claim { position: absolute; left: 64px; top: 420px; width: 600px; color: var(--color-brand-green); font-weight: 900; font-stretch: 118%; text-transform: uppercase; font-size: 44px; line-height: .95; letter-spacing: -.02em; }
-.card { position: absolute; right: 90px; top: 70px; width: 420px; height: 490px; transform: rotate(3deg); background: var(--color-surface); border: 4px dashed var(--color-brand-green); border-radius: 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 36px; color: var(--color-brand-green); box-shadow: 0 24px 28px color-mix(in srgb, var(--color-brand-ink) 30%, transparent); }
-.card .blob { width: 190px; height: 190px; background: var(--color-brand-pink); border-radius: 46% 54% 52% 48% / 55% 45% 55% 45%; }
-.card p { font-weight: 900; font-stretch: 120%; text-transform: uppercase; font-size: 42px; line-height: .9; text-align: center; }
-</style></head><body>
-<div class="logo">${logoSvg}</div>
-<div class="pill">Coming soon</div>
-<div class="claim">Sweet Vitamins for Generations</div>
-<div class="card"><div class="blob"></div><p>Coming<br>soon</p></div>
-</body></html>`;
+const server = spawn('pnpm', ['exec', 'astro', 'preview', '--host', '127.0.0.1', '--port', String(PORT)], { stdio: 'ignore', detached: true });
+const stopServer = () => {
+  try {
+    process.kill(-server.pid, 'SIGKILL');
+  } catch {
+    // Already gone.
+  }
+};
+process.on('exit', stopServer);
 
-const browser = await chromium.launch();
-const page = await browser.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
-await page.setContent(html);
-await page.evaluate(() => document.fonts.ready);
-await page.screenshot({ path: new URL('../public/og-image.png', import.meta.url).pathname });
-await browser.close();
-console.log('Wrote public/og-image.png');
+try {
+  const url = `http://127.0.0.1:${PORT}/`;
+  for (let attempt = 0; attempt < 50; attempt += 1) {
+    if (await fetch(url).then((response) => response.ok, () => false)) break;
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
+
+  const browser = await chromium.launch();
+  const page = await browser.newPage({ viewport: { width: WIDTH / SCALE, height: HEIGHT / SCALE }, deviceScaleFactor: SCALE });
+  await page.addInitScript(() => {
+    // No cookie dialog in the picture.
+    localStorage.setItem('sg-cookie-consent', JSON.stringify({ version: 1, timestamp: new Date().toISOString(), categories: { analytics: false, marketing: false } }));
+  });
+  await page.goto(url);
+  await page.waitForLoadState('networkidle');
+  await page.evaluate(() => document.fonts.ready);
+  // The back-to-top button does not belong in a share picture.
+  await page.getByRole('link', { name: 'Back to top' }).evaluate((element) => element.setAttribute('hidden', ''));
+  await page.waitForTimeout(1500);
+  const shot = await page.screenshot();
+  await browser.close();
+
+  await sharp(shot).resize(WIDTH, HEIGHT).png({ compressionLevel: 9, palette: true, quality: 92, effort: 10 }).toFile(output);
+  console.log('Wrote public/og-image.png');
+} finally {
+  stopServer();
+}
