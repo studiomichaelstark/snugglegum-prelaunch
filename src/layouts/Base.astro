@@ -65,9 +65,11 @@ const jsonLd = JSON.stringify(buildJsonLd({ title, description, path, productLin
     <script>
       import { initConsent } from "@/scripts/consent";
       import { initDialogs } from "@/scripts/dialogs";
+      import { initSmoothScroll } from "@/scripts/smoothScroll";
 
       initDialogs();
       initConsent();
+      void initSmoothScroll();
     </script>
   </body>
 </html>

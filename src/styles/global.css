@@ -55,6 +55,21 @@
     }
   }
 
+  /* Lenis (src/scripts/smoothScroll.ts) glides the page on desktop. These are its recommended rules; Lenis itself scrolls with
+     behavior "instant", so the CSS smooth scrolling above only still serves keyboard scrolling. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis:not(.lenis-autoToggle).lenis-stopped {
+    overflow: clip;
+  }
+
+  .lenis [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
   body {
     margin: 0;
     background: var(--color-surface);

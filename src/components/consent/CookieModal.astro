@@ -7,7 +7,7 @@ import { consentCategories, hasOptionalCategories } from "@/config/consent";
 import ButtonLink from "@/components/ui/ButtonLink.astro";
 ---
 
-<dialog id="cookie-modal" role="dialog" aria-modal="true" aria-labelledby="cookie-modal-title" class="rounded-card fixed inset-0 m-0 mx-auto mt-auto mb-4 max-h-[86vh] w-[calc(100%-2rem)] max-w-[580px] overflow-auto border-2 border-green bg-white p-0 text-green animate-[sg-slide_.3s_ease-out]">
+<dialog id="cookie-modal" data-lenis-prevent role="dialog" aria-modal="true" aria-labelledby="cookie-modal-title" class="rounded-card fixed inset-0 m-0 mx-auto mt-auto mb-4 max-h-[86vh] w-[calc(100%-2rem)] max-w-[580px] overflow-auto border-2 border-green bg-white p-0 text-green animate-[sg-slide_.3s_ease-out]">
   <div class="p-[clamp(22px,3vw,34px)] short:p-4">
     <h2 id="cookie-modal-title" tabindex="-1" data-dialog-initial-focus class="display-word stretch-hero text-[clamp(1.5rem,3vw,2.1rem)] leading-[0.95] outline-none">
       Cookies, briefly
