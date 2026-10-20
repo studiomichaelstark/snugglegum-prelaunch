@@ -11,7 +11,7 @@ import { absoluteUrl, buildJsonLd, type PageMeta } from "@/lib/seo";
 
 type Props = PageMeta;
 
-const { title, description, path, productLines } = Astro.props;
+const { title, description, path, productLines, noindex = false } = Astro.props;
 const canonical = absoluteUrl(path);
 const ogImage = `${siteConfig.url}/og-image.png`;
 const ogImageAlt = "Snugglegum™: Sweet Vitamins for Generations. Coming soon.";
@@ -27,7 +27,7 @@ const jsonLd = JSON.stringify(buildJsonLd({ title, description, path, productLin
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large"} />
     <meta name="theme-color" content={themeColor} />
 
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />

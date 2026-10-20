@@ -17,6 +17,8 @@ export interface PageMeta {
   description: string;
   /** Path with leading slash, no trailing slash except "/". */
   path: string;
+  /** Adds noindex (thank-you page): the page is for people who just signed up, not for search. */
+  noindex?: boolean;
   /** Set on the home page: adds Brand and one pre-launch Product per version to the JSON-LD graph. */
   productLines?: readonly ProductLineMeta[];
 }

@@ -50,6 +50,8 @@ export default defineConfig({
       PUBLIC_MAILERLITE_ACCOUNT_ID: process.env.PUBLIC_MAILERLITE_ACCOUNT_ID ?? '2650700',
       PUBLIC_MAILERLITE_FORM_ID: process.env.PUBLIC_MAILERLITE_FORM_ID ?? '199242337324369472',
       PUBLIC_SITE_URL: '',
+      // Only the optional tests/turnstile.spec.ts needs this; run it with PUBLIC_TURNSTILE_SITE_KEY=… set.
+      PUBLIC_TURNSTILE_SITE_KEY: process.env.PUBLIC_TURNSTILE_SITE_KEY ?? '',
     },
   },
   projects: [

@@ -172,4 +172,115 @@ test.describe('newsletter form', () => {
       }
     });
   }
+
+  test.describe('sign-up flow with /api/signup, /api/count and the thank-you page', () => {
+    const THANK_YOU = /\/thank-you-newsletter$/;
+    const submit = async (page: import('@playwright/test').Page) => {
+      await page.goto('/');
+      await page.locator(EMAIL_FIELD).fill('anna@example.com');
+      await page.locator(CONSENT_FIELD).check();
+      await page.locator('form:has(#newsletter-email-home) button[type="submit"]').click();
+    };
+    const thanks = (page: import('@playwright/test').Page) => page.getByRole('heading', { name: 'Check your inbox and confirm your email.' });
+
+    test('posts to /api/signup with the age consent, then lands on the thank-you page with number and count', async ({ consented: page }) => {
+      let posted = '';
+      await page.route('**/api/signup', (route) => {
+        posted = route.request().postData() ?? '';
+        return jsonResponse(route, { ok: true, number: 7 });
+      });
+      await page.route('**/api/count', (route) => jsonResponse(route, { count: 1234 }));
+      await page.goto('/');
+      // Before the sign-up the ticket previews the next free number (count 1234 = all spots taken); the real number comes after.
+      await expect(page.locator('[data-ticket-number]')).toHaveText('Waitlist');
+      await submit(page);
+      await expect(page).toHaveURL(THANK_YOU);
+      await expect(thanks(page)).toBeVisible();
+      await expect(page.locator('[data-ticket-number]')).toHaveText('No. 007 of 500');
+      await expect(page.locator('[data-success-number]')).toContainText('You’re No. 007 of 500');
+      // Thousands get a comma, and the label says sign-ups, not subscribers.
+      await expect(page.locator('[data-signup-count]')).toHaveText('1,234 sign-ups so far');
+      expect(posted).toContain('anna@example.com');
+      expect(posted).toMatch(/name="consent"\s*[\r\n]+\s*on/);
+    });
+
+    test('sends how long the page has been open, so the function can turn away scripts', async ({ consented: page }) => {
+      let posted = '';
+      await page.route('**/api/signup', (route) => {
+        posted = route.request().postData() ?? '';
+        return jsonResponse(route, { ok: true, number: 1 });
+      });
+      await page.route('**/api/count', (route) => route.abort());
+      await submit(page);
+      const age = /name="form_age"\s*[\r\n]+\s*(\d+)/.exec(posted)?.[1];
+      expect(Number(age)).toBeGreaterThan(0);
+      expect(posted).toMatch(/name="consent_age_18"\s*[\r\n]+\s*yes/);
+    });
+
+    test('a 429 from the function shows the "too many tries" message and keeps the visitor on the form', async ({ consented: page }) => {
+      await page.route('**/api/signup', (route) => jsonResponse(route, { ok: false, error: 'Too many tries.' }, 429));
+      await submit(page);
+      await expect(page.locator('#newsletter-error-home')).toHaveText('Too many tries in a row. Wait a moment and try again.');
+      await expect(page).not.toHaveURL(THANK_YOU);
+      // The button is usable again for the next try.
+      await expect(page.locator('form:has(#newsletter-email-home) button[type="submit"]')).toBeEnabled();
+    });
+
+    test('the larger of the count and the new number wins (KV reads can lag)', async ({ consented: page }) => {
+      await page.route('**/api/signup', (route) => jsonResponse(route, { ok: true, number: 12 }));
+      await page.route('**/api/count', (route) => jsonResponse(route, { count: 11 }));
+      await submit(page);
+      await expect(page.locator('[data-signup-count]')).toHaveText('12 sign-ups so far');
+    });
+
+    test('if the count cannot be fetched, the line stays hidden and nothing breaks', async ({ consented: page }) => {
+      await page.route('**/api/signup', (route) => jsonResponse(route, { ok: true, number: 3 }));
+      await page.route('**/api/count', (route) => route.abort());
+      await submit(page);
+      await expect(thanks(page)).toBeVisible();
+      await expect(page.locator('[data-signup-count]')).toBeHidden();
+      await expect(page.locator('[data-ticket-number]')).toHaveText('No. 003 of 500');
+    });
+
+    test('above 500 the ticket says Waitlist', async ({ consented: page }) => {
+      await page.route('**/api/signup', (route) => jsonResponse(route, { ok: true, number: 501 }));
+      await page.route('**/api/count', (route) => route.abort());
+      await submit(page);
+      await expect(page.locator('[data-ticket-number]')).toHaveText('Waitlist');
+      await expect(page.locator('[data-success-number]')).toContainText('waitlist');
+    });
+
+    test('without the function (404) the form falls back to MailerLite, still reaches the thank-you page, and shows no number', async ({ consented: page }) => {
+      await page.route('**/api/signup', (route) => route.fulfill({ status: 404, body: 'not found' }));
+      await page.route('**/api/count', (route) => route.fulfill({ status: 404, body: 'not found' }));
+      const calls = await mockMailerLite(page, (route) => jsonResponse(route, { success: true }));
+      await submit(page);
+      await expect(page).toHaveURL(THANK_YOU);
+      expect(calls).toHaveLength(1);
+      await expect(page.locator('[data-ticket-number]')).toHaveText('No. ___ of 500');
+      await expect(page.locator('[data-signup-count]')).toBeHidden();
+    });
+
+    test('an error from the function keeps the visitor on the form with the usual message', async ({ consented: page }) => {
+      await page.route('**/api/signup', (route) => jsonResponse(route, { ok: false, error: 'x', status: 500 }, 500));
+      await submit(page);
+      await expect(page.locator('#newsletter-error-home')).toBeVisible();
+      await expect(page).not.toHaveURL(THANK_YOU);
+      await expect(page.locator('[data-ticket-number]')).toHaveText('No. ___ of 500');
+    });
+
+    test('a failed bot check (403 challenge) shows its own message and keeps the visitor on the form', async ({ consented: page }) => {
+      await page.route('**/api/signup', (route) => jsonResponse(route, { ok: false, error: 'x', challenge: true }, 403));
+      await submit(page);
+      await expect(page.locator('#newsletter-error-home')).toHaveText('We couldn’t check that you’re human. Please try again.');
+      await expect(page).not.toHaveURL(THANK_YOU);
+    });
+
+    test('an email rejected by MailerLite (422) points at the email field', async ({ consented: page }) => {
+      await page.route('**/api/signup', (route) => jsonResponse(route, { ok: false, status: 422, errors: { fields: { email: ['invalid'] } } }, 422));
+      await submit(page);
+      await expect(page.locator('#newsletter-error-home')).toBeVisible();
+      await expect(page.locator(EMAIL_FIELD)).toHaveAttribute('aria-invalid', 'true');
+    });
+  });
 });

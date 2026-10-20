@@ -10,6 +10,7 @@ const env = { ...loadEnv(process.env.NODE_ENV ?? 'production', process.cwd(), 'P
 
 // Placeholder origin until the production domain is known (see README, open items).
 const PLACEHOLDER_SITE = 'https://snugglegum.example';
+const NOINDEX_PATHS = ['/thank-you-newsletter', '/confirmed', '/unsubscribed', '/404'];
 const site = (env.PUBLIC_SITE_URL || PLACEHOLDER_SITE).replace(/\/+$/, '');
 
 // @astrojs/sitemap writes sitemap-index.xml and sitemap-0.xml. This adds /sitemap.xml as an alias
@@ -40,7 +41,8 @@ export default defineConfig({
     inlineStylesheets: 'never',
   },
   devToolbar: { enabled: false },
-  integrations: [sitemap(), sitemapAlias],
+  // The playful message pages are noindex, so they stay out of the sitemap too.
+  integrations: [sitemap({ filter: (page) => !NOINDEX_PATHS.some((path) => page.endsWith(path)) }), sitemapAlias],
   vite: {
     plugins: [tailwindcss()],
     build: {

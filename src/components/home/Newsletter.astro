@@ -7,6 +7,7 @@
  * form inside it always uses the light tone.
  */
 import NewsletterForm from '@/components/forms/NewsletterForm.astro';
+import { siteConfig } from '@/config/site';
 import type { ProductId } from '@/config/products';
 
 interface Props {
@@ -56,6 +57,16 @@ const steps = [
       <slot name="badge" />
       <slot name="heading" />
       <slot name="subline" />
+      <!-- Live count from /api/count, shown only from PUBLIC_PROOF_THRESHOLD sign-ups on (default 250). -->
+      <p
+        class="label-caps mx-auto mt-5 w-fit rounded-full border-2 border-dashed border-lime px-5 py-2 text-sm"
+        data-signup-count
+        data-format="{n} sign-ups so far"
+        data-format-one="1 sign-up so far"
+        data-min-count={siteConfig.proofThreshold}
+        hidden
+      >
+      </p>
 
       <ol class="relative mx-auto mt-[clamp(36px,4.5vw,60px)] grid max-w-105 gap-7 text-left md:max-w-none md:grid-cols-3 md:gap-6 md:text-center md:before:pointer-events-none md:before:absolute md:before:top-8 md:before:right-[16.6%] md:before:left-[16.6%] md:before:border-t-2 md:before:border-dashed md:before:border-lime/70 md:before:content-['']">
         {
@@ -77,11 +88,11 @@ const steps = [
       </ol>
     </div>
 
-    <div class="founding-ticket on-light sticker-shadow relative mx-auto w-full max-w-[980px] min-w-0 rounded-card bg-pink text-green transition duration-300 lg:rotate-[-1deg] lg:hover:rotate-0 lg:focus-within:rotate-0">
+    <div class="founding-ticket on-light sticker-shadow relative mx-auto w-full max-w-245 min-w-0 rounded-card bg-pink text-green transition duration-300 lg:-rotate-1 lg:hover:rotate-0 lg:focus-within:rotate-0">
       <div class="flex h-(--ticket-stub) items-center justify-between gap-3 px-[clamp(20px,3vw,32px)]">
         <span class="label-caps text-xs sm:text-sm">Admit one</span>
         <span class="label-caps hidden text-xs sm:inline sm:text-sm">Founding member</span>
-        <span class="label-caps text-xs sm:text-sm">No. ___ of 500</span>
+        <span class="label-caps text-xs sm:text-sm" data-ticket-number data-next-number title="The next free number. Your own number is confirmed on the page after you sign up." data-format="No. {n} of 500" data-format-waitlist="Waitlist">No. ___ of 500</span>
       </div>
       <div aria-hidden="true" class="mx-5.5 border-t-2 border-dashed border-green/40"></div>
       <div class="px-[clamp(20px,4vw,56px)] pt-[clamp(20px,2.5vw,28px)] pb-[clamp(24px,3vw,36px)]">
@@ -90,3 +101,9 @@ const steps = [
     </div>
   </div>
 </section>
+
+<script>
+  import { showSignupCount } from '@/scripts/signupCount';
+
+  void showSignupCount();
+</script>

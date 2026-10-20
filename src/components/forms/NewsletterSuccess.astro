@@ -13,7 +13,8 @@ const isDark = tone === "dark";
   <p class="mt-3 text-lg leading-[1.55]">
     Then you’re in the founding member crew. We’ll send the first flavor vote your way.
   </p>
-  <p class="mt-3.5 text-lg leading-[1.55] font-bold">Founding number: reserved on confirmation.</p>
+  <p class="mt-3.5 text-lg leading-[1.55] font-bold" data-success-number data-format="Your founding number: No. {n} of 500. Confirm your email to keep it." data-format-waitlist="All 500 founding spots are taken, so you’re on the waitlist.">Founding number: reserved on confirmation.</p>
+  <p class="mt-3 text-base leading-[1.55] opacity-90" data-signup-count data-format="{n} sign-ups so far" hidden></p>
   {!isDark && (
     <button type="button" data-share data-copied-label="Link copied" class="label-caps mt-5 min-h-12 cursor-pointer rounded-full border-2 border-green bg-lime px-[26px] py-[15px] text-sm text-ink">
       Tell a friend with a sweet tooth

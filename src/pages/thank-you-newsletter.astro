@@ -1,0 +1,115 @@
+---
+/**
+ * Thank-you page after a founding-member sign-up (built as thank-you-newsletter.html, served at
+ * /thank-you-newsletter). Light-hearted on purpose: confetti on arrival, a gummy that pops when poked,
+ * a ticket with the visitor's founding number and the sign-up count, and a few silly lines.
+ *
+ * noindex and not in the sitemap. The founding number comes from sessionStorage (left by the form),
+ * the count from /api/count; both are filled in by src/scripts/thankYou.ts. Without JavaScript the
+ * page is a plain thank-you with the "check your inbox" instruction.
+ * No health claims, no amounts, no age wording: the same copy rules as the rest of the site apply.
+ */
+import gummy from "@/assets/hero-02-snugglegum.png";
+import Brand from "@/components/ui/Brand.astro";
+import ButtonLink from "@/components/ui/ButtonLink.astro";
+import Fun from "@/layouts/Fun.astro";
+
+const nextSteps = [
+  { title: "Click the link", text: "One click, in the email we just sent you. You’ve done harder things. Like finding the “Skip Ad” button." },
+  { title: "Help pick the first flavor", text: "We’ll send the vote your way. Pineapple, Energy or your own wild idea. No judgment. Okay, a little judgment." },
+  { title: "Practice your surprised face", text: "Liquid-filled gummies are coming. When one bursts, you’ll want to look surprised. Start rehearsing." },
+] as const;
+
+const quips = [
+  "This is the only page on our site where popping things is encouraged.",
+  "Our legal team asked us to say: please don’t eat the confetti.",
+  "No gummies were harmed in the making of this page. One was dramatically burst. For art.",
+  "You have excellent taste in newsletters. We checked. Twice.",
+  "If you’re reading this instead of checking your inbox: love the confidence. Now go confirm.",
+] as const;
+---
+
+<Fun
+  title="You’re in! Thanks for joining | Snugglegum™"
+  description="You’re on the Snugglegum™ founding member list. Check your inbox and confirm your email."
+  path="/thank-you-newsletter"
+  badge="Mission accomplished"
+  heading="Pop! You’re in."
+  lede="Your email just landed on our list with all the grace of a gummy bear on a trampoline. We heard the pop from here."
+  image={gummy}
+  popOnLoad
+>
+  <section aria-labelledby="ticket-heading" class="section-px section-py bg-blush text-green">
+    <div class="founding-ticket on-light sticker-shadow relative mx-auto w-full max-w-[780px] rounded-card bg-pink transition duration-300 lg:rotate-[-1deg] lg:hover:rotate-0">
+      <div class="flex h-(--ticket-stub) items-center justify-between gap-3 px-[clamp(20px,3vw,32px)]">
+        <span class="label-caps text-xs sm:text-sm">Admit one</span>
+        <span class="label-caps hidden text-xs sm:inline sm:text-sm">Founding member</span>
+        <span class="label-caps text-xs sm:text-sm" data-ticket-number data-format="No. {n} of 500" data-format-waitlist="Waitlist">No. ___ of 500</span>
+      </div>
+      <div aria-hidden="true" class="mx-5.5 border-t-2 border-dashed border-green/40"></div>
+      <div class="px-[clamp(20px,4vw,48px)] pt-[clamp(24px,3vw,36px)] pb-[clamp(28px,4vw,48px)] text-center">
+        <h2 id="ticket-heading" class="display-word stretch-display text-[clamp(1.6rem,3.6vw,2.6rem)] leading-[0.95] text-balance">Check your inbox and confirm your email.</h2>
+        <p class="mx-auto mt-4 max-w-[44ch] text-lg leading-normal">Yes, right now. We’ll wait. (Peek in spam too. It gets lonely in there.)</p>
+        <p
+          class="mt-5 text-lg leading-normal font-bold"
+          data-success-number
+          data-format="You’re No. {n} of 500. Confirm your email to keep your spot."
+          data-format-waitlist="All 500 founding spots are taken. You’re on the waitlist, and honestly? Great seat."
+        >
+          Your number is feeling shy. It shows up right after you sign up.
+        </p>
+        <p class="mt-3 text-base leading-normal opacity-90" data-signup-count data-format="{n} sign-ups so far" data-format-one="1 sign-up so far" hidden></p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="next-heading" class="section-px section-py bg-white text-green">
+    <div class="container-lg">
+      <h2 id="next-heading" class="display-word stretch-display text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88]">What happens now?</h2>
+      <p class="mt-4 max-w-[40ch] text-xl leading-normal">Three easy steps. We kept them short. We know you have gummies to look forward to.</p>
+      <ol class="mt-[clamp(32px,4vw,56px)] grid gap-5 md:grid-cols-3">
+        {
+          nextSteps.map((step, index) => (
+            <li class="rounded-card bg-pink p-[clamp(22px,2.4vw,32px)] transition duration-200 hover:-translate-y-1 hover:rotate-1">
+              <span aria-hidden="true" class="display-word stretch-wide block text-[clamp(3rem,6vw,4.5rem)] leading-[0.8] text-green/80">{String(index + 1).padStart(2, "0")}</span>
+              <h3 class="mt-4 text-[clamp(1.4rem,2.2vw,1.9rem)] leading-[1.05] font-black uppercase stretch-tight">{step.title}</h3>
+              <p class="mt-3 text-lg leading-normal">{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section aria-labelledby="fact-heading" class="on-dark section-px section-py bg-charcoal text-white">
+    <div class="container-lg text-center">
+      <p class="label-caps text-[17px] text-pink">Totally unnecessary</p>
+      <h2 id="fact-heading" class="display-word stretch-display mt-3 text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88]">Fun fact</h2>
+      <div class="mx-auto mt-6 min-h-[7.5rem] max-w-[34ch] text-[clamp(1.3rem,2.4vw,1.8rem)] leading-[1.3] font-medium" aria-live="polite">
+        {quips.map((quip, index) => <p data-quip hidden={index !== 0 ? true : undefined}>{quip}</p>)}
+      </div>
+      <button type="button" data-quip-next hidden class="label-caps mt-6 inline-flex min-h-12 cursor-pointer items-center rounded-full border-2 border-dashed border-pink bg-transparent px-7 py-3 text-[15px] text-pink transition duration-200 hover:-translate-y-0.5 hover:border-solid hover:bg-pink hover:text-ink">
+        Another one
+      </button>
+    </div>
+  </section>
+
+  <section aria-labelledby="bye-heading" class="section-px section-py bg-white text-center text-green">
+    <div class="container-lg">
+      <h2 id="bye-heading" class="display-word stretch-display text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] text-balance">Okay, bye! (But come back for the gummies.)</h2>
+      <p class="mx-auto mt-5 max-w-[38ch] text-xl leading-normal">Know someone who’d like <Brand /> too? Tell them. We’ll pretend we’re not blushing.</p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <button type="button" data-share data-copied-label="Link copied" class="label-caps min-h-14 cursor-pointer rounded-full border-2 border-green bg-lime px-8 text-[15px] text-ink transition duration-200 hover:-translate-y-[3px] hover:scale-[1.03] hover:bg-white hover:text-green">
+          Tell a friend with a sweet tooth
+        </button>
+        <ButtonLink href="/" variant="outline">Take me back to the gummies</ButtonLink>
+      </div>
+    </div>
+  </section>
+</Fun>
+
+<script>
+  import { initThankYou } from "@/scripts/thankYou";
+
+  initThankYou();
+</script>

@@ -97,13 +97,15 @@ test.describe('legal footer', () => {
 });
 
 test.describe('founding-member signup', () => {
-  test('UTM parameters travel with the sign-up and stay in the URL', async ({ consented: page }) => {
+  test('UTM parameters travel with the sign-up and stay in the URL until the thank-you page', async ({ consented: page }) => {
     const calls = await mockMailerLite(page, (route) => jsonResponse(route, { success: true }));
     await page.goto('/?utm_source=tiktok&utm_medium=social&utm_campaign=founding500&utm_bogus=x');
+    expect(new URL(page.url()).searchParams.get('utm_source')).toBe('tiktok');
     await page.locator('input[name="fields[email]"]').first().fill('anna@example.com');
     await page.locator('input[name="consent"]').first().check();
     await page.locator('form:has(input[name="fields[email]"]) button[type="submit"]').first().click();
     await expect(page.getByText('Check your inbox and confirm your email.').first()).toBeVisible();
+    await expect(page).toHaveURL(/\/thank-you-newsletter$/);
 
     const body = calls[0]?.body ?? '';
     expect(body).toMatch(/name="fields\[utm_source\]"\s*[\r\n]+\s*tiktok/);
@@ -111,7 +113,6 @@ test.describe('founding-member signup', () => {
     expect(body).toMatch(/name="fields\[utm_campaign\]"\s*[\r\n]+\s*founding500/);
     expect(body).not.toContain('utm_bogus');
     expect(body).toMatch(/name="fields\[signup_page\]"\s*[\r\n]+\s*\//);
-    expect(new URL(page.url()).searchParams.get('utm_source')).toBe('tiktok');
   });
 
   test('without UTM parameters none are sent', async ({ consented: page }) => {
@@ -142,7 +143,8 @@ test.describe('hero parallax backdrop', () => {
   test('eight decorative layers in an aria-hidden container, no console errors', async ({ consented: page }) => {
     const errors: string[] = [];
     page.on('console', (message) => {
-      if (message.type() === 'error') errors.push(message.text());
+      // The static preview has no /api/count (a 404 there is expected); every other error counts.
+      if (message.type() === 'error' && !message.location().url.includes('/api/count')) errors.push(message.text());
     });
     page.on('pageerror', (error) => errors.push(error.message));
     await page.goto('/');
@@ -299,6 +301,64 @@ test.describe('at a glance and Supplement Facts', () => {
     await expect(dialog.getByRole('row', { name: /Total Sugars/ })).toContainText('0 g');
     await dialog.getByRole('button', { name: 'Close' }).click();
     await expect(dialog).toBeHidden();
+  });
+});
+
+test.describe('sign-up count on the home page', () => {
+  test('shows the live count once it reaches the threshold, and stays hidden below it', async ({ consented: page }) => {
+    await page.route('**/api/count', (route) => jsonResponse(route, { count: 1234 }));
+    await page.goto('/');
+    await expect(page.locator('#newsletter-home [data-signup-count]')).toHaveText('1,234 sign-ups so far');
+  });
+
+  test('a small count (below the default threshold of 250) is not shown', async ({ consented: page }) => {
+    await page.route('**/api/count', (route) => jsonResponse(route, { count: 5 }));
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+    await expect(page.locator('#newsletter-home [data-signup-count]')).toBeHidden();
+  });
+
+  test('without the counter (404) the line stays hidden and the page works', async ({ consented: page }) => {
+    await page.route('**/api/count', (route) => route.fulfill({ status: 404, body: 'not found' }));
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+    await expect(page.locator('#newsletter-home [data-signup-count]')).toBeHidden();
+    await expect(page.locator('form[data-newsletter-form]')).toHaveCount(1);
+  });
+});
+
+test.describe('ticket preview on the home page', () => {
+  const ticket = (page: import('@playwright/test').Page) => page.locator('#newsletter-home [data-ticket-number]');
+
+  test('shows the next free number: the current count plus one', async ({ consented: page }) => {
+    await page.route('**/api/count', (route) => jsonResponse(route, { count: 41 }));
+    await page.goto('/');
+    await expect(ticket(page)).toHaveText('No. 042 of 500');
+    await expect(ticket(page)).toHaveAttribute('title', /next free number/i);
+  });
+
+  test('with no sign-ups yet the next number is 001, and the count line stays hidden', async ({ consented: page }) => {
+    await page.route('**/api/count', (route) => jsonResponse(route, { count: 0 }));
+    await page.goto('/');
+    await expect(ticket(page)).toHaveText('No. 001 of 500');
+    await expect(page.locator('#newsletter-home [data-signup-count]')).toBeHidden();
+  });
+
+  test('the last founding spot is 500, and from there on the ticket says Waitlist', async ({ consented: page }) => {
+    await page.route('**/api/count', (route) => jsonResponse(route, { count: 499 }));
+    await page.goto('/');
+    await expect(ticket(page)).toHaveText('No. 500 of 500');
+    await page.unroute('**/api/count');
+    await page.route('**/api/count', (route) => jsonResponse(route, { count: 500 }));
+    await page.reload();
+    await expect(ticket(page)).toHaveText('Waitlist');
+  });
+
+  test('without the counter the blank stays', async ({ consented: page }) => {
+    await page.route('**/api/count', (route) => route.fulfill({ status: 404, body: 'not found' }));
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+    await expect(ticket(page)).toHaveText('No. ___ of 500');
   });
 });
 

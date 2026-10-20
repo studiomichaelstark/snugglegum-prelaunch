@@ -39,10 +39,10 @@ export const siteConfig: SiteConfig = {
 const accountId = import.meta.env.PUBLIC_MAILERLITE_ACCOUNT_ID ?? '';
 const formId = import.meta.env.PUBLIC_MAILERLITE_FORM_ID ?? '';
 
+// Optional since the sign-up goes through /api/signup (Connect API). The hosted form is only the fallback for
+// the no-JavaScript case and for hosts without the function; without it the form needs JavaScript and /api/signup.
 if (!accountId || !formId) {
-  console.warn(
-    '[snugglegum] PUBLIC_MAILERLITE_ACCOUNT_ID / PUBLIC_MAILERLITE_FORM_ID are not set. The newsletter form will show an error on submit.',
-  );
+  console.warn('[snugglegum] No MailerLite hosted form configured. The sign-up works through /api/signup only (and needs JavaScript).');
 }
 
 export const mailerLite = {
@@ -65,3 +65,11 @@ export const mailerLiteGroups: Readonly<Record<ProductId, string>> = {
   millennials: (import.meta.env.PUBLIC_MAILERLITE_GROUP_MILLENNIALS ?? '').trim(),
   boomer: (import.meta.env.PUBLIC_MAILERLITE_GROUP_BOOMER ?? '').trim(),
 };
+
+/**
+ * Cloudflare Turnstile (optional bot check). The site key is public; the secret lives only in Cloudflare
+ * (TURNSTILE_SECRET_KEY). Empty = the check is off. See README, "Security".
+ */
+export const turnstile = {
+  siteKey: (import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '').trim(),
+} as const;

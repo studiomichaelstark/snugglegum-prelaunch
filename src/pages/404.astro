@@ -1,0 +1,65 @@
+---
+/**
+ * 404 page (built as 404.html; Cloudflare Pages and Netlify serve it, with status 404, for any unknown URL).
+ * Playful like the thank-you page. noindex through the Fun layout.
+ */
+import gloomy from "@/assets/hero-03-snugglegum.png";
+import ButtonLink from "@/components/ui/ButtonLink.astro";
+import Fun from "@/layouts/Fun.astro";
+
+const reasons = [
+  "You typed the address with the confidence of someone who did not double-check it.",
+  "The link is old. Links age faster than gummies, and nobody has a cure for that.",
+  "A gummy ate the page. We’re not proud of it. We’re also not surprised.",
+  "You’re testing us. Fair. We’re still here.",
+] as const;
+
+const exits = [
+  { label: "The home page", href: "/" },
+  { label: "Become a founding member", href: "/#newsletter-home" },
+  { label: "Imprint", href: "/imprint" },
+  { label: "Privacy Policy", href: "/privacy" },
+] as const;
+---
+
+<Fun
+  title="Page not found | Snugglegum™"
+  description="This page does not exist. Head back to the Snugglegum™ home page."
+  path="/404"
+  badge="Error 404"
+  heading="Oops. This page burst."
+  lede="You found a page that doesn’t exist. Like a gummy with no liquid center. Tragic, really."
+  image={gloomy}
+  imageLabel="Poke it. It can’t get any worse."
+>
+  <Fragment slot="actions">
+    <ButtonLink href="/" variant="on-dark">Take me home</ButtonLink>
+    <ButtonLink href="/#newsletter-home" variant="outline-on-dark">Join the founding members</ButtonLink>
+  </Fragment>
+
+  <section aria-labelledby="reasons-heading" class="section-px section-py bg-white text-green">
+    <div class="container-lg">
+      <h2 id="reasons-heading" class="display-word stretch-display text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88]">What probably happened</h2>
+      <ol class="mt-[clamp(32px,4vw,56px)] grid gap-5 sm:grid-cols-2">
+        {
+          reasons.map((reason, index) => (
+            <li class="flex gap-4 rounded-card bg-pink p-[clamp(20px,2.4vw,30px)]">
+              <span aria-hidden="true" class="display-word stretch-wide text-[clamp(2.4rem,4vw,3.4rem)] leading-[0.8] text-green/80">{index + 1}</span>
+              <span class="text-lg leading-normal">{reason}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section aria-labelledby="exits-heading" class="on-dark section-px section-py bg-charcoal text-white">
+    <div class="container-lg">
+      <h2 id="exits-heading" class="display-word stretch-display text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88]">Pages that do exist</h2>
+      <p class="mt-4 max-w-[44ch] text-xl leading-normal">We checked. They’re all there. Mostly.</p>
+      <ul class="mt-8 flex flex-wrap gap-3">
+        {exits.map((exit) => <li><ButtonLink href={exit.href} variant="outline-on-dark">{exit.label}</ButtonLink></li>)}
+      </ul>
+    </div>
+  </section>
+</Fun>

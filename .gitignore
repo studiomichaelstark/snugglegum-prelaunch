@@ -8,6 +8,10 @@ dist/
 .env.*.local
 .env.local
 
+# Cloudflare local secrets for `wrangler pages dev` (the example file is committed)
+.dev.vars
+.wrangler/
+
 # tests
 test-results/
 playwright-report/

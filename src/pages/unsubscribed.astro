@@ -1,0 +1,33 @@
+---
+/**
+ * "You are unsubscribed" page, for MailerLite's unsubscribe redirect (see README, "Sign-up flow").
+ * Playful but kind, noindex.
+ */
+import sad from "@/assets/hero-03-snugglegum.png";
+import ButtonLink from "@/components/ui/ButtonLink.astro";
+import Fun from "@/layouts/Fun.astro";
+---
+
+<Fun
+  title="You’re unsubscribed | Snugglegum™"
+  description="You’re off the Snugglegum™ list. Changed your mind? You can rejoin any time."
+  path="/unsubscribed"
+  badge="Unsubscribed"
+  heading="Sad pop. You’re off the list."
+  lede="Done. We removed you, and we promise not to send a guilt-trip email. Okay, maybe a tiny sigh."
+  image={sad}
+  imageLabel="Poke it. It needs a friend."
+>
+  <Fragment slot="actions">
+    <ButtonLink href="/#newsletter-home" variant="on-dark">Oops, put me back</ButtonLink>
+    <ButtonLink href="/" variant="outline-on-dark">Take me home</ButtonLink>
+  </Fragment>
+
+  <section aria-labelledby="bye-heading" class="section-px section-py bg-white text-center text-green">
+    <div class="container-lg">
+      <h2 id="bye-heading" class="display-word stretch-display text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] text-balance">Was it something we said?</h2>
+      <p class="mx-auto mt-5 max-w-[40ch] text-xl leading-normal">Don’t tell us. We’ll just stare at the ceiling for a while and think about gummies.</p>
+      <p class="mx-auto mt-5 max-w-[40ch] text-lg leading-normal">If that was a misclick, no drama: you can rejoin any time, and the door stays open.</p>
+    </div>
+  </section>
+</Fun>

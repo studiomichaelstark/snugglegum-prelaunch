@@ -1,0 +1,98 @@
+---
+/**
+ * Shell for the playful message pages (thank-you, 404, confirmed, unsubscribed): the document (always
+ * noindex), a dark hero with logo, badge, big headline, lede, optional buttons and a pokeable gummy,
+ * then whatever the page puts in the default slot, then the footer. Copy is passed in by each page.
+ */
+import { Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import Logo from "@/components/logo/Logo.astro";
+import Footer from "@/components/sections/Footer.astro";
+import Base from "@/layouts/Base.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  badge: string;
+  heading: string;
+  lede: string;
+  image: ImageMetadata;
+  /** Caption under the gummy; it is also the button's accessible name. */
+  imageLabel?: string;
+  /** Welcome confetti from the gummy when the page opens. */
+  popOnLoad?: boolean;
+}
+
+const { title, description, path, badge, heading, lede, image, imageLabel = "Psst. Go on. Poke the gummy.", popOnLoad = false } = Astro.props;
+const hasActions = Astro.slots.has("actions");
+---
+
+<Base title={title} description={description} path={path} noindex>
+  <main id="main" class="max-w-full overflow-x-clip">
+    <section aria-labelledby="fun-heading" class="on-dark section-px relative isolate overflow-hidden bg-green pt-9 pb-[clamp(56px,8vw,112px)] text-pink">
+      <div class="container-lg">
+        <a href="/" class="mx-auto block w-[min(54.6%,320px)] pt-6 no-underline" aria-label="Back to the home page">
+          <Logo class="logo-glow text-white" />
+        </a>
+
+        <div class="mt-[clamp(32px,5vw,64px)] grid items-center gap-x-[clamp(24px,5vw,72px)] gap-y-10 md:grid-cols-2">
+          <div class="text-center md:text-left">
+            <span class="label-caps inline-block rounded-full border-2 border-dashed border-ink bg-white px-[22px] py-[13px] text-base text-ink">{badge}</span>
+            <h1 id="fun-heading" class="display-word stretch-hero mt-6 text-[clamp(3rem,9vw,7.5rem)] leading-[0.88] text-balance text-white">{heading}</h1>
+            <p class="mx-auto mt-6 max-w-[34ch] text-[clamp(1.2rem,1.9vw,1.5rem)] leading-[1.4] font-medium md:mx-0">{lede}</p>
+            {hasActions && <div class="mt-8 flex flex-wrap justify-center gap-3 md:justify-start"><slot name="actions" /></div>}
+          </div>
+
+          <div class="text-center">
+            <button type="button" data-pop-gummy data-arrival-pop={popOnLoad ? "" : undefined} class="pop-gummy group mx-auto block w-[min(100%,520px)] cursor-pointer rounded-card border-0 bg-transparent p-0 text-pink">
+              <Picture
+                src={image}
+                alt=""
+                aria-hidden="true"
+                formats={["avif", "webp"]}
+                widths={[480, 760, 1000]}
+                sizes="(min-width: 768px) 520px, 90vw"
+                loading="eager"
+                fetchpriority="high"
+                class="h-auto w-full animate-[sg-bob_4.8s_ease-in-out_infinite] drop-shadow-2xl transition duration-300 group-hover:scale-105 group-hover:-rotate-3"
+              />
+              <span class="label-caps mt-4 inline-block -rotate-2 rounded-full border-2 border-dashed border-lime px-5 py-2 text-sm transition duration-200 group-hover:rotate-0">{imageLabel}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <slot />
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  /* The gummy squishes when it is poked: squash, stretch, settle. */
+  .pop-gummy.is-popped :global(img) {
+    animation: sg-squish 520ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes sg-squish {
+    0% {
+      scale: 1;
+    }
+    25% {
+      scale: 1.14 0.8;
+    }
+    55% {
+      scale: 0.9 1.1;
+    }
+    100% {
+      scale: 1;
+    }
+  }
+</style>
+
+<script>
+  import { initGummy } from "@/scripts/funPage";
+
+  initGummy();
+</script>

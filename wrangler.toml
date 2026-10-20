@@ -1,0 +1,22 @@
+# Cloudflare Pages configuration (static site in dist/ plus the Pages Functions in functions/).
+#
+# BEFORE deploying: create the KV namespace and paste its id below (see README, "Sign-up flow"):
+#   pnpm exec wrangler kv namespace create SIGNUPS
+# Until the id is replaced, a deploy with this file fails because the namespace does not exist.
+#
+# The secret MAILERLITE_API_KEY is NOT set here. It lives in Cloudflare (Settings -> Variables and Secrets).
+name = "snugglegum"
+pages_build_output_dir = "./dist"
+compatibility_date = "2026-10-01"
+
+[[kv_namespaces]]
+binding = "SIGNUPS"
+id = "48407f21ac0d4b3182cc9b7fed058c47"
+
+# Preview deployments (branch URLs) use the block above too, so test sign-ups there would raise the REAL
+# counter. To keep them apart, create a second namespace (`wrangler kv namespace create SIGNUPS_PREVIEW`),
+# paste its id and uncomment:
+#
+# [[env.preview.kv_namespaces]]
+# binding = "SIGNUPS"
+# id = "REPLACE_WITH_PREVIEW_NAMESPACE_ID"

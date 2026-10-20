@@ -7,7 +7,7 @@
 interface Props {
   href?: string;
   type?: "button" | "submit";
-  variant?: "solid" | "outline" | "on-dark";
+  variant?: "solid" | "outline" | "on-dark" | "outline-on-dark";
   size?: "md" | "sm";
   disabled?: boolean;
   class?: string;
@@ -23,6 +23,7 @@ const variants = {
   solid: "border-green bg-green text-pink hover:border-green hover:bg-white hover:text-green",
   outline: "border-green bg-transparent text-green hover:border-green hover:bg-green hover:text-lime",
   "on-dark": "pulse-ring border-pink bg-pink text-ink hover:border-green hover:bg-white hover:text-green",
+  "outline-on-dark": "border-pink bg-transparent text-pink hover:border-pink hover:bg-pink hover:text-ink",
 };
 
 const Tag = href ? "a" : "button";

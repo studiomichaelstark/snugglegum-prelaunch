@@ -3,9 +3,10 @@
  * confetti shoots out from the exact point where it entered, across the whole screen, and fades.
  *
  * Drawn on ONE full-screen canvas (not one element per piece), so several hundred pieces stay
- * smooth. Colors come from the palette tokens in colors.css (read at runtime, so no color literal
- * lives here). Fine pointers only, never under reduced motion. The canvas removes itself when the
- * last piece has faded.
+ * smooth. The canvas is created once and reused for every burst: a new full-screen canvas per burst
+ * adds up in Safari, which frees them late and then refuses the next one. It is in the page only
+ * while pieces are flying. Colors come from the palette tokens in colors.css (read at runtime, so no
+ * color literal lives here). Fine pointers only for the pouches, never under reduced motion.
  */
 
 // One big blast right away, then two follow-up waves that keep it raining for a moment.
@@ -39,6 +40,8 @@ interface Piece {
   spin: number; // rad/s
   delay: number; // s
   life: number; // s
+  /** performance.now() in seconds when this piece was created: its time starts here, so bursts can overlap. */
+  t0: number;
 }
 
 const random = (min: number, max: number) => min + Math.random() * (max - min);
@@ -67,87 +70,119 @@ function makePieces(originX: number, originY: number, colors: readonly string[])
         spin: random(-14, 14),
         delay: wave.delay / 1000,
         life: random(0.9, 1.6),
+        t0: performance.now() / 1000,
       });
     }
   }
   return pieces;
 }
 
-function burst(originX: number, originY: number, colors: readonly string[]): void {
-  const canvas = document.createElement('canvas');
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  canvas.width = Math.round(window.innerWidth * dpr);
-  canvas.height = Math.round(window.innerHeight * dpr);
-  canvas.dataset.confetti = '';
-  canvas.setAttribute('aria-hidden', 'true');
-  canvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:60';
-  document.body.append(canvas);
+/** One canvas for every burst, and the pieces still in the air. */
+let canvas: HTMLCanvasElement | null = null;
+let context: CanvasRenderingContext2D | null = null;
+let flying: Piece[] = [];
+let frame = 0;
+let safetyTimer = 0;
+/** Total pieces of the current run, kept on the canvas (data-pieces) for tests and debugging. */
+let runTotal = 0;
 
-  const context = canvas.getContext('2d');
-  if (!context) {
-    canvas.remove();
-    return;
+const MAX_DPR = 1.5;
+
+function getCanvas(): { canvas: HTMLCanvasElement; context: CanvasRenderingContext2D } | null {
+  if (!canvas) {
+    canvas = document.createElement('canvas');
+    canvas.dataset.confetti = '';
+    canvas.setAttribute('aria-hidden', 'true');
+    canvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:60';
+    context = canvas.getContext('2d');
   }
-  context.scale(dpr, dpr);
+  if (!context) {
+    canvas = null;
+    return null;
+  }
+  return { canvas, context };
+}
+
+/** Removes the canvas from the page and forgets any pieces (idle again). */
+function stop(): void {
+  window.clearTimeout(safetyTimer);
+  cancelAnimationFrame(frame);
+  frame = 0;
+  flying = [];
+  runTotal = 0;
+  canvas?.remove();
+}
+
+function draw(): void {
+  if (!canvas || !context) return;
+  // The same clock the pieces were stamped with (not the animation-frame timestamp, which can run on another timeline).
+  const seconds = performance.now() / 1000;
+  context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+  flying = flying.filter((piece) => seconds - piece.t0 - piece.delay <= piece.life);
+  for (const piece of flying) {
+    const t = seconds - piece.t0 - piece.delay;
+    if (t < 0) continue;
+
+    // Blast with exponential drag: position = v0 * (1 - e^(-k t)) / k, plus gravity.
+    const drag = 5.2;
+    const travel = (1 - Math.exp(-drag * t)) / drag;
+    const x = piece.x0 + piece.vx * travel;
+    const y = piece.y0 + piece.vy * travel + 0.5 * GRAVITY * t * t;
+    const progress = t / piece.life;
+    const alpha = progress < 0.6 ? 1 : 1 - (progress - 0.6) / 0.4;
+    const scale = progress < 0.08 ? 0.4 + (progress / 0.08) * 0.6 : 1;
+
+    context.save();
+    context.globalAlpha = Math.max(0, alpha);
+    context.translate(x, y);
+    context.rotate(piece.rotation + piece.spin * t);
+    context.scale(scale, scale);
+    context.fillStyle = piece.color;
+    if (piece.round) {
+      context.beginPath();
+      context.ellipse(0, 0, piece.width / 2, piece.height / 2, 0, 0, Math.PI * 2);
+      context.fill();
+    } else {
+      context.fillRect(-piece.width / 2, -piece.height / 2, piece.width, piece.height);
+    }
+    context.restore();
+  }
+
+  if (flying.length > 0) frame = requestAnimationFrame(draw);
+  else stop();
+}
+
+/** Confetti blast from a point in the viewport (CSS px). Does nothing under reduced motion. */
+export function confettiAt(originX: number, originY: number): void {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const style = getComputedStyle(document.documentElement);
+  const colors = PALETTE_TOKENS.map((token) => style.getPropertyValue(token).trim()).filter(Boolean);
+  if (!colors.length) return;
+  const surface = getCanvas();
+  if (!surface) return;
+
+  // Size to the viewport on every burst (cheap, and right after a resize), then put it in the page.
+  const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+  surface.canvas.width = Math.round(window.innerWidth * dpr);
+  surface.canvas.height = Math.round(window.innerHeight * dpr);
+  surface.context.setTransform(dpr, 0, 0, dpr, 0, 0);
+  if (!surface.canvas.isConnected) document.body.append(surface.canvas);
 
   const pieces = makePieces(originX, originY, colors);
-  // Safety net: remove the canvas even if animation frames stop (hidden window, throttled tab).
-  window.setTimeout(() => canvas.remove(), 3000);
-  canvas.dataset.pieces = String(pieces.length);
-  const start = performance.now();
+  flying.push(...pieces);
+  runTotal += pieces.length;
+  surface.canvas.dataset.pieces = String(runTotal);
 
-  const frame = (now: number) => {
-    const elapsed = (now - start) / 1000;
-    context.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    let alive = 0;
-
-    for (const piece of pieces) {
-      const t = elapsed - piece.delay;
-      if (t < 0) {
-        alive++;
-        continue;
-      }
-      if (t > piece.life) continue;
-      alive++;
-
-      // Blast with exponential drag: position = v0 * (1 - e^(-k t)) / k, plus gravity.
-      const drag = 5.2;
-      const travel = (1 - Math.exp(-drag * t)) / drag;
-      const x = piece.x0 + piece.vx * travel;
-      const y = piece.y0 + piece.vy * travel + 0.5 * GRAVITY * t * t;
-      const progress = t / piece.life;
-      const alpha = progress < 0.6 ? 1 : 1 - (progress - 0.6) / 0.4;
-      const scale = progress < 0.08 ? 0.4 + (progress / 0.08) * 0.6 : 1;
-
-      context.save();
-      context.globalAlpha = Math.max(0, alpha);
-      context.translate(x, y);
-      context.rotate(piece.rotation + piece.spin * t);
-      context.scale(scale, scale);
-      context.fillStyle = piece.color;
-      if (piece.round) {
-        context.beginPath();
-        context.ellipse(0, 0, piece.width / 2, piece.height / 2, 0, 0, Math.PI * 2);
-        context.fill();
-      } else {
-        context.fillRect(-piece.width / 2, -piece.height / 2, piece.width, piece.height);
-      }
-      context.restore();
-    }
-
-    if (alive > 0) requestAnimationFrame(frame);
-    else canvas.remove();
-  };
-  requestAnimationFrame(frame);
+  // Safety net: clear everything even if animation frames stop (hidden window, throttled tab).
+  window.clearTimeout(safetyTimer);
+  safetyTimer = window.setTimeout(stop, 3000);
+  if (!frame) frame = requestAnimationFrame(draw);
 }
 
 export function initPouchConfetti(): void {
   if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  const style = getComputedStyle(document.documentElement);
-  const colors = PALETTE_TOKENS.map((token) => style.getPropertyValue(token).trim()).filter(Boolean);
-  if (!colors.length) return;
 
   document.querySelectorAll<HTMLElement>('#lines [data-pouch]').forEach((pouch) => {
     let last = Number.NEGATIVE_INFINITY;
@@ -156,7 +191,7 @@ export function initPouchConfetti(): void {
       const now = performance.now();
       if (now - last < COOLDOWN_MS) return;
       last = now;
-      burst(event.clientX, event.clientY, colors);
+      confettiAt(event.clientX, event.clientY);
     });
   });
 }

@@ -3,6 +3,7 @@ import ContactEmail from "@/components/legal/ContactEmail.astro";
 import LegalSection from "@/components/legal/LegalSection.astro";
 import OperatorInfo from "@/components/legal/OperatorInfo.astro";
 import { legal } from "@/config/legal";
+import { turnstile } from "@/config/site";
 import { sentence } from "@/config/placeholders";
 import Legal from "@/layouts/Legal.astro";
 import Brand from "@/components/ui/Brand.astro";
@@ -28,10 +29,23 @@ import Brand from "@/components/ui/Brand.astro";
       kept in server log files.
     </p>
     <p>Purpose: delivering the website and keeping it secure. Legal basis: Art. 6(1)(f) GDPR (our legitimate interest in stable and secure operation). Retention:{sentence(legal.logRetention.display ?? "")}</p>
+    <p>
+      The sign-up form is handled by a small program that runs at our hosting provider (a serverless function). To protect it from abuse, for example mass sign-ups by bots or other people's addresses, it keeps a short-lived technical fingerprint of your IP address and of the email address you enter: a one-way
+      hash from which neither can be read back. It is held in the provider's cache for at most 10 minutes and is used only to limit repeated attempts. Legal basis: Art. 6(1)(f) GDPR (our legitimate interest in protecting the form and the list from abuse).
+    </p>
+    <p>The same program keeps a plain counter of sign-ups (a number, without any personal data). Section 5 describes what your browser stores so the thank-you page can show your number.</p>
   </LegalSection>
 
   <LegalSection title="4. Fonts and external resources">
-    <p>All fonts and images are served from our own server. Your browser does not contact Google Fonts or any content delivery network when you load this website. The only third-party request is the one to MailerLite when you submit the newsletter form (see sections 6 and 7).</p>
+    <p>All fonts and images are served from our own server. Your browser does not contact Google Fonts or any content delivery network when you load this website. When you submit the newsletter form, your browser sends it to our own server, which passes it on to MailerLite (see sections 6 and 7).</p>
+    {
+      turnstile.siteKey && (
+        <p>
+          To tell people from bots, the sign-up form uses Cloudflare Turnstile. When you first click into the form, your browser loads a script from Cloudflare (challenges.cloudflare.com), so Cloudflare receives your IP address and technical browser data. This check normally runs without any action on your part. Legal basis: Art. 6(1)(f) GDPR (our
+          legitimate interest in protecting the form from abuse). Cloudflare's privacy policy is available at <a href="https://www.cloudflare.com/privacypolicy/" rel="noopener">cloudflare.com/privacypolicy</a>.
+        </p>
+      )
+    }
   </LegalSection>
 
   <LegalSection title="5. Cookies and local storage" id="cookies">
@@ -43,12 +57,16 @@ import Brand from "@/components/ui/Brand.astro";
       We currently use no analytics or marketing tools. If we add such tools later, they will load only after you consent, and we will update this policy first. You can change your choice at any time with the "Cookie settings" button in the footer. You can also delete the stored entry in your
       browser settings.
     </p>
+    <p>
+      When you sign up, your browser also keeps your founding number for a moment in its session storage (entry name "sg-founding-number") so the thank-you page can show it. The entry disappears when you close the tab or window. It is strictly necessary to provide that function, so it does not require your consent.
+      Legal basis: Art. 6(1)(f) GDPR and section 25(2) no. 2 TDDDG.
+    </p>
   </LegalSection>
 
   <LegalSection title="6. Newsletter and launch list">
     <p>
-      If you sign up for the launch list, we process the email address you enter, the time of your sign-up and confirmation, and the technical data needed to prove your consent (for example the IP address used when you confirm). We use this data to send you launch news, early access and the
-      pre-launch offer.
+      If you sign up for the launch list, we process the email address you enter, the versions and flavors you tick, the flavor you suggest if you type one, your confirmation that you meet the minimum age and agree to the emails (with the time you gave it), the campaign tags of the link you came from
+      (if any), and the technical data needed to prove your consent (for example the IP address used when you confirm). Your sign-up also gets a running number. We use this data to send you launch news, early access and the pre-launch offer, and to take your flavor wishes into account.
     </p>
     <p>
       Legal basis: your consent, Art. 6(1)(a) GDPR. The consent checkbox is not pre-ticked, and nothing is sent before you press the sign-up button. We use double opt-in: after you sign up, we send a confirmation email. Your address is added as confirmed only after you click the link in that email.
@@ -64,12 +82,15 @@ import Brand from "@/components/ui/Brand.astro";
       We use MailerLite to collect sign-ups and send emails. Provider:{sentence(legal.mailerLiteEntity.display ?? "")}MailerLite processes your data on our behalf under a data processing agreement pursuant to Art. 28 GDPR. Its own privacy policy is available at
       <a href="https://www.mailerlite.com/legal/privacy-policy" rel="noopener">mailerlite.com/legal/privacy-policy</a>.
     </p>
-    <p>When you press the sign-up button, your browser sends the email address directly to MailerLite's servers, so MailerLite also receives your IP address.</p>
+    <p>
+      When you press the sign-up button, your browser sends your entries to our own server, which passes them on to MailerLite. MailerLite therefore receives them from our server. When you click the confirmation link in the email, your browser contacts MailerLite directly, so MailerLite then also receives your
+      IP address.
+    </p>
     {legal.mailerLiteTracking.display && <p>{legal.mailerLiteTracking.display}</p>}
   </LegalSection>
 
   <LegalSection title="8. Recipients">
-    <p>Recipients of your data are our hosting provider and MailerLite, each only as far as needed for the purposes above. We do not sell your personal data.</p>
+    <p>Recipients of your data are our hosting provider{turnstile.siteKey && " (including Cloudflare for the bot check)"} and MailerLite, each only as far as needed for the purposes above. We do not sell your personal data.</p>
   </LegalSection>
 
   <LegalSection title="9. Transfers to third countries">

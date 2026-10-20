@@ -3,15 +3,34 @@
  * visitor submits. Visible strings are read from <template> elements in NewsletterForm.astro.
  */
 
-type ErrorKind = 'invalid-email' | 'consent' | 'server' | 'already' | 'network' | 'rate-limit';
+import { createChallenge } from '@/scripts/turnstile';
+
+type ErrorKind = 'invalid-email' | 'consent' | 'server' | 'already' | 'network' | 'rate-limit' | 'challenge';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const REQUEST_TIMEOUT_MS = 15_000;
 const ALREADY_SUBSCRIBED_PATTERN = /already|exist|subscribed/i;
+/** Our own sign-up function (functions/api/signup.ts). It forwards to MailerLite and returns the founding number. */
+const SIGNUP_PATH = '/api/signup';
+/** Where a successful sign-up lands. src/pages/thank-you-newsletter.astro reads the number we leave in sessionStorage. */
+const THANK_YOU_PATH = '/thank-you-newsletter';
+export const FOUNDING_NUMBER_KEY = 'sg-founding-number';
 
 interface MailerLiteResponse {
+  /** /api/signup says so when the Turnstile check failed. */
+  challenge?: boolean;
+  /** "ok" comes from /api/signup, "success" from MailerLite's hosted form (the direct fallback). */
+  ok?: boolean;
   success?: boolean;
+  /** Only present when the answer comes from /api/signup. */
+  number?: number;
   errors?: { fields?: Record<string, string[] | undefined> };
+}
+
+interface SubscribeResult {
+  outcome: 'success' | ErrorKind;
+  /** The founding number from /api/signup, or null (direct MailerLite fallback, no counter, no number). */
+  number: number | null;
 }
 
 function messageFor(root: HTMLElement, kind: ErrorKind): string {
@@ -101,11 +120,17 @@ export function readUtm(search: string): Record<string, string> {
   return found;
 }
 
-async function subscribe(endpoint: string, email: string, interests: ProductInterest[], flavors: FlavorChoice): Promise<'success' | ErrorKind> {
-  if (!endpoint) return 'server';
+async function subscribe(endpoint: string, email: string, interests: ProductInterest[], flavors: FlavorChoice, challengeToken: string | null): Promise<SubscribeResult> {
+  const failed = (outcome: ErrorKind): SubscribeResult => ({ outcome, number: null });
 
   const body = new FormData();
   body.set('fields[email]', email);
+  // The visitor ticked "I am 18 or older and agree …" (checked before this runs). /api/signup requires it.
+  body.set('consent', 'on');
+  body.set('consent_age_18', 'yes');
+  // How long the page has been open. /api/signup turns away submissions that arrive before a person could have filled in the form.
+  body.set('form_age', String(Math.round(performance.now())));
+  if (challengeToken) body.set('cf-turnstile-response', challengeToken);
   body.set('ml-submit', '1');
   body.set('anticsrf', 'true');
   body.set('fields[signup_page]', window.location.pathname);
@@ -133,38 +158,43 @@ async function subscribe(endpoint: string, email: string, interests: ProductInte
   const timer = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
 
   try {
-    const response = await fetch(endpoint, { method: 'POST', body, signal: controller.signal });
-    if (response.status === 429) return 'rate-limit';
+    // Preferred: our own function, which also hands out the founding number. Where it is not deployed
+    // (static preview, other hosts) the request 404s, and the form posts straight to MailerLite instead.
+    let response = await fetch(SIGNUP_PATH, { method: 'POST', body, signal: controller.signal });
+    if ((response.status === 404 || response.status === 405) && endpoint) {
+      response = await fetch(endpoint, { method: 'POST', body, signal: controller.signal });
+    }
+    if (response.status === 429) return failed('rate-limit');
 
     const data = (await response.json().catch(() => null)) as MailerLiteResponse | null;
-    if (data?.success === true) return 'success';
+    if (data?.ok === true || data?.success === true) {
+      const number = Number.isInteger(data.number) && (data.number ?? 0) > 0 ? (data.number as number) : null;
+      return { outcome: 'success', number };
+    }
+
+    if (data?.challenge === true) return failed('challenge');
 
     const emailErrors = data?.errors?.fields?.email;
     if (emailErrors?.length) {
-      return emailErrors.some((message) => ALREADY_SUBSCRIBED_PATTERN.test(message)) ? 'already' : 'invalid-email';
+      return failed(emailErrors.some((message) => ALREADY_SUBSCRIBED_PATTERN.test(message)) ? 'already' : 'invalid-email');
     }
-    return 'server';
+    return failed('server');
   } catch {
-    return 'network';
+    return failed('network');
   } finally {
     window.clearTimeout(timer);
   }
 }
 
-function showSuccess(source: HTMLElement): void {
-  document.querySelectorAll<HTMLElement>('[data-newsletter][data-live="true"]').forEach((root) => {
-    const form = root.querySelector<HTMLFormElement>('[data-newsletter-form]');
-    const slot = root.querySelector<HTMLElement>('[data-success-slot]');
-    const template = root.querySelector<HTMLTemplateElement>('template[data-success-template]');
-    if (!form || !slot || !template) return;
-
-    form.hidden = true;
-    slot.replaceChildren(template.content.cloneNode(true));
-
-    if (root === source) {
-      slot.querySelector<HTMLElement>('[data-success-card]')?.focus();
-    }
-  });
+/** Leaves the founding number for the thank-you page (if there is one) and goes there. */
+function goToThankYou(number: number | null): void {
+  try {
+    if (number === null) window.sessionStorage.removeItem(FOUNDING_NUMBER_KEY);
+    else window.sessionStorage.setItem(FOUNDING_NUMBER_KEY, String(number));
+  } catch {
+    // Storage blocked: the thank-you page simply shows no number.
+  }
+  window.location.assign(THANK_YOU_PATH);
 }
 
 async function share(button: HTMLElement): Promise<void> {
@@ -202,6 +232,10 @@ function bind(root: HTMLElement): void {
   const endpoint = root.dataset.endpoint ?? '';
   let submitting = false;
 
+  // Optional bot check: null when Turnstile is not set up. Cloudflare's script loads on the first touch of the form.
+  const challenge = createChallenge(form.querySelector<HTMLElement>('[data-turnstile]'));
+  form.addEventListener('focusin', () => challenge?.start(), { once: true });
+
   const interestInputs = Array.from(form.querySelectorAll<HTMLInputElement>('input[data-interest]'));
 
   emailInput?.addEventListener('input', () => clearError(form));
@@ -230,30 +264,36 @@ function bind(root: HTMLElement): void {
 
     // Bots fill the hidden field. Pretend it worked and send nothing.
     if (honeypot?.value) {
-      showSuccess(root);
+      goToThankYou(null);
       return;
     }
 
     submitting = true;
     setBusy(form, true);
-    const result = await subscribe(endpoint, email, readInterests(form), readFlavors(form));
-    submitting = false;
-    setBusy(form, false);
+    const { outcome: result, number } = await subscribe(endpoint, email, readInterests(form), readFlavors(form), (await challenge?.token()) ?? null);
 
     if (result === 'success') {
-      showSuccess(root);
+      // Stay busy (button disabled, no second submit) while the browser moves on to the thank-you page.
+      goToThankYou(number);
       return;
     }
+    submitting = false;
+    setBusy(form, false);
+    // A token works once: ask for a fresh one for the next try.
+    challenge?.reset();
     showError(root, form, result, result === 'invalid-email' ? emailInput : undefined);
+  });
+}
+
+/** "Tell a friend" buttons ([data-share]), delegated so it works for buttons added later. Used by the thank-you page. */
+export function initShare(): void {
+  document.addEventListener('click', (event) => {
+    const button = (event.target as Element | null)?.closest<HTMLElement>('[data-share]');
+    if (button) void share(button);
   });
 }
 
 export function initNewsletter(): void {
   document.querySelectorAll<HTMLElement>('[data-newsletter][data-live="true"]').forEach(bind);
-
-  // Delegated so it also works for the share button that appears after a successful sign-up.
-  document.addEventListener('click', (event) => {
-    const button = (event.target as Element | null)?.closest<HTMLElement>('[data-share]');
-    if (button) void share(button);
-  });
+  initShare();
 }

@@ -1,0 +1,50 @@
+---
+/**
+ * "Email confirmed" page: the landing page after the double opt-in confirmation link. In MailerLite, set
+ * it as the page people see after confirming (see README, "Sign-up flow"). Playful, noindex.
+ */
+import happy from "@/assets/hero-02-snugglegum.png";
+import Brand from "@/components/ui/Brand.astro";
+import ButtonLink from "@/components/ui/ButtonLink.astro";
+import Fun from "@/layouts/Fun.astro";
+
+const next = [
+  { title: "The flavor vote", text: "First comes the vote on our first flavor. Bring opinions. Strong ones." },
+  { title: "The launch news", text: "Then you hear about the launch before everyone else. Which is the whole point of being early." },
+  { title: "Absolutely nothing", text: "Until then, you don’t have to do a thing. Go enjoy your day. Stay curious. Stay chewy." },
+] as const;
+---
+
+<Fun
+  title="Email confirmed | Snugglegum™"
+  description="Your email is confirmed and your founding member spot is locked in."
+  path="/confirmed"
+  badge="Email confirmed"
+  heading="It’s official. You’re one of us."
+  lede="Your email is confirmed and your spot on the founding member list is locked in. We’d hug you, but we’re a gummy brand. We’d get sticky."
+  image={happy}
+  imageLabel="Celebrate responsibly. Poke the gummy."
+  popOnLoad
+>
+  <Fragment slot="actions">
+    <ButtonLink href="/" variant="on-dark">Back to the gummies</ButtonLink>
+  </Fragment>
+
+  <section aria-labelledby="confirmed-next-heading" class="section-px section-py bg-white text-green">
+    <div class="container-lg">
+      <h2 id="confirmed-next-heading" class="display-word stretch-display text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88]">What happens next?</h2>
+      <p class="mt-4 max-w-[40ch] text-xl leading-normal">Welcome to the <Brand /> founding crew. Here’s the plan.</p>
+      <ol class="mt-[clamp(32px,4vw,56px)] grid gap-5 md:grid-cols-3">
+        {
+          next.map((item, index) => (
+            <li class="rounded-card bg-pink p-[clamp(22px,2.4vw,32px)] transition duration-200 hover:-translate-y-1 hover:rotate-1">
+              <span aria-hidden="true" class="display-word stretch-wide block text-[clamp(3rem,6vw,4.5rem)] leading-[0.8] text-green/80">{String(index + 1).padStart(2, "0")}</span>
+              <h3 class="mt-4 text-[clamp(1.4rem,2.2vw,1.9rem)] leading-[1.05] font-black uppercase stretch-tight">{item.title}</h3>
+              <p class="mt-3 text-lg leading-normal">{item.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+</Fun>
