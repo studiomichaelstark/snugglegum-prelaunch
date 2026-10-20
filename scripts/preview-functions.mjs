@@ -22,7 +22,7 @@ if (build.status !== 0) process.exit(build.status ?? 1);
 console.log('\nStarting the local server. When a sign-up fails, the reason is printed in this window.');
 // Own process group, so one signal reaches pnpm, wrangler and workerd together. Ctrl-C from the terminal
 // then goes to this script only, which decides how to stop the rest.
-const server = spawn('pnpm', ['exec', 'wrangler', 'pages', 'dev', '--ip', '127.0.0.1'], { stdio: 'inherit', detached: true });
+const server = spawn('pnpm', ['exec', 'wrangler', 'pages', 'dev', 'dist', '--kv', 'SIGNUPS', '--compatibility-date', '2026-10-01', '--ip', '127.0.0.1'], { stdio: 'inherit', detached: true });
 const stopGroup = (signal) => {
   try {
     process.kill(-server.pid, signal);
