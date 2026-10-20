@@ -1,3 +1,5 @@
+Superseded on 2026-10-18. Kept for history only.
+
 # Implementation plan: Snugglegum™ pre-launch landing page
 
 Phase 1. No application code has been written. Waiting for your approval and your answers in section 2.

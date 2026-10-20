@@ -54,13 +54,8 @@ function renderFixture(env: Env): Record<(typeof PAGES)[number], string> {
   }
   const acct = env.PUBLIC_MAILERLITE_ACCOUNT_ID ?? '';
   const form = env.PUBLIC_MAILERLITE_FORM_ID ?? '';
-  const discountOn = !!(env.PUBLIC_DISCOUNT_LABEL ?? '').trim();
-  const count = Number(env.PUBLIC_SUBSCRIBER_COUNT || 0);
-  const threshold = Number(env.PUBLIC_PROOF_THRESHOLD || 250);
   body.index +=
     `<div data-endpoint="https://assets.mailerlite.com/jsonp/${acct}/forms/${form}/subscribe"></div>` +
-    `<h2>${discountOn ? 'Three' : 'Two'} things for joining before launch</h2>` +
-    (count > 0 && count >= threshold ? `<p>${count} people are already on the list</p>` : '') +
     (acct && form ? '' : '<!-- ids missing: the build check reports this via the env check -->');
 
   const page = (name: string) =>
@@ -160,17 +155,6 @@ test.describe('post-build check of the rendered HTML', () => {
     const pages = renderFixture(filledEnv);
     pages.imprint += '<p>Operated by:</p><address>Someone</address>';
     expect(kinds(makeRoot(pages), filledEnv)).toEqual([]);
-  });
-
-  test('the social proof line follows count and threshold', () => {
-    const env = { ...filledEnv, PUBLIC_SUBSCRIBER_COUNT: '100' };
-    const pages = renderFixture(env);
-    pages.index += '<p>100 people are already on the list</p>';
-    expect(kinds(makeRoot(pages), env)).toContain('social-proof');
-
-    const above = renderFixture(filledEnv);
-    above.index = above.index.replace('400 people are already on the list', '');
-    expect(kinds(makeRoot(above), filledEnv)).toContain('social-proof');
   });
 
   test('a secret from a variable without PUBLIC_ in the built output is reported, a public one is not', () => {

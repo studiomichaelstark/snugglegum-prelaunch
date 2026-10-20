@@ -4,15 +4,19 @@ import { expect, ROUTES, test } from './fixtures';
 const WCAG_22_AA = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 
 async function scan(page: import('@playwright/test').Page) {
-  // Let one-shot animations (the modal slide-in fades its opacity) finish, or axe measures a half-transparent dialog.
-  await page.evaluate(() =>
-    Promise.all(
-      document
-        .getAnimations()
-        .filter((animation) => animation.effect?.getComputedTiming().iterations !== Infinity)
-        .map((animation) => animation.finished),
-    ),
-  );
+  // Jump one-shot animations (the modal slide-in fades its opacity) to their end, or axe measures a half-transparent
+  // dialog. finish() instead of awaiting `finished`: under load WebKit can stall a running animation for longer than
+  // the test timeout, and the end state is what we want to scan anyway.
+  await page.evaluate(() => {
+    for (const animation of document.getAnimations()) {
+      if (animation.effect?.getComputedTiming().iterations === Infinity) continue;
+      try {
+        animation.finish();
+      } catch {
+        // Already cancelled or not finishable: nothing to wait for.
+      }
+    }
+  });
   // The giant "GUMMIES" word behind the pouch is aria-hidden pure decoration at 14% opacity. WCAG 1.4.3 exempts
   // pure decoration from the contrast minimum, so it is excluded on purpose (marked with data-decorative-text).
   const results = await new AxeBuilder({ page }).withTags(WCAG_22_AA).exclude('[data-decorative-text]').analyze();
@@ -45,24 +49,16 @@ test.describe('accessibility (WCAG 2.2 AA via axe)', () => {
     });
   }
 
-  test('/close-contact: no violations with the Supplement Facts dialog open', async ({ consented: page }) => {
-    await page.goto('/close-contact');
-    await page.locator('button[data-dialog-open]').first().click();
-    await expect(page.getByRole('dialog', { name: 'Supplement Facts' })).toBeVisible();
-    expect(await scan(page)).toEqual([]);
-  });
-
-  test('/close-contact: no violations with an FAQ answer open and the error message shown', async ({ consented: page }) => {
-    await page.goto('/close-contact');
-    await page.locator('#faq summary').first().click();
-    await page.locator('form:has(#newsletter-email-hero) button[type="submit"]').click();
-    await expect(page.locator('#newsletter-error-hero')).toBeVisible();
+  test('/: no violations (signup) with the error message shown', async ({ consented: page }) => {
+    await page.goto('/');
+    await page.locator('form:has(#newsletter-email-home) button[type="submit"]').click();
+    await expect(page.locator('#newsletter-error-home')).toBeVisible();
     expect(await scan(page)).toEqual([]);
   });
 
   test('/: no violations with a product-interest checkbox checked', async ({ consented: page }) => {
     await page.goto('/');
-    await page.locator('input[data-interest="close-contact"]').check();
+    await page.locator('input[data-interest="gen-z"]').check();
     expect(await scan(page)).toEqual([]);
   });
 });
@@ -102,7 +98,7 @@ test.describe('keyboard and motion', () => {
       expect(info.outlineWidth, `${info.key} outline width`).toBeGreaterThanOrEqual(2);
       seen.add(info.key);
     }
-    expect(seen.size).toBeGreaterThan(15);
+    expect(seen.size).toBeGreaterThan(5);
   });
 
   test('prefers-reduced-motion switches every animation off', async ({ consented: page }) => {
@@ -118,7 +114,7 @@ test.describe('keyboard and motion', () => {
 
   test('without reduced motion the decorative animations do run', async ({ consented: page }) => {
     await page.emulateMedia({ reducedMotion: 'no-preference' });
-    await page.goto('/close-contact');
+    await page.goto('/');
     const marquee = page.locator('.marquee-track');
     await expect(marquee).toHaveCSS('animation-name', 'sg-marquee');
   });

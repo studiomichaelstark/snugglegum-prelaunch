@@ -1,0 +1,79 @@
+---
+/**
+ * Three-version teasers of Snugglegum Multivitamin, one per generation. Equal weight: no line is the hero. Each card has its
+ * own accent from the palette (see products.ts) and is marked "Coming soon". No prices, no per-line pages.
+ */
+import type { ImageMetadata } from "astro";
+import { Picture } from "astro:assets";
+import boomerPouch from "@/assets/package-design/vitamin-gummies-boomer.png";
+import genZPouch from "@/assets/package-design/vitamin-gummies-genz.png";
+import millennialsPouch from "@/assets/package-design/vitamin-gummies-millennials.png";
+import Brand from "@/components/ui/Brand.astro";
+import { products, type ProductAccent, type ProductId } from "@/config/products";
+
+// Literal class strings so Tailwind's scanner sees every one.
+const surface: Record<ProductAccent, string> = {
+  pink: "bg-pink text-ink",
+  meadow: "bg-meadow text-ink",
+  sport: "bg-sport text-ink",
+};
+
+// One pouch design per version, named after its file (vitamin-gummies-genz / -millennials / -boomer).
+const pouches: Record<ProductId, ImageMetadata> = {
+  "gen-z": genZPouch,
+  millennials: millennialsPouch,
+  boomer: boomerPouch,
+};
+
+// Each pouch turns a little on hover, in alternating directions. Literal classes so Tailwind sees them.
+const tilt: Record<ProductId, string> = {
+  "gen-z": "hover:-rotate-6",
+  millennials: "hover:rotate-4",
+  boomer: "hover:-rotate-4",
+};
+
+const lines: Record<ProductId, { ages: string; teaser: string }> = {
+  "gen-z": { ages: "Ages 18 to 29", teaser: "Built for snacking between everything else. Bright, bitey and a little bit extra." },
+  millennials: { ages: "Ages 30 to 45", teaser: "A sweet break for busy days. Because treats shouldn’t be an afterthought." },
+  boomer: { ages: "Ages 62 to 80", teaser: "Classic candy-shop joy with a modern twist." },
+};
+---
+
+<section id="lines" aria-labelledby="lines-heading" class="section-px section-py bg-white text-green">
+  <div class="container-lg">
+    <p class="label-caps text-[17px]">Three versions, one sweet idea</p>
+    <h2 id="lines-heading" class="display-word stretch-display mt-3 max-w-[20ch] text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88]">Pick the vitamins for your generation</h2>
+    <p class="mt-5 max-w-[48ch] text-xl leading-normal">Formulated for your generation. Final formula and Supplement Facts coming at launch.</p>
+    <ul class="mt-[clamp(32px,4vw,56px)] grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        products.map((product) => (
+          <li class:list={["rounded-card flex flex-col p-[clamp(22px,2.4vw,30px)] transition duration-200 hover:-translate-y-1", surface[product.accent]]} data-line={product.id}>
+            <span class="label-caps inline-block self-start rounded-full border-2 border-current px-4 py-1.5 text-xs">Coming soon</span>
+            <Picture
+              src={pouches[product.id]}
+              alt={`Snugglegum™ vitamin gummies pouch for ${product.name}, design concept`}
+              formats={["avif", "webp"]}
+              widths={[320, 480, 640]}
+              sizes="(min-width: 1024px) 300px, (min-width: 640px) 40vw, 70vw"
+              loading="lazy"
+              decoding="async"
+              data-pouch
+              class:list={["pouch relative mx-auto mt-6 h-auto w-[min(70%,300px)] origin-center transition duration-300 ease-out hover:z-20 hover:scale-150", tilt[product.id]]}
+            />
+            <h3 class="mt-8 text-[clamp(1.5rem,2.2vw,2rem)] leading-[1] font-black uppercase stretch-tight">
+              <Brand /> Multivitamin <span class="underline decoration-[0.07em] underline-offset-[0.12em]">for {product.name}</span>
+            </h3>
+            <p class="label-caps mt-3 text-sm">{lines[product.id].ages}</p>
+            <p class="mt-4 text-lg leading-normal">{lines[product.id].teaser}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<script>
+  import { initPouchConfetti } from "@/scripts/pouchConfetti";
+
+  initPouchConfetti();
+</script>

@@ -1,0 +1,63 @@
+---
+/**
+ * Decorative parallax backdrop for the homepage hero: the background plate plus eight gummy layers
+ * from design/hero-parallax/manifest.json, stacked far → mid → near. The scene covers the hero like
+ * background-size: cover, enlarged by the manifest's overscan on every side, so moving layers never
+ * show their cropped edges. Motion lives in src/scripts/heroParallax.ts; without JavaScript or under
+ * reduced motion the scene is simply static.
+ */
+import { backgroundSources, MAX_OFFSET_RATIO, parallaxLayers, sceneCanvas } from "@/lib/heroParallaxLayers";
+---
+
+<div aria-hidden="true" class="hero-parallax pointer-events-none absolute inset-0 -z-10 overflow-hidden select-none">
+  <div class="hero-parallax-scene" data-parallax-scene data-max-offset-ratio={MAX_OFFSET_RATIO}>
+    <picture>
+      <source srcset={backgroundSources.webp} type="image/webp" />
+      <img
+        src={backgroundSources.jpg}
+        alt=""
+        width={sceneCanvas.width}
+        height={sceneCanvas.height}
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+        class="absolute inset-0 size-full max-w-none"
+      />
+    </picture>
+    {
+      parallaxLayers.map((layer) => (
+        <img
+          src={layer.src}
+          alt=""
+          width={layer.width}
+          height={layer.height}
+          loading="eager"
+          decoding="async"
+          data-parallax-layer
+          data-depth={layer.depth}
+          data-speed={layer.speed}
+          class:list={["absolute h-auto max-w-none will-change-transform", layer.positionClass]}
+        />
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .hero-parallax {
+    container-type: size;
+  }
+
+  /*
+   * Cover the hero (16:9-ish canvas, 2576 x 1438) and add the manifest's 2.83 % overscan on every
+   * side: 1 + 2 x 0.0283 = 1.0566. Keep in sync with manifest.parallax.overscan_pct.
+   */
+  .hero-parallax-scene {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(max(100cqw, 100cqh * 2576 / 1438) * 1.0566);
+    aspect-ratio: 2576 / 1438;
+    translate: -50% -50%;
+  }
+</style>

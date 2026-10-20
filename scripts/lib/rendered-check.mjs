@@ -13,7 +13,6 @@
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { extname, join } from 'node:path';
 import { markerFor, placeholderSpecs, resolvePlaceholders } from '../../src/config/placeholders.ts';
-import { hasDiscount, parseCount, shouldShowSocialProof } from '../../src/config/variants.ts';
 
 const TEXT_EXTENSIONS = new Set(['.html', '.js', '.mjs', '.css', '.txt', '.xml', '.json', '.webmanifest', '.map', '.svg']);
 const ENV_FILES = ['.env', '.env.production', '.env.local', '.env.production.local'];
@@ -151,26 +150,6 @@ export function collectRenderedProblems({ root = process.cwd(), env, fileEnv = r
         if (shouldShow && !has(text)) problem('label-missing', page.file, `${spec.env} is missing, so "${text}" should be in the page.`);
         if (!shouldShow && has(text)) problem('orphan-label', page.file, `${spec.env} is set, but "${text}" is still in the page.`);
       }
-    }
-  }
-
-  // 2. Offer knobs that need more than a text match.
-  const home = pages.index;
-  if (home) {
-    const discountOn = hasDiscount(env.PUBLIC_DISCOUNT_LABEL ?? '');
-    checked += 1;
-    if (!home.text.includes(`${discountOn ? 'Three' : 'Two'} things for joining before launch`)) {
-      problem('offer', home.file, `The offer heading does not match PUBLIC_DISCOUNT_LABEL (${discountOn ? 'set' : 'empty'}).`);
-    }
-    const count = parseCount(env.PUBLIC_SUBSCRIBER_COUNT, 0);
-    const threshold = parseCount(env.PUBLIC_PROOF_THRESHOLD, 250);
-    const proofExpected = shouldShowSocialProof(count, threshold);
-    checked += 1;
-    if (proofExpected && !home.text.includes(`${count} people are already on the list`)) {
-      problem('social-proof', home.file, `PUBLIC_SUBSCRIBER_COUNT=${count} reaches the threshold ${threshold}, but the social proof line is not in the page.`);
-    }
-    if (!proofExpected && home.text.includes('people are already on the list')) {
-      problem('social-proof', home.file, `The social proof line is shown although ${count} is below the threshold ${threshold}.`);
     }
   }
 

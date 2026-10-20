@@ -70,15 +70,4 @@ test.describe('cookie settings modal', () => {
     await expect(dialog).toBeHidden();
     expect(await page.evaluate((key) => window.localStorage.getItem(key), CONSENT_KEY)).not.toBeNull();
   });
-
-  test('Supplement Facts dialog: opens, ESC closes, focus returns', async ({ consented: page }) => {
-    await page.goto('/close-contact');
-    const trigger = page.locator('button[data-dialog-open]').first();
-    await trigger.click();
-    const dialog = page.getByRole('dialog', { name: 'Supplement Facts' });
-    await expect(dialog).toBeVisible();
-    await page.keyboard.press('Escape');
-    await expect(dialog).toBeHidden();
-    await expect(trigger).toBeFocused();
-  });
 });

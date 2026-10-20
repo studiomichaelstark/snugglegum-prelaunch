@@ -1,0 +1,71 @@
+---
+/**
+ * Homepage "At a glance": the four package-design icons with short labels, over a bright pink
+ * backdrop photo (snugglegum-background-02.jpg). Text is indigo for contrast on the light image, and
+ * the icons are inverted here (white fills, indigo line art) so they read on pink.
+ * No amounts on the cards; the button opens the (preliminary) Supplement Facts dialog.
+ */
+import { Picture } from "astro:assets";
+import background from "@/assets/snugglegum-background-02.jpg";
+import IconLiquidCenter from "@/components/icons/IconLiquidCenter.astro";
+import IconNoSugar from "@/components/icons/IconNoSugar.astro";
+import IconPineapple from "@/components/icons/IconPineapple.astro";
+import IconZinc from "@/components/icons/IconZinc.astro";
+
+const features = [
+  { Icon: IconZinc, title: "With zinc", note: "Amounts in the Supplement Facts at launch" },
+  { Icon: IconLiquidCenter, title: "Liquid center", note: "Bursts in your mouth" },
+  { Icon: IconNoSugar, title: "Sugar-free", note: "Sweetened with sweeteners" },
+  { Icon: IconPineapple, title: "Pineapple flavor", note: "One of the flavors in the vote" },
+];
+---
+
+<section id="at-a-glance" aria-labelledby="at-a-glance-heading" class="section-px section-py relative isolate overflow-hidden bg-blush text-green">
+  <Picture
+    src={background}
+    alt=""
+    aria-hidden="true"
+    formats={["avif", "webp"]}
+    widths={[768, 1376]}
+    sizes="100vw"
+    loading="lazy"
+    decoding="async"
+    class="pointer-events-none absolute inset-0 -z-10 size-full object-cover"
+  />
+  <div class="container-lg text-center">
+    <p class="label-caps text-[17px]">At a glance</p>
+    <h2 id="at-a-glance-heading" class="display-word stretch-display mt-3 text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88]">Liquid-filled gummies</h2>
+    <ul class="glance-icons mt-[clamp(40px,5vw,72px)] grid grid-cols-2 gap-x-6 gap-y-[clamp(40px,5vw,56px)] lg:grid-cols-4">
+      {
+        features.map(({ Icon, title, note }) => (
+          <li class="group flex flex-col items-center">
+            <span class="flex h-[clamp(96px,11vw,140px)] items-end justify-center transition duration-300 group-hover:-translate-y-1.5 group-hover:-rotate-3">
+              <Icon class="h-full w-auto drop-shadow-lg" />
+            </span>
+            <h3 class="mt-6 text-[clamp(1.25rem,2vw,1.6rem)] leading-[1.05] font-black uppercase stretch-hero">{title}</h3>
+            <p class="mt-2 max-w-[22ch] text-base leading-snug font-medium">{note}</p>
+          </li>
+        ))
+      }
+    </ul>
+    <button type="button" data-dialog-open="supplement-facts" aria-haspopup="dialog" class="label-caps mx-auto mt-[clamp(40px,5vw,64px)] flex cursor-pointer items-center gap-3 rounded-full border-2 border-dashed border-green bg-white/60 px-7 py-4 text-[15px] text-green transition duration-200 hover:-translate-y-0.5 hover:border-solid hover:bg-green hover:text-pink">
+      See the preliminary Supplement Facts
+      <span aria-hidden="true" class="text-xl font-black">+</span>
+    </button>
+  </div>
+</section>
+
+<style>
+  /* Invert the package icons for the light backdrop: dark fills become white, white line art indigo. */
+  .glance-icons :global(.fill-ink) {
+    fill: var(--color-surface);
+  }
+
+  .glance-icons :global(.fill-white) {
+    fill: var(--color-brand-green);
+  }
+
+  .glance-icons :global(.stroke-white) {
+    stroke: var(--color-brand-green);
+  }
+</style>

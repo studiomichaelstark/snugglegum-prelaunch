@@ -1,0 +1,77 @@
+---
+/**
+ * Homepage hero: logo, the brand claim as the h1, the tagline and a bursting gummy (liquid center).
+ * The gummy is an illustrative visual (from md up it overlaps the headline on purpose), so the note
+ * under it says the final look may differ. Stacking: parallax backdrop (HeroParallax) < headline (z-20)
+ * < burst gummy (z-30), so the gummy and its syrup sit in front of the h1 on purpose. Only the backdrop moves (heroParallax.ts).
+ * The serving note stays neutral until the Supplement Facts are confirmed.
+ */
+import Logo from "@/components/logo/Logo.astro";
+import Brand from "@/components/ui/Brand.astro";
+import ButtonLink from "@/components/ui/ButtonLink.astro";
+import { Picture } from "astro:assets";
+import heroGummy from "@/assets/hero-01b-snugglegum.png";
+import HeroParallax from "@/components/home/HeroParallax.astro";
+---
+
+<section id="hero" class="section-px relative isolate overflow-hidden bg-blush pt-9 pb-[clamp(56px,7vw,96px)] text-green">
+  <HeroParallax />
+  <div class="container-lg">
+    <div class="flex justify-center pt-6">
+      <Logo class="logo-glow logo-hero text-white" />
+    </div>
+    <div class="mt-[clamp(32px,5vw,64px)] grid items-center gap-x-[clamp(32px,5vw,72px)] gap-y-8 text-center grid-cols-[minmax(0,1fr)] md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:text-left">
+      <div class="relative z-20 md:col-span-2">
+        <p class="label-caps text-sm">Pre-launch · USA</p>
+        <h1 class="display-word stretch-hero mt-3 max-w-[14ch] text-[clamp(2.1rem,7.6vw,7rem)] leading-[0.88] text-balance max-md:mx-auto">Poppin’ <span class="md:block">Vitamin Gummies.</span></h1>
+      </div>
+      <div>
+        <p class="mx-auto max-w-[34ch] text-[clamp(1.2rem,1.9vw,1.5rem)] leading-[1.4] font-medium md:mx-0">
+          <strong>Vitamins you actually want to snack on.</strong>
+          Sugar-free <Brand /> multivitamin gummies with a liquid center that bursts when you bite.
+        </p>
+        <div class="mt-8 flex flex-wrap justify-center gap-3 md:justify-start">
+          <ButtonLink href="#newsletter-home">Become a founding member</ButtonLink>
+        </div>
+        <p class="mt-6 text-base">Serving size and daily gummies: see Supplement Facts (coming with launch).</p>
+      </div>
+      <div class="pointer-events-none relative z-30 md:-mt-[clamp(140px,18vw,300px)] 2xl:-mr-[clamp(20px,7vw,140px)] md:-ml-[12%] lg:-mt-[clamp(260px,26vw,420px)] lg:-ml-[50%]">
+        <div class="relative mx-auto w-[84%] max-w-[780px] sm:w-full md:mr-0 lg:max-w-[880px]">
+          <Picture
+            src={heroGummy}
+            alt="A Snugglegum™ gummy bursting open, its liquid center splashing out"
+            formats={["avif", "webp"]}
+            widths={[480, 760, 1000]}
+            sizes="(min-width: 1024px) 880px, (min-width: 768px) 780px, 90vw"
+            loading="eager"
+            fetchpriority="high"
+            class="h-auto w-full drop-shadow-2xl"
+          />
+          <!-- The note runs clockwise around the gummy ball from 12 o'clock, away from the syrup (center and radius in the image's 1000 x 666 space). -->
+          <svg
+            data-hero-note
+            role="img"
+            aria-label="Illustration. The final gummies may look different."
+            viewBox="0 0 1000 666"
+            class="pointer-events-none absolute inset-0 size-full overflow-visible text-green"
+          >
+            <defs>
+              <path id="hero-note-circle" d="M 685 -10 a 352 352 0 1 1 -0.1 0" fill="none"></path>
+            </defs>
+            <text aria-hidden="true" fill="currentColor" font-weight="700" letter-spacing="2" class="hero-note-glow text-[56px] sm:text-[27px] md:text-[38px] lg:text-[26px] xl:text-[20px]">
+              <textPath href="#hero-note-circle" startOffset="2%">ILLUSTRATION · THE FINAL GUMMIES MAY LOOK DIFFERENT</textPath>
+            </text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initHeroNote } from "@/scripts/heroNote";
+  import { initHeroParallax } from "@/scripts/heroParallax";
+
+  initHeroNote();
+  initHeroParallax();
+</script>

@@ -3,7 +3,7 @@
  * visitor submits. Visible strings are read from <template> elements in NewsletterForm.astro.
  */
 
-type ErrorKind = 'invalid-email' | 'interest' | 'consent' | 'server' | 'already' | 'network' | 'rate-limit';
+type ErrorKind = 'invalid-email' | 'consent' | 'server' | 'already' | 'network' | 'rate-limit';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const REQUEST_TIMEOUT_MS = 15_000;
@@ -51,7 +51,7 @@ function setBusy(form: HTMLFormElement, busy: boolean): void {
 }
 
 interface ProductInterest {
-  /** Product id, e.g. "close-contact". Sent as-is in fields[product_interest]. */
+  /** Product id, e.g. "gen-z". Sent as-is in fields[product_interest]. */
   id: string;
   /** MailerLite Group ID for this product, or '' while that Group has not been created yet. */
   groupId: string;
@@ -64,13 +64,54 @@ function readInterests(form: HTMLFormElement): ProductInterest[] {
     .map((input) => ({ id: input.dataset.interest ?? '', groupId: input.dataset.group ?? '' }));
 }
 
-async function subscribe(endpoint: string, email: string, interests: ProductInterest[]): Promise<'success' | ErrorKind> {
+const FLAVOR_OTHER_MAX_LENGTH = 40;
+
+interface FlavorChoice {
+  /** Ids of the ticked flavor checkboxes, e.g. ["pineapple", "energy"]. */
+  picked: string[];
+  /** The visitor's own flavor suggestion, trimmed and length-capped. Empty when none. */
+  other: string;
+}
+
+/** Reads the flavor checkboxes and the free-text suggestion inside a form. */
+function readFlavors(form: HTMLFormElement): FlavorChoice {
+  const picked = Array.from(form.querySelectorAll<HTMLInputElement>('input[data-flavor]'))
+    .filter((input) => input.checked)
+    .map((input) => input.dataset.flavor ?? '')
+    .filter(Boolean);
+  const other = (form.querySelector<HTMLInputElement>('input[data-flavor-other]')?.value ?? '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, FLAVOR_OTHER_MAX_LENGTH);
+  return { picked, other };
+}
+
+/** Campaign parameters recorded with a sign-up, so MailerLite can attribute it to a campaign. */
+const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'] as const;
+const UTM_MAX_LENGTH = 120;
+
+/** Reads the UTM parameters of the current page URL. Nothing is stored; they only travel with the sign-up. */
+export function readUtm(search: string): Record<string, string> {
+  const params = new URLSearchParams(search);
+  const found: Record<string, string> = {};
+  for (const key of UTM_KEYS) {
+    const value = params.get(key)?.trim().slice(0, UTM_MAX_LENGTH);
+    if (value) found[key] = value;
+  }
+  return found;
+}
+
+async function subscribe(endpoint: string, email: string, interests: ProductInterest[], flavors: FlavorChoice): Promise<'success' | ErrorKind> {
   if (!endpoint) return 'server';
 
   const body = new FormData();
   body.set('fields[email]', email);
   body.set('ml-submit', '1');
   body.set('anticsrf', 'true');
+  body.set('fields[signup_page]', window.location.pathname);
+  for (const [key, value] of Object.entries(readUtm(window.location.search))) {
+    body.set(`fields[${key}]`, value);
+  }
 
   if (interests.length) {
     // A plain field always records the interest(s), even before a matching Group exists.
@@ -83,6 +124,10 @@ async function subscribe(endpoint: string, email: string, interests: ProductInte
       if (interest.groupId) body.append('groups[]', interest.groupId);
     }
   }
+
+  // Plain fields, so no MailerLite Group is needed to read the vote.
+  if (flavors.picked.length) body.set('fields[flavor_vote]', flavors.picked.join(','));
+  if (flavors.other) body.set('fields[flavor_other]', flavors.other);
 
   const controller = new AbortController();
   const timer = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
@@ -161,18 +206,16 @@ function bind(root: HTMLElement): void {
 
   emailInput?.addEventListener('input', () => clearError(form));
   interestInputs.forEach((input) => input.addEventListener('change', () => clearError(form)));
+  form.querySelectorAll('input[data-flavor], input[data-flavor-other]').forEach((input) => {
+    input.addEventListener('change', () => clearError(form));
+  });
   consentInput?.addEventListener('change', () => clearError(form));
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (submitting || !emailInput || !consentInput) return;
 
-    // Fields are validated in the order they appear: interests, email, consent.
-    if (!interestInputs.some((input) => input.checked)) {
-      showError(root, form, 'interest', interestInputs[0]);
-      return;
-    }
-
+    // Fields are validated in the order they appear: email, consent. The product-line interest is optional.
     const email = emailInput.value.trim();
     if (!EMAIL_PATTERN.test(email)) {
       showError(root, form, 'invalid-email', emailInput);
@@ -193,7 +236,7 @@ function bind(root: HTMLElement): void {
 
     submitting = true;
     setBusy(form, true);
-    const result = await subscribe(endpoint, email, readInterests(form));
+    const result = await subscribe(endpoint, email, readInterests(form), readFlavors(form));
     submitting = false;
     setBusy(form, false);
 

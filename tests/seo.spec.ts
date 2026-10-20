@@ -35,13 +35,6 @@ test.describe('SEO', () => {
       expect(imagesWithoutAlt).toBe(0);
       const namelessMeaningfulSvgs = await page.locator('svg[role="img"]:not([aria-label]):not([aria-labelledby])').count();
       expect(namelessMeaningfulSvgs).toBe(0);
-      const heroImage = page.locator('#hero img');
-      const pouchAlts: Record<string, RegExp> = {
-        '/close-contact': /Snugglegum™ Close Contact pouch/,
-        '/protein-energy': /Snugglegum™ Protein Energy pouch/,
-        '/beauty': /Snugglegum™ Beauty Nutrition pouch/,
-      };
-      if (pouchAlts[route]) await expect(heroImage).toHaveAttribute('alt', pouchAlts[route]);
     });
 
     test(`${route}: valid JSON-LD`, async ({ consented: page }) => {
@@ -76,7 +69,7 @@ test.describe('SEO', () => {
     const sitemap = await request.get('/sitemap.xml');
     expect(sitemap.ok()).toBe(true);
     const xml = await sitemap.text();
-    for (const path of ['/', '/close-contact', '/protein-energy', '/beauty', '/imprint', '/privacy'])
+    for (const path of ['/', '/imprint', '/privacy'])
       expect(xml).toContain(`${SITE}${path}`);
 
     expect((await request.get('/sitemap-index.xml')).ok()).toBe(true);

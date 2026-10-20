@@ -1,0 +1,168 @@
+{
+  "source": "Gummy_bursting_with_syrup_splash_2K_20261019074456.jpg",
+  "canvas": {
+    "width": 2576,
+    "height": 1438
+  },
+  "background": "background.webp",
+  "note": "Positions in px of the 2576x1438 canvas and in % for responsive placement.",
+  "layers": [
+    {
+      "file": "layers/gummy-01-far.webp",
+      "label": "bottom-center",
+      "depth": "far",
+      "speed": 0.3,
+      "focus": "slight",
+      "x": 1375,
+      "y": 1024,
+      "width": 321,
+      "height": 319,
+      "left_pct": 53.377,
+      "top_pct": 71.21,
+      "width_pct": 12.461,
+      "cropped_edges": [],
+      "z": 0
+    },
+    {
+      "file": "layers/gummy-02-mid.webp",
+      "label": "top-center pair",
+      "depth": "mid",
+      "speed": 0.55,
+      "focus": "sharp",
+      "x": 1438,
+      "y": 0,
+      "width": 594,
+      "height": 241,
+      "left_pct": 55.823,
+      "top_pct": 0.0,
+      "width_pct": 23.059,
+      "cropped_edges": [
+        "top"
+      ],
+      "z": 1
+    },
+    {
+      "file": "layers/gummy-03-mid.webp",
+      "label": "right-middle",
+      "depth": "mid",
+      "speed": 0.55,
+      "focus": "sharp",
+      "x": 1931,
+      "y": 395,
+      "width": 426,
+      "height": 426,
+      "left_pct": 74.961,
+      "top_pct": 27.469,
+      "width_pct": 16.537,
+      "cropped_edges": [],
+      "z": 1
+    },
+    {
+      "file": "layers/gummy-04-mid.webp",
+      "label": "left",
+      "depth": "mid",
+      "speed": 0.55,
+      "focus": "sharp",
+      "x": 0,
+      "y": 750,
+      "width": 227,
+      "height": 396,
+      "left_pct": 0.0,
+      "top_pct": 52.156,
+      "width_pct": 8.812,
+      "cropped_edges": [
+        "left"
+      ],
+      "z": 1
+    },
+    {
+      "file": "layers/gummy-05-near.webp",
+      "label": "top-left pair",
+      "depth": "near",
+      "speed": 1.0,
+      "focus": "heavy",
+      "x": 0,
+      "y": 0,
+      "width": 502,
+      "height": 746,
+      "left_pct": 0.0,
+      "top_pct": 0.0,
+      "width_pct": 19.488,
+      "cropped_edges": [
+        "left",
+        "top"
+      ],
+      "z": 2
+    },
+    {
+      "file": "layers/gummy-06-near.webp",
+      "label": "top-right pair",
+      "depth": "near",
+      "speed": 1.0,
+      "focus": "heavy",
+      "x": 2135,
+      "y": 0,
+      "width": 441,
+      "height": 504,
+      "left_pct": 82.88,
+      "top_pct": 0.0,
+      "width_pct": 17.12,
+      "cropped_edges": [
+        "top",
+        "right"
+      ],
+      "z": 2
+    },
+    {
+      "file": "layers/gummy-07-near.webp",
+      "label": "bottom-right pair",
+      "depth": "near",
+      "speed": 1.0,
+      "focus": "heavy",
+      "x": 1919,
+      "y": 691,
+      "width": 657,
+      "height": 747,
+      "left_pct": 74.495,
+      "top_pct": 48.053,
+      "width_pct": 25.505,
+      "cropped_edges": [
+        "right",
+        "bottom"
+      ],
+      "z": 2
+    },
+    {
+      "file": "layers/gummy-08-near.webp",
+      "label": "bottom-left pair",
+      "depth": "near",
+      "speed": 1.0,
+      "focus": "heavy",
+      "x": 137,
+      "y": 957,
+      "width": 954,
+      "height": 481,
+      "left_pct": 5.318,
+      "top_pct": 66.551,
+      "width_pct": 37.034,
+      "cropped_edges": [
+        "bottom"
+      ],
+      "z": 2
+    }
+  ],
+  "background_fallback": "background.jpg",
+  "average_color": "#f1cad8",
+  "parallax": {
+    "max_offset_px_at_canvas": 60,
+    "overscan_pct": 2.83,
+    "rule": "Render the whole scene (background + layers) larger than the visible hero by overscan_pct on every side. Never move any layer further than max offset, otherwise cropped edges become visible.",
+    "speeds": {
+      "far": 0.3,
+      "mid": 0.55,
+      "near": 1.0
+    },
+    "note_overlaps": "Layers labelled \"pair\" contain two overlapping gummies that move together on purpose. Splitting them would reveal gaps at the hidden parts.",
+    "note_hero": "gummy-03-mid sits right-middle, behind the burst gummy of the hero. Keep it, but it may be mostly hidden on desktop."
+  }
+}

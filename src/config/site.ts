@@ -55,13 +55,13 @@ export const mailerLite = {
 } as const;
 
 /**
- * MailerLite Group IDs, one per product interest, set once each is created in the MailerLite
+ * MailerLite Group IDs, one per product-line interest, set once each is created in the MailerLite
  * dashboard (see .env, "MailerLite interest groups"). A blank entry means: still record that
  * product's interest (as a plain field on the subscriber), just not tagged to a native Group yet.
  * These are ordinary MailerLite identifiers, not secrets.
  */
 export const mailerLiteGroups: Readonly<Record<ProductId, string>> = {
-  'close-contact': (import.meta.env.PUBLIC_MAILERLITE_GROUP_CLOSE_CONTACT ?? '').trim(),
-  'protein-energy': (import.meta.env.PUBLIC_MAILERLITE_GROUP_PROTEIN_ENERGY ?? '').trim(),
-  beauty: (import.meta.env.PUBLIC_MAILERLITE_GROUP_BEAUTY ?? '').trim(),
+  'gen-z': (import.meta.env.PUBLIC_MAILERLITE_GROUP_GEN_Z ?? '').trim(),
+  millennials: (import.meta.env.PUBLIC_MAILERLITE_GROUP_MILLENNIALS ?? '').trim(),
+  boomer: (import.meta.env.PUBLIC_MAILERLITE_GROUP_BOOMER ?? '').trim(),
 };

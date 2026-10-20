@@ -1,41 +1,46 @@
 ---
 /**
- * Homepage: the Snugglegum™ product-family gateway. Presents all three products and the umbrella
- * brand; detailed, product-specific content (how it works, ingredients, dedicated FAQs) lives on
- * each product's own page instead (see /close-contact, /protein-energy, /beauty).
+ * Homepage: the pre-launch page. Claim, how it works (Snack. Burst. Vitamins.), the three-version
+ * teasers, a founding-member callout, the FAQ and the founding-member signup (where founding members pick the first flavor).
  */
-import FamilyHero from '@/components/sections/FamilyHero.astro';
+import AtAGlance from '@/components/home/AtAGlance.astro';
+import Faq from '@/components/home/Faq.astro';
+import Hero from '@/components/home/Hero.astro';
+import Join from '@/components/home/Join.astro';
+import HowItWorks from '@/components/home/HowItWorks.astro';
+import SupplementFacts from '@/components/home/SupplementFacts.astro';
+import Lines from '@/components/home/Lines.astro';
+import Marquee from '@/components/home/Marquee.astro';
+import Newsletter from '@/components/home/Newsletter.astro';
 import Footer from '@/components/sections/Footer.astro';
-import GeneralFaq from '@/components/sections/GeneralFaq.astro';
-import Offer from '@/components/sections/Offer.astro';
-import ProductFamily from '@/components/sections/ProductFamily.astro';
-import WhySnugglegum from '@/components/sections/WhySnugglegum.astro';
-import ProductMarquee from '@/components/product/ProductMarquee.astro';
-import ProductNewsletter from '@/components/product/ProductNewsletter.astro';
 import Base from '@/layouts/Base.astro';
+import { productLineMeta } from '@/lib/lines';
 
-const title = 'Snugglegum™ — Functional Gummies Engineered to Get Closer';
+const title = 'Snugglegum™: Sweet Vitamins for Generations';
 const description =
-  'Snugglegum™ is a family of functional gummies: Close Contact, Protein Energy and Beauty. Coming soon in the USA. Join the list to hear first.';
+  'Sugar-free multivitamin gummies with a liquid center that bursts when you bite. Coming soon to the USA. Join the first 500 founding members.';
 ---
 
-<Base title={title} description={description} path="/">
+<Base title={title} description={description} path="/" productLines={productLineMeta}>
   <main id="main" class="max-w-full overflow-x-clip">
-    <FamilyHero />
-    <ProductFamily />
-    <ProductMarquee phrases={['One family, one attitude', 'Gummies with benefits', 'Begum tasty', 'Gum once, thank me later']} />
-    <Offer />
-    <WhySnugglegum />
-    <GeneralFaq />
+    <Hero />
+    <Marquee phrases={['Poppin’ vitamins', 'Snack', 'Burst', 'Vitamins', 'Sugar-free']} />
+    <HowItWorks />
+    <AtAGlance />
+    <Lines />
+    <Join />
+    <Faq />
 
-    <ProductNewsletter id="home" bgClass="bg-green" tone="dark">
+    <Newsletter id="home" bgClass="bg-green" tone="dark">
       <span slot="badge" class="label-caps inline-block animate-[sg-bob_4.5s_ease-in-out_infinite] rounded-full border-2 border-dashed border-ink bg-white pl-[calc(22px+0.14em)] pr-[22px] text-center py-[13px] text-base text-ink">
-        Pre-launch · list only
+        Founding Member
       </span>
       <h2 slot="heading" class="display-word stretch-display mt-6 text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] text-balance">
-        Ready to get closer?
+        Join the first 500 founding members.
       </h2>
-    </ProductNewsletter>
+      <p slot="subline" class="mx-auto mt-5 max-w-[40ch] text-xl leading-normal">Help us pick our first flavor.</p>
+    </Newsletter>
   </main>
+  <SupplementFacts />
   <Footer />
 </Base>

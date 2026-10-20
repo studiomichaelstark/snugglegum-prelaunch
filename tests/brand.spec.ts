@@ -28,9 +28,4 @@ test.describe('brand name with trademark sign', () => {
       }
     });
   }
-
-  test('the back link reads "All Snugglegum™ products" as one name', async ({ consented: page }) => {
-    await page.goto('/close-contact');
-    await expect(page.getByRole('link', { name: 'All Snugglegum™ products' })).toHaveAttribute('href', '/');
-  });
 });

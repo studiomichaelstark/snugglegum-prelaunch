@@ -1,3 +1,5 @@
+Superseded on 2026-10-18. Kept for history only.
+
 # SEO and GEO research: Snugglegum™
 
 Status: Phase 0 findings, 2026-09-21. Nothing here is published yet.

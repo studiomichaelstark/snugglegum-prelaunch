@@ -15,7 +15,7 @@ interface Props {
 const { href, type = "button", variant = "solid", size = "md", disabled, class: className, ...rest } = Astro.props;
 
 const sizes = {
-  md: "h-14 px-8 text-[17px]",
+  md: "min-h-14 max-w-full px-5 py-3 text-center text-[14px] xl:px-8 xl:text-[17px]",
   sm: "min-h-[50px] px-6 py-2 text-center text-sm",
 };
 

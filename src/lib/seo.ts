@@ -2,13 +2,23 @@ import { siteConfig } from '@/config/site';
 
 const LOGO_PATH = '/android-chrome-512x512.png';
 
+/** Brand claim, used in title, meta description and JSON-LD. */
+export const CLAIM = 'Sweet Vitamins for Generations';
+
+export interface ProductLineMeta {
+  /** Line name, e.g. "Gen Z". */
+  name: string;
+  minAge: number;
+  maxAge: number;
+}
+
 export interface PageMeta {
   title: string;
   description: string;
   /** Path with leading slash, no trailing slash except "/". */
   path: string;
-  /** Set on a product page: adds Product + BreadcrumbList (Home > product) to the JSON-LD graph. */
-  product?: { name: string };
+  /** Set on the home page: adds Brand and one pre-launch Product per version to the JSON-LD graph. */
+  productLines?: readonly ProductLineMeta[];
 }
 
 export function absoluteUrl(path: string): string {
@@ -16,16 +26,15 @@ export function absoluteUrl(path: string): string {
 }
 
 /**
- * JSON-LD graph: Organization on every page, WebSite on the home page, WebPage for the current
- * page, and — on a product page — a Product node plus a Home > Product BreadcrumbList. Each
- * product page is meant to be understood on its own (see README, "SEO and GEO"), so its Product
- * node names the Snugglegum™ Organization as `brand` rather than assuming the reader already
- * visited the homepage.
+ * JSON-LD graph: Organization and Brand on every page, WebSite on the home page, WebPage for the
+ * current page, and on the home page one Product per version (each names the Brand and the
+ * target age range; no offers, because nothing is for sale yet).
  */
-export function buildJsonLd({ title, description, path, product }: PageMeta) {
+export function buildJsonLd({ title, description, path, productLines }: PageMeta) {
   const origin = siteConfig.url;
   const pageUrl = absoluteUrl(path);
   const organizationId = `${origin}/#organization`;
+  const brandId = `${origin}/#brand`;
   const websiteId = `${origin}/#website`;
 
   const organization = {
@@ -33,12 +42,22 @@ export function buildJsonLd({ title, description, path, product }: PageMeta) {
     '@id': organizationId,
     name: siteConfig.name,
     url: `${origin}/`,
+    slogan: CLAIM,
     logo: {
       '@type': 'ImageObject',
       url: `${origin}${LOGO_PATH}`,
       width: 512,
       height: 512,
     },
+  };
+
+  const brand = {
+    '@type': 'Brand',
+    '@id': brandId,
+    name: siteConfig.name,
+    slogan: CLAIM,
+    url: `${origin}/`,
+    logo: `${origin}${LOGO_PATH}`,
   };
 
   const website = {
@@ -61,23 +80,22 @@ export function buildJsonLd({ title, description, path, product }: PageMeta) {
     publisher: { '@id': organizationId },
   };
 
-  const graph: object[] = path === '/' ? [organization, website, webpage] : [organization, webpage];
+  const graph: object[] = path === '/' ? [organization, brand, website, webpage] : [organization, brand, webpage];
 
-  if (product) {
+  for (const line of productLines ?? []) {
     graph.push({
       '@type': 'Product',
-      '@id': `${pageUrl}#product`,
-      name: product.name,
-      description,
+      '@id': `${pageUrl}#${line.name.toLowerCase().replace(/\s+/g, '-')}`,
+      name: `${siteConfig.name} Multivitamin for ${line.name}`,
+      description: `${siteConfig.name} Multivitamin for ${line.name}: sugar-free multivitamin gummies with a liquid center. Coming soon.`,
       url: pageUrl,
-      brand: { '@id': organizationId },
-    });
-    graph.push({
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: siteConfig.name, item: `${origin}/` },
-        { '@type': 'ListItem', position: 2, name: product.name, item: pageUrl },
-      ],
+      category: 'Multivitamin gummies',
+      brand: { '@id': brandId },
+      audience: {
+        '@type': 'PeopleAudience',
+        suggestedMinAge: line.minAge,
+        suggestedMaxAge: line.maxAge,
+      },
     });
   }
 

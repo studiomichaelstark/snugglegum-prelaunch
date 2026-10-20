@@ -87,21 +87,20 @@ test.describe('content guardrails', () => {
     expect(read('dist/index.html').match(BRAND_MARKUP)?.length ?? 0).toBeGreaterThan(5);
   });
 
-  test('no page, llms.txt or manifest mentions an age limit (18+, "18 or older", "under 18", the stamp)', () => {
+  // The one allowed exception: the signup consent line (and its error message) asks the visitor to confirm they are 18 or older.
+  const CONSENT_AGE_LINES = /I am 18 or older and agree to receive|Please confirm you are 18 or older and agree to the emails\./g;
+
+  test('the signup consent line asks the visitor to confirm they are 18 or older', () => {
+    expect(read('dist/index.html')).toContain('I am 18 or older and agree to receive');
+  });
+
+  test('no page, llms.txt or manifest mentions an age limit (18+, "18 or older", "under 18", the stamp) outside the consent line', () => {
     const offenders = builtFiles().flatMap((file) => {
-      const text = read(file);
+      const text = read(file).replace(CONSENT_AGE_LINES, '');
       return [...text.matchAll(/18\+|18 or older|[Uu]nder 18|18 and over|aged 18|grownups only/g)].map(
         (m) => `${file}: ${context(text, m.index!)}`,
       );
     });
     expect(offenders).toEqual([]);
-  });
-
-  test('offer variants: no discount card and no social proof by default', () => {
-    const html = read('dist/index.html');
-    expect(html).not.toContain('[XX%]');
-    expect(html).not.toMatch(/people are already on the list/);
-    expect(html).toContain('data-card-count="2"');
-    expect(html).toMatch(/Two things for joining before launch/);
   });
 });

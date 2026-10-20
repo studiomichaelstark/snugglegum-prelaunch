@@ -1,0 +1,107 @@
+---
+/**
+ * Supplement Facts dialog for Snugglegum™ Multivitamin, opened from the "At a glance" section.
+ * The values are carried over from the earlier design's placeholder panel, adjusted to the sugar-free
+ * product (0 g sugars). They are NOT verified against a real label: the visible "Preliminary" note
+ * stays until the final formula is confirmed.
+ */
+import Brand from "@/components/ui/Brand.astro";
+
+interface FactRow {
+  name: string;
+  amount: string;
+  dv: string;
+  /** Indent level for sub-rows (Dietary Fiber, Total Sugars, Added Sugars). */
+  indent?: 1 | 2;
+}
+
+const rows: readonly FactRow[] = [
+  { name: "Calories", amount: "50", dv: "" },
+  { name: "Total Carbohydrate", amount: "15 g", dv: "5%**" },
+  { name: "Dietary Fiber", amount: "6 g", dv: "21%**", indent: 1 },
+  { name: "Total Sugars", amount: "0 g", dv: "†", indent: 1 },
+  { name: "Includes 0 g Added Sugars", amount: "", dv: "0%**", indent: 2 },
+  { name: "Vitamin A (as retinyl palmitate)", amount: "900 mcg RAE", dv: "100%" },
+  { name: "Vitamin C (as ascorbic acid)", amount: "93 mg", dv: "103%" },
+  { name: "Vitamin D (D3) (as VegaD3Light™ Cholecalciferol)", amount: "20 mcg", dv: "100%" },
+  { name: "Vitamin E (as d-alpha-tocopherol)", amount: "1.2 mg", dv: "100%" },
+  { name: "Thiamin (as thiamine hydrochloride)", amount: "1.2 mg", dv: "100%" },
+  { name: "Riboflavin (Vitamin B2)", amount: "1.3 mg", dv: "100%" },
+  { name: "Niacin (as niacinamide)", amount: "16 mg", dv: "100%" },
+  { name: "Vitamin B6 (as pyridoxal-5-phosphate)", amount: "1.7 mg", dv: "100%" },
+  { name: "Folate (as L-5-methyltetrahydrofolate)", amount: "400 mcg DFE", dv: "100%" },
+  { name: "Vitamin B12 (as methylcobalamin)", amount: "2.4 mcg", dv: "100%" },
+  { name: "Biotin", amount: "30 mcg", dv: "100%" },
+  { name: "Pantothenic Acid (as calcium d-pantothenate)", amount: "5 mg", dv: "100%" },
+  { name: "Iron (as ferrous fumarate)", amount: "4.5 mg", dv: "25%" },
+  { name: "Iodine (as potassium iodide)", amount: "4.5 mg", dv: "25%" },
+  { name: "Zinc (as zinc citrate)", amount: "2.75 mg", dv: "25%" },
+  { name: "Selenium (as sodium selenite)", amount: "14 mcg", dv: "25%" },
+  { name: "Copper (as copper citrate)", amount: "0.225 mg", dv: "25%" },
+  { name: "Manganese (as manganese gluconate)", amount: "0.575 mg", dv: "25%" },
+  { name: "Chromium (as chromium chloride)", amount: "0.575 mg", dv: "25%" },
+  { name: "Molybdenum (as sodium molybdate)", amount: "11 mcg", dv: "24%" },
+  { name: "Vitamin K2", amount: "120 mcg", dv: "†" },
+  { name: "Core Nutrients Blend", amount: "8.670 mg", dv: "†" },
+];
+
+const indentClass = { 1: "pl-4", 2: "pl-8" } as const;
+// Two tables side by side from md up (macros and vitamins | the rest), so the wide dialog rarely scrolls.
+const splitAt = rows.findIndex((row) => row.name === "Folate (as L-5-methyltetrahydrofolate)");
+const columns = [rows.slice(0, splitAt), rows.slice(splitAt)];
+---
+
+<dialog
+  id="supplement-facts"
+  data-dialog="supplement-facts"
+  data-dismiss-on-backdrop
+  aria-labelledby="supplement-facts-title"
+  class="on-dark rounded-panel fixed inset-0 m-auto max-h-[90vh] w-[calc(100%-2rem)] max-w-[960px] overflow-auto overscroll-contain bg-ink sg-scroll p-0 text-white"
+>
+  <div class="p-[clamp(24px,3vw,32px)]">
+    <div class="flex items-start justify-between gap-4">
+      <h2 id="supplement-facts-title" tabindex="-1" data-dialog-initial-focus class="text-[26px] leading-[1.1] font-black outline-none">Supplement Facts</h2>
+      <button type="button" data-dialog-close aria-label="Close" class="grid size-11 flex-none cursor-pointer place-items-center rounded-full border border-white/40 bg-transparent text-white">
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+          <path d="M5 5l14 14M19 5L5 19"></path>
+        </svg>
+      </button>
+    </div>
+    <div class="mt-2 flex flex-wrap items-center gap-x-5 gap-y-2 text-base leading-[1.4]">
+      <span><Brand /> Multivitamin</span>
+      <span class="label-caps rounded-full bg-pink px-3 py-1.5 text-xs text-ink">Preliminary · final values at launch</span>
+    </div>
+    <p class="mt-2 text-base leading-[1.4]">Serving Size: 1 Gummy · Servings Per Container: 93</p>
+
+    <div data-copy-review="supplement facts values carried over from the earlier design placeholder, verify against the real label">
+      <div class="mt-4 grid gap-x-10 md:grid-cols-2">
+        {
+          columns.map((column) => (
+            <table class="w-full self-start border-b-[6px] border-white text-[14px] leading-snug">
+              <thead>
+                <tr class="border-t-2 border-white text-sm font-bold">
+                  <th scope="colgroup" colspan="2" class="py-2 text-left">Amount Per Serving</th>
+                  <th scope="col" class="py-2 pl-4 text-right">% DV</th>
+                </tr>
+              </thead>
+              <tbody>
+                {column.map((row) => (
+                  <tr class="border-t border-white/20">
+                    <th scope="row" class:list={["py-1.5 text-left font-normal", row.indent && indentClass[row.indent]]}>
+                      {row.name}
+                    </th>
+                    <td class="py-1.5 pl-4 text-right whitespace-nowrap">{row.amount}</td>
+                    <td class="py-1.5 pl-4 text-right whitespace-nowrap">{row.dv}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ))
+        }
+      </div>
+    </div>
+    <p class="mt-3 text-[13px] leading-normal opacity-90">† Daily Value (DV) not established.</p>
+    <p class="mt-1.5 text-[13px] leading-normal opacity-90">** Percent Daily Values (DV) are based on a 2,000 calorie diet.</p>
+    <p class="mt-1.5 text-[13px] leading-normal opacity-90">Sugar-free, sweetened with sweeteners. Each of the three versions gets its own final panel at launch.</p>
+  </div>
+</dialog>

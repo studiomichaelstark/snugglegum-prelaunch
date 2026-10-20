@@ -36,12 +36,12 @@
   --color-lime: var(--color-brand-lime);
   --color-ink: var(--color-brand-ink);
   --color-charcoal: var(--color-surface-charcoal);
-  --color-vignette-close-contact: var(--color-hero-vignette-close-contact);
-  --color-vignette-beauty: var(--color-hero-vignette-beauty);
+  --color-vignette: var(--color-hero-vignette);
+  --color-blush: var(--color-hero-backdrop);
   --color-white: var(--color-surface);
   --color-ink-muted: var(--color-text-muted-on-ink);
+  --color-meadow: var(--color-accent-meadow);
   --color-sport: var(--color-accent-sport);
-  --color-beauty: var(--color-accent-beauty);
 }
 
 @layer base {
@@ -102,6 +102,11 @@
 
   .on-dark :focus-visible {
     outline-color: var(--color-brand-lime);
+  }
+
+  /* A light surface inside a dark section (the signup ticket) goes back to the green outline. */
+  .on-light :focus-visible {
+    outline-color: var(--color-brand-green);
   }
 
   dialog {
@@ -343,6 +348,68 @@ dialog::backdrop {
 
 dialog[data-dialog='supplement-facts']::backdrop {
   background: color-mix(in srgb, var(--color-brand-ink) 60%, transparent);
+}
+
+/* Slim scrollbar in brand colors for dark scroll areas (the Supplement Facts dialog). */
+.sg-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--color-brand-pink) 70%, transparent) transparent;
+}
+
+.sg-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sg-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sg-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-brand-pink) 70%, transparent);
+}
+
+/*
+ * Signup ticket: two half-circle punches on the tear line between the stub and the form.
+ * --ticket-stub is the stub height, so the punches always sit on the dashed line.
+ */
+.founding-ticket {
+  --ticket-stub: 64px;
+  --ticket-punch: 15px;
+  mask:
+    radial-gradient(circle var(--ticket-punch) at 0 var(--ticket-stub), transparent 98%, black),
+    radial-gradient(circle var(--ticket-punch) at 100% var(--ticket-stub), transparent 98%, black);
+  mask-composite: intersect;
+}
+
+/*
+ * Light halo behind the circular hero note, so it stays readable over the gummy backdrop: a soft
+ * white outline painted under the letters plus a white glow. heroNote.ts scales the stroke with the text.
+ */
+.hero-note-glow {
+  paint-order: stroke fill;
+  stroke: color-mix(in srgb, var(--color-surface) 85%, transparent);
+  stroke-width: 0.3em;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 0.35em color-mix(in srgb, var(--color-surface) 90%, transparent));
+}
+
+/*
+ * Version-card pouches: a soft drop shadow at rest, and on hover a big white glow around the pouch.
+ * Both are filters on the image, so the glow follows the pouch's outline.
+ */
+.pouch {
+  /* Same three drop-shadows as on hover (the last two invisible), so the filter transitions smoothly. */
+  filter: drop-shadow(0 20px 28px color-mix(in srgb, var(--color-brand-ink) 28%, transparent))
+    drop-shadow(0 0 46px color-mix(in srgb, var(--color-surface) 0%, transparent))
+    drop-shadow(0 0 84px color-mix(in srgb, var(--color-surface) 0%, transparent));
+  transition-property: transform, filter, rotate, scale;
+}
+
+.pouch:hover {
+  filter: drop-shadow(0 0 18px color-mix(in srgb, var(--color-surface) 95%, transparent))
+    drop-shadow(0 0 46px color-mix(in srgb, var(--color-surface) 70%, transparent))
+    drop-shadow(0 0 84px color-mix(in srgb, var(--color-surface) 40%, transparent));
 }
 
 /* The ticket label notch mask from the design (used on legal pages). */

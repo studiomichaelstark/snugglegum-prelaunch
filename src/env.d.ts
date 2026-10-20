@@ -7,9 +7,9 @@ interface ImportMetaEnv {
   readonly PUBLIC_DISCOUNT_LABEL?: string;
   readonly PUBLIC_SUBSCRIBER_COUNT?: string;
   readonly PUBLIC_PROOF_THRESHOLD?: string;
-  readonly PUBLIC_MAILERLITE_GROUP_CLOSE_CONTACT?: string;
-  readonly PUBLIC_MAILERLITE_GROUP_PROTEIN_ENERGY?: string;
-  readonly PUBLIC_MAILERLITE_GROUP_BEAUTY?: string;
+  readonly PUBLIC_MAILERLITE_GROUP_GEN_Z?: string;
+  readonly PUBLIC_MAILERLITE_GROUP_MILLENNIALS?: string;
+  readonly PUBLIC_MAILERLITE_GROUP_BOOMER?: string;
 }
 
 interface ImportMeta {

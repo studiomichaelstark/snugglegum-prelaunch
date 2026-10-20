@@ -6,31 +6,32 @@
  */
 :root {
   /* Brand */
-  --color-brand-green: #045442;
+  /* Deep indigo, rgb(20 4 77). The token keeps its historic name "green" so every utility (text-green, bg-green …) follows. */
+  --color-brand-green: #14044d;
   --color-brand-pink: #f9cee1;
-  --color-brand-lime: #b89cff;
+  --color-brand-lime: rgb(250, 126, 132);
   --color-brand-ink: #0e0e0e;
 
   /* Semantic */
   --color-surface: #ffffff;
   --color-text: var(--color-brand-green);
   --color-glow: #bb9aaa;
-  --color-link-hover: #0a7a5f;
+  --color-link-hover: #3a1fa3;
   --color-selection: #e4bdcf;
   --color-text-muted-on-ink: #cccccc;
   /* Paragraph text on dark sections: a step below white, so <strong> in full white stands out (14.6:1 on the sport navy). */
   --color-text-soft-on-dark: #d4d4d4;
   /* Dark charcoal surface behind every product page's "How it works" (white text: 16.1:1). */
-  --color-surface-charcoal: #202020;
-  /* Edge color of the hero vignette on the Close Contact and Beauty pages. */
-  --color-hero-vignette-close-contact: #cba9bb;
-  --color-hero-vignette-beauty: #c4ad9c;
+  --color-surface-charcoal: #1a1919;
+  /* Edge color of the hero vignette. */
+  --color-hero-vignette: #cba9bb;
+  /* Hero parallax backdrop: the average color of the scene, shown while the background image loads. */
+  --color-hero-backdrop: #f1cad8;
 
   /*
-   * Per-product accent surfaces (product-family site). Close Contact keeps the brand tokens above
-   * unchanged. These two are additive only — buttons, type and spacing stay the same everywhere.
-   * Contrast checked: white-on-sport 14.6:1, green-on-beauty 6.2:1, ink-on-beauty 13.5:1.
+   * Product-line accents. Gen Z = pink token, Millennials = meadow (very light green), Boomer = sport (light blue-grey).
+   * All three are light surfaces with ink text.
    */
-  --color-accent-sport: #0f2a44;
-  --color-accent-beauty: #f0d2be;
+  --color-accent-meadow: #eff3b6;
+  --color-accent-sport: #d9e4f0;
 }

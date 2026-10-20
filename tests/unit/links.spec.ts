@@ -11,7 +11,7 @@ const isBuiltIn = (fragment: string) => fragment === '' || fragment.toLowerCase(
 
 test.describe('internal links', () => {
   test('the build output exists', () => {
-    expect(pages().length).toBeGreaterThan(5);
+    expect(pages().length).toBeGreaterThanOrEqual(3);
   });
 
   test('every #anchor on a page points to an element on that page', () => {

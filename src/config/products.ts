@@ -1,30 +1,29 @@
 /**
- * Structural configuration for the three Snugglegum™ products. No visible copy lives here —
+ * Structural configuration for the three versions of Snugglegum Multivitamin. No visible copy lives here:
  * copy stays in the page/component markup (see README, "Editing copy"). This file only holds
- * identifiers, routing and the accent token each product's pages/components key off.
+ * identifiers and the accent token each line's card keys off. The lines are teasers only, so
+ * there are no per-line pages or prices yet.
  */
 
-export type ProductId = 'close-contact' | 'protein-energy' | 'beauty';
+export type ProductId = 'gen-z' | 'millennials' | 'boomer';
 
-/** Tailwind color name from the `--color-*` tokens in global.css (e.g. `bg-{accent}`, `text-{accent}`). */
-export type ProductAccent = 'pink' | 'sport' | 'beauty';
+/** Tailwind color name from the `--color-*` tokens in global.css (e.g. `bg-{accent}`). */
+export type ProductAccent = 'pink' | 'meadow' | 'sport';
 
 export interface ProductSummary {
   readonly id: ProductId;
-  /** Route, no trailing slash (matches this site's existing URL convention: /imprint, /privacy). */
-  readonly path: string;
-  /** Short product name as used in headings, labels and MailerLite: "Close Contact". */
+  /** Short line name as used in labels and MailerLite: "Gen Z". */
   readonly name: string;
-  /** Section background/badge accent this product's pages use. Close Contact keeps the original brand pink. */
+  /** Card surface accent. Three distinct tokens from colors.css. */
   readonly accent: ProductAccent;
-  /** Whether the accent is a dark surface (needs light/white body text) or a light one (needs dark text). */
+  /** Whether the accent is a dark surface (needs light text) or a light one (needs dark text). */
   readonly accentTone: 'dark' | 'light';
 }
 
 export const products: readonly ProductSummary[] = [
-  { id: 'close-contact', path: '/close-contact', name: 'Close Contact', accent: 'pink', accentTone: 'light' },
-  { id: 'protein-energy', path: '/protein-energy', name: 'Protein Energy', accent: 'sport', accentTone: 'dark' },
-  { id: 'beauty', path: '/beauty', name: 'Beauty', accent: 'beauty', accentTone: 'light' },
+  { id: 'gen-z', name: 'Gen Z', accent: 'pink', accentTone: 'light' },
+  { id: 'millennials', name: 'Millennials', accent: 'meadow', accentTone: 'light' },
+  { id: 'boomer', name: 'Boomer', accent: 'sport', accentTone: 'light' },
 ] as const;
 
 export function productById(id: ProductId): ProductSummary {

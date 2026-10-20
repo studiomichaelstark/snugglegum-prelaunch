@@ -1,0 +1,62 @@
+---
+/**
+ * Founding-member callout between the version cards and the FAQ: a short reminder with a link to the
+ * signup form (#newsletter-home), on a frosted card over snugglegum-background-03.jpg.
+ * The photo stands still while the page scrolls: the image is position: fixed and the section clips it
+ * with clip-path: inset(0). Unlike background-attachment: fixed, this also works in iOS Safari.
+ * The three pouches are centered on the card and break out of its top and sides. The card is flow-root
+ * so the pouches' negative top margin does not collapse into the card's own top margin.
+ */
+import { Picture } from "astro:assets";
+import allThree from "@/assets/package-design/all-three-products.png";
+import background from "@/assets/snugglegum-background-03.jpg";
+import Brand from "@/components/ui/Brand.astro";
+import ButtonLink from "@/components/ui/ButtonLink.astro";
+---
+
+<section id="join" aria-labelledby="join-heading" class="section-px relative isolate flex min-h-[70vh] items-center bg-blush py-[clamp(72px,10vw,140px)] text-green [clip-path:inset(0)]">
+  <Picture
+    src={background}
+    alt=""
+    aria-hidden="true"
+    formats={["avif", "webp"]}
+    widths={[768, 1376]}
+    sizes="100vw"
+    loading="lazy"
+    decoding="async"
+    class="pointer-events-none fixed inset-0 -z-10 size-full object-cover"
+  />
+  <div class="container-lg w-full">
+    <div class="sticker-shadow mx-auto mt-[clamp(96px,14vw,190px)] flow-root max-w-[640px] rounded-card bg-white/80 px-[clamp(24px,5vw,56px)] pb-[clamp(32px,5vw,56px)] text-center backdrop-blur-md">
+      <Picture
+        src={allThree}
+        alt="Three Snugglegum™ vitamin gummies pouches for Boomer, Millennials and Gen Z, design concept"
+        formats={["avif", "webp"]}
+        widths={[480, 760, 1106]}
+        sizes="(min-width: 900px) 900px, 100vw"
+        loading="lazy"
+        decoding="async"
+        pictureAttributes={{ class: "relative left-1/2 mb-[clamp(8px,2vw,20px)] block w-[min(136%,900px,100vw)] -translate-x-1/2 -mt-[clamp(64px,10vw,140px)]" }}
+        class="join-glow h-auto w-full max-w-none"
+      />
+      <p class="label-caps text-[17px]">Founding Member</p>
+      <h2 id="join-heading" class="display-word stretch-display mt-3 text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] text-balance">Be one of the first 500.</h2>
+      <p class="mx-auto mt-5 max-w-[36ch] text-xl leading-normal">
+        Founding members help pick the first <Brand /> flavor and hear about the launch first.
+      </p>
+      <div class="mt-8 flex justify-center">
+        <ButtonLink href="#newsletter-home">Become a founding member</ButtonLink>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Light glow around the pouches so they stand out from the busy photo above the card. */
+  .join-glow {
+    filter: drop-shadow(0 0 14px color-mix(in srgb, var(--color-surface) 95%, transparent))
+      drop-shadow(0 0 40px color-mix(in srgb, var(--color-surface) 75%, transparent))
+      drop-shadow(0 0 80px color-mix(in srgb, var(--color-surface) 45%, transparent))
+      drop-shadow(0 18px 24px color-mix(in srgb, var(--color-brand-ink) 22%, transparent));
+  }
+</style>

@@ -1,0 +1,25 @@
+---
+/**
+ * Placeholder for the packaging art until the new pouch exists: a "Coming soon" card with a
+ * gummy blob. Static by default (the homepage hero has no auto-playing animation); pass `animated`
+ * for a bobbing blob and a burst ring (CSS only, off under reduced motion).
+ */
+interface Props {
+  class?: string;
+  animated?: boolean;
+}
+const { class: className, animated = false } = Astro.props;
+---
+
+<div
+  role="img"
+  aria-label="Packaging coming soon"
+  class:list={["relative isolate mx-auto flex aspect-[4/5] w-full max-w-[380px] flex-col items-center justify-center overflow-hidden rounded-card border-2 border-dashed border-green bg-white text-green sticker-shadow", className]}
+>
+  <div aria-hidden="true" class="relative flex size-[46%] items-center justify-center">
+    {animated && <span class="absolute inset-0 animate-[sg-burst_2.4s_ease-out_infinite] rounded-full border-4 border-lime" />}
+    {animated && <span class="absolute inset-0 animate-[sg-burst_2.4s_ease-out_1.2s_infinite] rounded-full border-4 border-pink" />}
+    <span class:list={["size-full rounded-[46%_54%_52%_48%/55%_45%_55%_45%] bg-pink", animated && "animate-[sg-bob_4.5s_ease-in-out_infinite]"]}></span>
+  </div>
+  <p aria-hidden="true" class="display-word stretch-display mt-8 text-[clamp(1.6rem,3vw,2.2rem)] leading-[0.9]">Coming<br />soon</p>
+</div>

@@ -1,0 +1,165 @@
+---
+/**
+ * Homepage FAQ: questions about Snugglegum™ Multivitamin and the pre-launch (three versions, flavor
+ * vote, sign-up), plus the generic, product-agnostic "gummy supplements" group, which stays
+ * brand-neutral so it can answer what/whether/how gummy supplements work. No health claims here.
+ */
+import FaqGroup from '@/components/home/FaqGroup.astro';
+import Brand from '@/components/ui/Brand.astro';
+
+const item = 'border-b-2 border-dashed border-green';
+const question = 'flex min-h-12 items-center justify-between gap-5 py-6 text-[clamp(1.15rem,2vw,1.5rem)] font-black uppercase';
+const plus = 'faq-plus flex-none text-[26px] font-black';
+const answer = 'max-w-[60ch] pb-6 text-[19px] leading-[1.55]';
+const badgeClass = 'bg-pink text-ink';
+---
+
+<section id="faq" aria-labelledby="faq-heading" class="section-px section-py bg-white text-green">
+  <div class="mx-auto max-w-[900px]">
+    <h2 id="faq-heading" class="display-word stretch-display text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88]">Questions, answered</h2>
+
+    <div class="mt-[clamp(40px,5vw,64px)] grid gap-[clamp(40px,5vw,64px)]">
+      <FaqGroup badgeClass={badgeClass}>
+        <span slot="badge">
+          <Brand />
+        </span>
+
+        <details name="faq-brand" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>What is <Brand /> Multivitamin?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}><Brand /> Multivitamin is a sugar-free multivitamin gummy with a liquid center that bursts when you bite. It comes in three versions, each with its own formula. It is still in development and not yet available.</p>
+        </details>
+
+        <details name="faq-brand" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>Which version is for me?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>There is one for Gen Z (ages 18 to 29), one for Millennials (ages 30 to 45) and one for Boomer (ages 62 to 80). Final formulas and Supplement Facts come at launch.</p>
+        </details>
+
+        <details name="faq-brand" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>What makes <Brand /> different?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>Poppin’ vitamins you actually want to snack on: sugar-free, with a liquid center that bursts when you bite.</p>
+        </details>
+
+        <details name="faq-brand" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>What do I get for signing up now?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>The first 500 founding members help pick the first flavor: Pineapple, Energy, or a flavor of your own. You can choose it right in the sign-up form. You confirm your email address once (double opt-in), and you can unsubscribe anytime.</p>
+        </details>
+
+        <details name="faq-brand" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>When does <Brand /> launch?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>Soon. Join the list and you'll hear first.</p>
+        </details>
+
+        <details name="faq-brand" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>Where will <Brand /> be available?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>The USA first.</p>
+        </details>
+
+        <details name="faq-brand" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>Will you spam me?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>No. Launch news and the occasional bad joke. Unsubscribe anytime.</p>
+        </details>
+
+        <details name="faq-brand" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>What's with the name?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}><strong>Snuggle</strong> is the cozy part. <strong>Gum</strong> is how you take it. Put them together and you get <strong><Brand /></strong>.</p>
+        </details>
+      </FaqGroup>
+
+      <FaqGroup badgeClass={badgeClass}>
+        <span slot="badge">About gummy supplements</span>
+
+        <details name="faq-gummies" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>What are gummy supplements?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            Gummy supplements are chewable dietary supplements made to deliver vitamins, minerals or other functional ingredients
+            in a soft, flavored format. They are an alternative to traditional pills, capsules and powders.
+          </p>
+        </details>
+
+        <details name="faq-gummies" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>Do gummy supplements work?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            A gummy is simply a delivery format. Whether a gummy provides a meaningful nutritional benefit depends on its
+            ingredients, amounts, formulation and quality — not on the fact that it is a gummy.
+          </p>
+        </details>
+
+        <details name="faq-gummies" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>Are gummy vitamins as effective as pills?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            They can deliver nutrients effectively, but gummies and pills are not automatically equivalent. Formulation, dosage,
+            stability and ingredients matter, so the Supplement Facts panel is more important than the format itself.
+          </p>
+        </details>
+
+        <details name="faq-gummies" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>Are gummy supplements healthy?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            That depends on the product. Some gummies contain useful nutrients, while others may contain significant amounts of
+            sugar or sugar alcohols. Check the ingredients, serving size and Supplement Facts rather than assuming that every
+            gummy is healthy simply because it contains vitamins.
+          </p>
+        </details>
+
+        <details name="faq-gummies" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>Why are supplements made as gummies?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            Gummies can be easier and more enjoyable to take than pills, particularly for people who dislike swallowing tablets.
+            The trade-off is that gummies have formulation constraints, including taste, texture, stability and the amount of
+            active ingredients that can practically be included.
+          </p>
+        </details>
+
+        <details name="faq-gummies" class:list={[item]}>
+          <summary class:list={[question]}>
+            <span>Can you take too many gummy supplements?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}>
+            Yes. Gummies are supplements, not candy, and taking more than the recommended serving can result in excessive
+            intake of certain nutrients or ingredients. Always follow the product's recommended serving size.
+          </p>
+        </details>
+      </FaqGroup>
+    </div>
+  </div>
+</section>

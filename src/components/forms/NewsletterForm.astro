@@ -38,20 +38,27 @@ const buttonClasses = [
 ];
 // Plain checkbox + label; the whole label is the click target.
 const interestClasses = ["flex cursor-pointer items-center gap-2.5 text-base leading-normal"];
+// The first flavor the community can pick. A free-text suggestion sits beside these two.
+const flavors = [
+  { id: "pineapple", label: "Pineapple" },
+  { id: "energy", label: "Energy" },
+] as const;
+const FLAVOR_OTHER_MAX_LENGTH = 40;
+const flavorOtherId = `newsletter-flavor-other-${id}`;
 const errorId = `newsletter-error-${id}`;
 const emailId = `newsletter-email-${id}`;
 const consentId = `newsletter-consent-${id}`;
 ---
 
 <div data-newsletter data-endpoint={mailerLite.endpoint} data-live={isLive ? "true" : "false"} class:list={["text-left", isDark ? "on-dark" : ""]}>
-  <div data-success-slot role="status" aria-live="polite">
+  <div data-success-slot role="status" aria-live="polite" >
     {showSuccess && <NewsletterSuccess tone={tone} />}
   </div>
 
   <form data-newsletter-form method="post" action={mailerLite.endpoint || undefined} hidden={showSuccess} aria-busy={isSubmitting ? "true" : undefined}>
     <fieldset class="mb-5 min-w-0 border-0 p-0 text-center">
       <legend class="label-caps mx-auto text-center text-[clamp(1rem,1.6vw,1.2rem)] leading-[1.3]">
-        Which <Brand /> are you interested in?
+        Which <Brand /> line first? <span class="font-normal normal-case tracking-normal">(optional)</span>
       </legend>
       <div class="mt-3 flex flex-wrap justify-center gap-x-6 gap-y-2.5">
         {products.map((product) => {
@@ -73,6 +80,34 @@ const consentId = `newsletter-consent-${id}`;
       </div>
     </fieldset>
 
+    <fieldset class="mb-5 min-w-0 border-0 p-0 text-center">
+      <legend class="label-caps mx-auto text-center text-[clamp(1rem,1.6vw,1.2rem)] leading-[1.3]">
+        Which flavor first? <span class="font-normal normal-case tracking-normal">(optional)</span>
+      </legend>
+      <div class="mt-3 flex flex-wrap justify-center gap-x-6 gap-y-2.5">
+        {flavors.map((flavor) => {
+          const checkboxId = `newsletter-flavor-${flavor.id}-${id}`;
+          return (
+            <label for={checkboxId} class:list={interestClasses}>
+              <input id={checkboxId} type="checkbox" data-flavor={flavor.id} class:list={["m-0 size-6 flex-none", isDark ? "accent-lime" : "accent-green"]} />
+              <span>{flavor.label}</span>
+            </label>
+          );
+        })}
+        <label for={flavorOtherId} class="sr-only-important">Suggest your own flavor</label>
+        <input
+          id={flavorOtherId}
+          type="text"
+          name="fields[flavor_other]"
+          data-flavor-other
+          maxlength={FLAVOR_OTHER_MAX_LENGTH}
+          autocomplete="off"
+          placeholder="Your own flavor suggestion"
+          class:list={["h-10 w-[260px] max-w-full min-w-0 rounded-full border bg-white px-4 text-sm text-green", isDark ? "border-lime" : "border-green"]}
+        />
+      </div>
+    </fieldset>
+
     <label for={emailId} class="sr-only-important">
       Email address
     </label>
@@ -81,7 +116,7 @@ const consentId = `newsletter-consent-${id}`;
       <button type="submit" disabled={isSubmitting} class:list={buttonClasses}>
         <ArrowIcon class="text-[26px] sm:hidden" />
         <span data-label-idle hidden={isSubmitting} class="sr-only sm:not-sr-only">
-          Get on the list
+          Become a founding member
         </span>
         <span data-label-busy hidden={!isSubmitting} class="sr-only sm:not-sr-only">
           Sending…
@@ -93,7 +128,7 @@ const consentId = `newsletter-consent-${id}`;
     <label for={consentId} class="mt-[18px] block cursor-pointer text-center text-base leading-normal">
       <input id={consentId} type="checkbox" name="consent" required class:list={["m-0 mr-1 inline-block size-6 align-middle", isDark ? "accent-lime" : "accent-green"]} />
       <span>
-        I agree to receive <Brand /> launch emails. I can unsubscribe anytime. See our
+        I am 18 or older and agree to receive <Brand /> launch and founding member emails. I can unsubscribe anytime. See our
         <a href="/privacy" class:list={[isDark ? "text-white" : ""]}>Privacy Policy</a>.
       </span>
     </label>
@@ -116,10 +151,9 @@ const consentId = `newsletter-consent-${id}`;
   </form>
 
   <template data-message="invalid-email">That email doesn’t look right. Check it and try again.</template>
-  <template data-message="interest">Please pick at least one <Brand /> product.</template>
-  <template data-message="consent">Please confirm you agree to the emails.</template>
+  <template data-message="consent">Please confirm you are 18 or older and agree to the emails.</template>
   <template data-message="server">Something went wrong on our side. Try again.</template>
-  <template data-message="already">You’re already on the list. Nice taste.</template>
+  <template data-message="already">You’re already on the list. Welcome back.</template>
   <template data-message="network">We couldn’t reach the list. Check your connection and try again.</template>
   <template data-message="rate-limit">Too many tries in a row. Wait a moment and try again.</template>
 

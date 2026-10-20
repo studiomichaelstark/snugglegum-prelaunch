@@ -35,16 +35,17 @@ src/
   config/        site.ts (design knobs, MailerLite endpoint), variants.ts (pure helpers), consent.ts,
                  placeholders.ts (the list of every value you fill in .env), legal.ts (reads them)
   styles/        colors.css (the only place with color values), global.css (Tailwind, font, keyframes)
-  assets/        pouch image, self-hosted font (with its OFL license)
+  assets/        self-hosted font (with its OFL license); no packaging art yet (see ComingSoonCard)
   layouts/       Base.astro (head, SEO, skip link, cookie modal), Legal.astro
   components/
     logo/        Logo.astro, StampBadge.astro (inline SVG)
-    ui/          ButtonLink, OfferCard, ImagePlaceholder, icons
+    ui/          ButtonLink, ComingSoonCard, Brand, ImagePlaceholder, icons
+    home/        Hero, Marquee, HowItWorks (Snack. Burst. Vitamins.), AtAGlance, Lines (three version cards), Join, Faq (+ FaqGroup), Newsletter (signup section), SupplementFacts
     forms/       NewsletterForm.astro, NewsletterSuccess.astro
     consent/     CookieModal.astro
     legal/       OperatorInfo.astro, LegalSection.astro, ContactEmail.astro
-    sections/    Hero, Offer, HowItWorks, WhatsInside, Audience, Marquee, Faq, FinalCta, Footer, SupplementFacts
-  scripts/       newsletter.ts, consent.ts, dialogs.ts
+    sections/    Footer (legal lines)
+  scripts/       newsletter.ts (incl. UTM capture), consent.ts, dialogs.ts
   pages/         index, imprint, privacy, robots.txt.ts, llms.txt.ts, favicon/site.webmanifest.ts
 public/          favicon/, _headers, og-image.png
 scripts/         check-placeholders.mjs (+ lib/), check-colors.mjs, make-og.mjs
@@ -52,11 +53,29 @@ tests/           Playwright specs (unit/ needs no browser)
 docs/            seo-keywords.md, plan.md, faq-proposal.md, legal-review.md
 ```
 
+### Section → component
+
+Every home page section is the component with the same name as its `id`, in the order of the page:
+
+| `id` | Component |
+|---|---|
+| `#hero` | `components/home/Hero.astro` (+ `HeroParallax.astro` backdrop) |
+| `#marquee` | `components/home/Marquee.astro` |
+| `#how-it-works` | `components/home/HowItWorks.astro` |
+| `#at-a-glance` | `components/home/AtAGlance.astro` |
+| `#lines` | `components/home/Lines.astro` |
+| `#join` | `components/home/Join.astro` |
+| `#faq` | `components/home/Faq.astro` |
+| `#newsletter-home` | `components/home/Newsletter.astro` |
+| `#supplement-facts` (dialog) | `components/home/SupplementFacts.astro` |
+| `#footer` | `components/sections/Footer.astro` |
+
 ## Editing copy
 
 Every visible word is plain HTML text inside the `.astro` files, so edit it right in the markup:
 
-- Hero, offer, how it works, what's inside, audience, marquee, FAQ, final call to action, footer: `src/components/sections/`
+- Home sections (hero, how it works, at a glance, product lines, FAQ): `src/components/home/`; the home page and the signup heading: `src/pages/index.astro`
+- Footer and the legal lines: `src/components/sections/Footer.astro`
 - Newsletter messages (errors, success, consent line): `src/components/forms/`
 - Cookie modal text: `src/components/consent/CookieModal.astro`
 - Legal texts: `src/pages/imprint.astro` and `src/pages/privacy.astro`
@@ -64,7 +83,7 @@ Every visible word is plain HTML text inside the `.astro` files, so edit it righ
 
 Only behavior values (thresholds, form preview state, IDs) live in `src/config/`.
 
-**Always write the brand name with the trademark sign.** In visible markup use the `<Brand />` component (`src/components/ui/Brand.astro`), e.g. `<Brand /> Close Contact`, `<Brand />’s daily gummy`. It renders `Snugglegum` plus the sign in a plain `<span class="tm">` (small and raised via CSS, size `tm-display` for big headings); never `<sup>`, which is meant for superscripts with their own meaning. Put a following punctuation mark directly behind the tag, never on its own line (Astro renders a line break there as a space). In plain text where markup is impossible (`<title>`, meta and Open Graph tags, JSON-LD, `alt`/`aria-label` attributes, `llms.txt`, `robots.txt`, the manifest, `src/config/*.ts`, string props) write the bare `Snugglegum™`. Tests fail if a built page, `llms.txt` or the manifest has "Snugglegum" without ™, if a `<sup>` carries the sign, or if the bare `Snugglegum™` appears in visible body text. Never use the two banned words (see `docs/`); a test fails on them too.
+**Always write the brand name with the trademark sign.** In visible markup use the `<Brand />` component (`src/components/ui/Brand.astro`), e.g. `<Brand /> for Gen Z`. It renders `Snugglegum` plus the sign in a plain `<span class="tm">` (small and raised via CSS, size `tm-display` for big headings); never `<sup>`, which is meant for superscripts with their own meaning. Put a following punctuation mark directly behind the tag, never on its own line (Astro renders a line break there as a space). In plain text where markup is impossible (`<title>`, meta and Open Graph tags, JSON-LD, `alt`/`aria-label` attributes, `llms.txt`, `robots.txt`, the manifest, `src/config/*.ts`, string props) write the bare `Snugglegum™`. Tests fail if a built page, `llms.txt` or the manifest has "Snugglegum" without ™, if a `<sup>` carries the sign, or if the bare `Snugglegum™` appears in visible body text. Never use the two banned words (see `docs/`); a test fails on them too.
 
 ### Design knobs (`src/config/site.ts`)
 
@@ -194,13 +213,13 @@ Projects: Chromium, Firefox and WebKit, each at a desktop and a mobile viewport,
 | Spec | Covers |
 |---|---|
 | `cookies` | No cookies and no external requests before a choice, after "Reject all" (also after reload), after "Accept all", old consent versions |
-| `cookie-modal` | Opens from the footer, focus trap, ESC, focus return, keyboard use, persistence, Supplement Facts dialog |
+| `cookie-modal` | Opens from the footer, focus trap, ESC, focus return, keyboard use, persistence, dialog focus |
 | `newsletter` | Nothing sent before submit, validation, consent required, honeypot, success and every error state (endpoint mocked) |
 | `seo` | One `h1`, unique title and description, canonical, Open Graph, Twitter, JSON-LD, alt text, sitemap, robots, `llms.txt`, manifest |
 | `a11y` | axe at WCAG 2.2 AA on every route and with each dialog open, keyboard navigation, focus outlines, reduced motion, touch targets |
 | `fonts-network` | Only local fonts, no external origins, MailerLite contacted only after submit |
 | `csp` | Every page runs under the real CSP from `public/_headers` without a violation |
-| `unit/guardrails` | No banned words in built output, sources or docs; ™ on every brand mention (`<Brand />` in visible text, no `<sup>`); offer variants |
+| `unit/guardrails` | No banned words in built output, sources or docs; ™ on every brand mention (`<Brand />` in visible text, no `<sup>`) |
 | `unit/colors`, `unit/variants` | Color rule, design knobs |
 | `unit/placeholders` | `.env` resolution (empty, value, `n/a`, fallback, review flag) and the `check:placeholders` report |
 | `unit/rendered-check` | The post-build HTML check: every failure above on a synthetic `dist/`, plus the real build |
@@ -210,7 +229,7 @@ Projects: Chromium, Firefox and WebKit, each at a desktop and a mobile viewport,
 ## SEO and GEO notes
 
 - Unique title and description per page, canonical, Open Graph and Twitter tags, `theme-color`, favicon set and manifest.
-- JSON-LD: `Organization` on every page, `WebSite` on the home page, `WebPage` on each. **No `FAQPage`** until you approve `docs/faq-proposal.md`. No `Product`, `Offer` or review markup.
+- JSON-LD: `Organization` and `Brand` on every page, `WebSite` on the home page, `WebPage` on each, and one pre-launch `Product` per product line on the home page (no `Offer`, no review markup). No `FAQPage`.
 - `/sitemap-index.xml` and `/sitemap-0.xml` come from `@astrojs/sitemap`. `/sitemap.xml` is an alias of the URL list.
 - `llms.txt` is a short, factual brand summary. Edit `src/pages/llms.txt.ts`.
 - The hero pouch is the LCP element: AVIF/WebP through `astro:assets`, explicit dimensions, `loading="eager"` and `fetchpriority="high"`. Images below the fold load lazily. There are no inline styles or scripts.
@@ -250,7 +269,6 @@ Generated by `src/pages/robots.txt.ts`. It explicitly allows these crawlers. To 
 | Offer terms line and "[date TBD]" dropped | Design notes that leaked into the copy |
 | Pulse ring uses a transformed pseudo-element | Animates `transform` and `opacity` only |
 | On phones the sign-up button is a round arrow icon (from the `sm` breakpoint up it is the labelled pill). Field and button share one row | Requested. The accessible name "Get on the list" stays as visually hidden text |
-| On phones (below 768 px) the hero pouch is 25% smaller (`min(75%, 390px)`) and sits 20 px lower, the three stickers are 20% smaller, and the round "You know why pineapple" sticker has less padding (8 px). From `md` (768 px) up everything is as designed | Requested for the mobile view, so the giant "GUMMIES" word behind the pouch is readable. Sticker text stays at 12 px |
 | The decorative "GUMMIES" word is excluded from the axe scan (`data-decorative-text`) | It is `aria-hidden` pure decoration at 14% opacity, which WCAG 1.4.3 exempts from the contrast minimum |
 | Three "How it works" images are empty dashed frames | No images exist yet. Pass `src` and `alt` to `ImagePlaceholder` to fill one |
 
