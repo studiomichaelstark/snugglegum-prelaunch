@@ -64,12 +64,13 @@ import { backgroundSources, MAX_OFFSET_RATIO, parallaxLayers, sceneCanvas } from
   /*
    * Phones: the hero is narrow and tall, so only a slice of the wide scene shows, and the middle is the quiet part.
    * Anchor the scene's right edge to the hero's right edge instead (still keeping the right overscan, 2.83 / 105.66
-   * = 2.678 % of the scene's width, so moving layers never show an edge).
+   * = 2.678 % of the scene's width, so moving layers never show an edge), then nudge the scene back to the right by
+   * about a fifth of the way to the middle (-97.322 % + 9.3 %): the very edge was too busy behind the text.
    */
   @media (max-width: 47.99rem) {
     .hero-parallax-scene {
       left: 100%;
-      translate: -97.322% -50%;
+      translate: -88% -50%;
     }
   }
 </style>
