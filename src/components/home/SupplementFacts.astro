@@ -1,11 +1,80 @@
 ---
 /**
- * Supplement Facts dialog for Snugglegum™ Multivitamin, opened from the "At a glance" section.
- * The values are carried over from the earlier design's placeholder panel, adjusted to the sugar-free
- * product (0 g sugars). They are NOT verified against a real label: the visible "Preliminary" note
- * stays until the final formula is confirmed.
+ * Supplement Facts dialogs, one per version of Snugglegum™ Multivitamin (Gen Z, Millennials, Boomer), opened
+ * from the button under each card in "Pick the vitamins for your generation" (Lines.astro, data-dialog-open =
+ * "supplement-facts-<id>").
+ *
+ * The amounts are ASSUMED pre-launch values for each generation (zinc is 11 mg in all three, as printed on the pouch artwork), NOT verified against a real label: the visible
+ * "Preliminary" note stays until the final formulas are confirmed. % Daily Value is computed from the FDA adult
+ * Daily Values below, so a changed amount can never leave a stale percentage behind.
  */
 import Brand from "@/components/ui/Brand.astro";
+import { products, type ProductId } from "@/config/products";
+
+/** Adult Daily Value of each nutrient, in the unit the amount is written in. */
+const DAILY_VALUE = {
+  vitaminA: 900,
+  vitaminC: 90,
+  vitaminD: 20,
+  vitaminE: 15,
+  thiamin: 1.2,
+  riboflavin: 1.3,
+  niacin: 16,
+  vitaminB6: 1.7,
+  folate: 400,
+  vitaminB12: 2.4,
+  biotin: 30,
+  pantothenic: 5,
+  calcium: 1300,
+  iodine: 150,
+  magnesium: 420,
+  zinc: 11,
+  selenium: 55,
+} as const;
+
+type Nutrient = keyof typeof DAILY_VALUE;
+
+/** Display name and unit of each nutrient. */
+const NUTRIENTS: Record<Nutrient, { name: string; unit: string }> = {
+  vitaminA: { name: "Vitamin A (as retinyl palmitate)", unit: "mcg RAE" },
+  vitaminC: { name: "Vitamin C (as ascorbic acid)", unit: "mg" },
+  vitaminD: { name: "Vitamin D (D3) (as cholecalciferol)", unit: "mcg" },
+  vitaminE: { name: "Vitamin E (as d-alpha-tocopherol)", unit: "mg" },
+  thiamin: { name: "Thiamin (as thiamine hydrochloride)", unit: "mg" },
+  riboflavin: { name: "Riboflavin (Vitamin B2)", unit: "mg" },
+  niacin: { name: "Niacin (as niacinamide)", unit: "mg" },
+  vitaminB6: { name: "Vitamin B6 (as pyridoxine hydrochloride)", unit: "mg" },
+  folate: { name: "Folate (as L-5-methyltetrahydrofolate)", unit: "mcg DFE" },
+  vitaminB12: { name: "Vitamin B12 (as methylcobalamin)", unit: "mcg" },
+  biotin: { name: "Biotin", unit: "mcg" },
+  pantothenic: { name: "Pantothenic Acid (as calcium d-pantothenate)", unit: "mg" },
+  calcium: { name: "Calcium (as calcium citrate)", unit: "mg" },
+  iodine: { name: "Iodine (as potassium iodide)", unit: "mcg" },
+  magnesium: { name: "Magnesium (as magnesium citrate)", unit: "mg" },
+  zinc: { name: "Zinc (as zinc citrate)", unit: "mg" },
+  selenium: { name: "Selenium (as sodium selenite)", unit: "mcg" },
+};
+
+type Amounts = Partial<Record<Nutrient, number>>;
+
+/** Assumed pre-launch amounts per gummy, one set per generation. */
+const PANELS: Record<ProductId, { ages: string; amounts: Amounts; extras: readonly { name: string; amount: string }[] }> = {
+  "gen-z": {
+    ages: "Ages 18 to 29",
+    amounts: { vitaminA: 900, vitaminC: 90, vitaminD: 20, vitaminE: 15, vitaminB6: 1.7, folate: 400, vitaminB12: 2.4, biotin: 30, pantothenic: 5, iodine: 150, zinc: 11, selenium: 27.5 },
+    extras: [{ name: "Vitamin K2 (as menaquinone-7)", amount: "120 mcg" }],
+  },
+  millennials: {
+    ages: "Ages 30 to 45",
+    amounts: { vitaminC: 90, vitaminD: 25, vitaminE: 15, thiamin: 1.2, riboflavin: 1.3, niacin: 16, vitaminB6: 2.5, folate: 400, vitaminB12: 4.8, biotin: 30, pantothenic: 5, iodine: 150, magnesium: 84, zinc: 11, selenium: 55 },
+    extras: [],
+  },
+  boomer: {
+    ages: "Ages 62 to 80",
+    amounts: { vitaminA: 450, vitaminC: 90, vitaminD: 25, vitaminE: 15, vitaminB6: 2, folate: 400, vitaminB12: 6, calcium: 130, magnesium: 84, zinc: 11, selenium: 55 },
+    extras: [{ name: "Vitamin K2 (as menaquinone-7)", amount: "120 mcg" }],
+  },
+};
 
 interface FactRow {
   name: string;
@@ -15,74 +84,78 @@ interface FactRow {
   indent?: 1 | 2;
 }
 
-const rows: readonly FactRow[] = [
+/** The part every version shares: calories and carbohydrates (sugar-free). */
+const MACROS: readonly FactRow[] = [
   { name: "Calories", amount: "50", dv: "" },
   { name: "Total Carbohydrate", amount: "15 g", dv: "5%**" },
   { name: "Dietary Fiber", amount: "6 g", dv: "21%**", indent: 1 },
   { name: "Total Sugars", amount: "0 g", dv: "†", indent: 1 },
   { name: "Includes 0 g Added Sugars", amount: "", dv: "0%**", indent: 2 },
-  { name: "Vitamin A (as retinyl palmitate)", amount: "900 mcg RAE", dv: "100%" },
-  { name: "Vitamin C (as ascorbic acid)", amount: "93 mg", dv: "103%" },
-  { name: "Vitamin D (D3) (as VegaD3Light™ Cholecalciferol)", amount: "20 mcg", dv: "100%" },
-  { name: "Vitamin E (as d-alpha-tocopherol)", amount: "1.2 mg", dv: "100%" },
-  { name: "Thiamin (as thiamine hydrochloride)", amount: "1.2 mg", dv: "100%" },
-  { name: "Riboflavin (Vitamin B2)", amount: "1.3 mg", dv: "100%" },
-  { name: "Niacin (as niacinamide)", amount: "16 mg", dv: "100%" },
-  { name: "Vitamin B6 (as pyridoxal-5-phosphate)", amount: "1.7 mg", dv: "100%" },
-  { name: "Folate (as L-5-methyltetrahydrofolate)", amount: "400 mcg DFE", dv: "100%" },
-  { name: "Vitamin B12 (as methylcobalamin)", amount: "2.4 mcg", dv: "100%" },
-  { name: "Biotin", amount: "30 mcg", dv: "100%" },
-  { name: "Pantothenic Acid (as calcium d-pantothenate)", amount: "5 mg", dv: "100%" },
-  { name: "Iron (as ferrous fumarate)", amount: "4.5 mg", dv: "25%" },
-  { name: "Iodine (as potassium iodide)", amount: "4.5 mg", dv: "25%" },
-  { name: "Zinc (as zinc citrate)", amount: "2.75 mg", dv: "25%" },
-  { name: "Selenium (as sodium selenite)", amount: "14 mcg", dv: "25%" },
-  { name: "Copper (as copper citrate)", amount: "0.225 mg", dv: "25%" },
-  { name: "Manganese (as manganese gluconate)", amount: "0.575 mg", dv: "25%" },
-  { name: "Chromium (as chromium chloride)", amount: "0.575 mg", dv: "25%" },
-  { name: "Molybdenum (as sodium molybdate)", amount: "11 mcg", dv: "24%" },
-  { name: "Vitamin K2", amount: "120 mcg", dv: "†" },
-  { name: "Core Nutrients Blend", amount: "8.670 mg", dv: "†" },
 ];
 
+const formatAmount = (value: number) => String(Number(value.toFixed(3)));
+
+function rowsFor(id: ProductId): FactRow[] {
+  const { amounts, extras } = PANELS[id];
+  const nutrients = (Object.keys(DAILY_VALUE) as Nutrient[])
+    .filter((key) => amounts[key] !== undefined)
+    .map((key): FactRow => {
+      const amount = amounts[key] as number;
+      return { name: NUTRIENTS[key].name, amount: `${formatAmount(amount)} ${NUTRIENTS[key].unit}`, dv: `${Math.round((amount / DAILY_VALUE[key]) * 100)}%` };
+    });
+  return [...MACROS, ...nutrients, ...extras.map((extra): FactRow => ({ ...extra, dv: "†" }))];
+}
+
 const indentClass = { 1: "pl-4", 2: "pl-8" } as const;
-// Two tables side by side from md up (macros and vitamins | the rest), so the wide dialog rarely scrolls.
-const splitAt = rows.findIndex((row) => row.name === "Folate (as L-5-methyltetrahydrofolate)");
-const columns = [rows.slice(0, splitAt), rows.slice(splitAt)];
+
+// Two tables side by side from md up, so the wide dialog rarely scrolls: macros and the first vitamins | the rest.
+const panels = products.map((product) => {
+  const rows = rowsFor(product.id);
+  const half = Math.ceil(rows.length / 2);
+  return { product, ages: PANELS[product.id].ages, columns: [rows.slice(0, half), rows.slice(half)] };
+});
 ---
 
-<dialog
-  id="supplement-facts"
-  data-dialog="supplement-facts"
-  data-lenis-prevent
-  data-dismiss-on-backdrop
-  aria-labelledby="supplement-facts-title"
-  class="on-dark rounded-panel fixed inset-0 m-auto max-h-[90vh] w-[calc(100%-2rem)] max-w-[960px] overflow-auto overscroll-contain bg-ink sg-scroll p-0 text-white"
->
-  <div class="p-[clamp(24px,3vw,32px)]">
-    <div class="flex items-start justify-between gap-4">
-      <h2 id="supplement-facts-title" tabindex="-1" data-dialog-initial-focus class="text-[26px] leading-[1.1] font-black outline-none">Supplement Facts</h2>
-      <button type="button" data-dialog-close aria-label="Close" class="grid size-11 flex-none cursor-pointer place-items-center rounded-full border border-white/40 bg-transparent text-white">
-        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
-          <path d="M5 5l14 14M19 5L5 19"></path>
-        </svg>
-      </button>
-    </div>
-    <div class="mt-2 flex flex-wrap items-center gap-x-5 gap-y-2 text-base leading-[1.4]">
-      <span><Brand /> Multivitamin</span>
-      <span class="label-caps rounded-full bg-pink px-3 py-1.5 text-xs text-ink">Preliminary · final values at launch</span>
-    </div>
-    <p class="mt-2 text-base leading-[1.4]">Serving Size: 1 Gummy · Servings Per Container: 93</p>
+{
+  panels.map(({ product, ages, columns }) => (
+    <dialog
+      id={`supplement-facts-${product.id}`}
+      data-dialog="supplement-facts"
+      data-lenis-prevent
+      data-dismiss-on-backdrop
+      aria-labelledby={`supplement-facts-title-${product.id}`}
+      class="on-dark rounded-panel fixed inset-0 m-auto max-h-[90vh] w-[calc(100%-2rem)] max-w-[960px] overflow-auto overscroll-contain bg-ink sg-scroll p-0 text-white"
+    >
+      <div class="p-[clamp(24px,3vw,32px)]">
+        <div class="flex items-start justify-between gap-4">
+          <h2 id={`supplement-facts-title-${product.id}`} tabindex="-1" data-dialog-initial-focus class="text-[26px] leading-[1.1] font-black outline-none">
+            Supplement Facts: {product.name}
+          </h2>
+          <button type="button" data-dialog-close aria-label="Close" class="grid size-11 flex-none cursor-pointer place-items-center rounded-full border border-white/40 bg-transparent text-white">
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" class="size-4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+              <path d="M5 5l14 14M19 5L5 19" />
+            </svg>
+          </button>
+        </div>
+        <div class="mt-2 flex flex-wrap items-center gap-x-5 gap-y-2 text-base leading-[1.4]">
+          <span>
+            <Brand /> Multivitamin for {product.name} ({ages})
+          </span>
+          <span class="label-caps rounded-full bg-pink px-3 py-1.5 text-xs text-ink">Preliminary · assumed values, final at launch</span>
+        </div>
+        <p class="mt-2 text-base leading-[1.4]">Serving Size: 1 Gummy · Servings Per Container: 93</p>
 
-    <div>
-      <div class="mt-4 grid gap-x-10 md:grid-cols-2">
-        {
-          columns.map((column) => (
+        <div class="mt-4 grid gap-x-10 md:grid-cols-2">
+          {columns.map((column) => (
             <table class="w-full self-start border-b-[6px] border-white text-[14px] leading-snug">
               <thead>
                 <tr class="border-t-2 border-white text-sm font-bold">
-                  <th scope="colgroup" colspan="2" class="py-2 text-left">Amount Per Serving</th>
-                  <th scope="col" class="py-2 pl-4 text-right">% DV</th>
+                  <th scope="colgroup" colspan="2" class="py-2 text-left">
+                    Amount Per Serving
+                  </th>
+                  <th scope="col" class="py-2 pl-4 text-right">
+                    % DV
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -97,12 +170,12 @@ const columns = [rows.slice(0, splitAt), rows.slice(splitAt)];
                 ))}
               </tbody>
             </table>
-          ))
-        }
+          ))}
+        </div>
+        <p class="mt-3 text-[13px] leading-normal opacity-90">† Daily Value (DV) not established.</p>
+        <p class="mt-1.5 text-[13px] leading-normal opacity-90">** Percent Daily Values (DV) are based on a 2,000 calorie diet.</p>
+        <p class="mt-1.5 text-[13px] leading-normal opacity-90">Sugar-free, sweetened with sweeteners. These are assumed values for the pre-launch formula; each version gets its final panel at launch.</p>
       </div>
-    </div>
-    <p class="mt-3 text-[13px] leading-normal opacity-90">† Daily Value (DV) not established.</p>
-    <p class="mt-1.5 text-[13px] leading-normal opacity-90">** Percent Daily Values (DV) are based on a 2,000 calorie diet.</p>
-    <p class="mt-1.5 text-[13px] leading-normal opacity-90">Sugar-free, sweetened with sweeteners. Each of the three versions gets its own final panel at launch.</p>
-  </div>
-</dialog>
+    </dialog>
+  ))
+}

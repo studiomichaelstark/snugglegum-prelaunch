@@ -3,7 +3,7 @@
  * Homepage "At a glance": the four package-design icons with short labels, over a bright pink
  * backdrop photo (snugglegum-background-02.jpg). Text is indigo for contrast on the light image, and
  * the icons are inverted here (white fills, indigo line art) so they read on pink.
- * No amounts on the cards; the button opens the (preliminary) Supplement Facts dialog.
+ * No amounts on the cards. The preliminary Supplement Facts live under each version in "Pick the vitamins for your generation".
  */
 import { Picture } from "astro:assets";
 import background from "@/assets/snugglegum-background-02.jpg";
@@ -35,7 +35,7 @@ const features = [
   />
   <div class="container-lg text-center">
     <p class="label-caps text-[17px]">At a glance</p>
-    <h2 id="at-a-glance-heading" class="display-word stretch-display mt-3 text-[clamp(2.6rem,7vw,5.75rem)] leading-[0.88]">Vitamin-filled<br>gummies</h2>
+    <h2 id="at-a-glance-heading" class="display-word stretch-display mt-3 text-[clamp(2.6rem,7vw,5.75rem)] leading-[0.88]">Vitamin-filled<br><em class="text-5xl">sweet</em> gummies</h2>
     <ul class="glance-icons mt-[clamp(40px,5vw,72px)] grid grid-cols-1 gap-x-6 gap-y-5 md:grid-cols-2 md:gap-y-[clamp(24px,3vw,40px)] lg:grid-cols-4">
       {
         features.map(({ Icon, title, note, bob }) => (
@@ -51,10 +51,6 @@ const features = [
         ))
       }
     </ul>
-    <button type="button" data-dialog-open="supplement-facts" aria-haspopup="dialog" class="label-caps mx-auto mt-[clamp(40px,5vw,64px)] flex cursor-pointer items-center gap-3 rounded-full border-2 border-dashed border-green bg-white/60 px-7 py-4 text-[15px] text-green transition duration-200 hover:-translate-y-0.5 hover:border-solid hover:bg-green hover:text-pink">
-      See the preliminary Supplement Facts
-      <span aria-hidden="true" class="text-xl font-black">+</span>
-    </button>
   </div>
 </section>
 

@@ -54,15 +54,7 @@ test.describe('smooth scrolling (Lenis)', () => {
     await page.setViewportSize({ width: 1280, height: 500 });
     await page.goto('/');
     await expect(page.locator('html')).toHaveClass(/\blenis\b/);
-    // The Supplement Facts button is switched off on the page, so open the dialog the way the button did.
-    await page.evaluate(() => {
-      const trigger = document.createElement('button');
-      trigger.dataset.dialogOpen = 'supplement-facts';
-      trigger.textContent = 'open';
-      trigger.id = 'test-open-facts';
-      document.body.append(trigger);
-    });
-    await page.locator('#test-open-facts').click();
+    await page.locator('#lines [data-line="gen-z"]').getByRole('button', { name: /Supplement Facts/ }).click();
     const dialog = page.getByRole('dialog', { name: 'Supplement Facts' });
     await expect(dialog).toBeVisible();
     const before = await page.evaluate(() => window.scrollY);

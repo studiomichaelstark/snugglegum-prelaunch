@@ -295,24 +295,41 @@ test.describe('hero illustration note', () => {
 });
 
 test.describe('at a glance and Supplement Facts', () => {
-  test('four icon cards; the preliminary Supplement Facts dialog opens from any data-dialog-open trigger', async ({ consented: page }) => {
+  test('four icon cards, and no Supplement Facts button in the section', async ({ consented: page }) => {
     await page.goto('/');
     await expect(page.locator('#at-a-glance li')).toHaveCount(4);
-    // The "See Supplement Facts" button in #at-a-glance is commented out for now, so open the dialog the way the button did.
-    await page.evaluate(() => {
-      const trigger = document.createElement('button');
-      trigger.dataset.dialogOpen = 'supplement-facts';
-      trigger.textContent = 'open';
-      trigger.id = 'test-open-facts';
-      document.body.append(trigger);
+    await expect(page.locator('#at-a-glance [data-dialog-open]')).toHaveCount(0);
+  });
+
+  for (const line of LINES) {
+    test(`${line.name}: its own preliminary Supplement Facts open from the button under its card`, async ({ consented: page }) => {
+      await page.goto('/');
+      const card = page.locator(`#lines [data-line="${line.id}"]`);
+      await card.getByRole('button', { name: /Supplement Facts/ }).click();
+      const dialog = page.getByRole('dialog', { name: `Supplement Facts: ${line.name}` });
+      await expect(dialog).toBeVisible();
+      await expect(dialog).toContainText('Preliminary');
+      await expect(dialog).toContainText(line.ages);
+      await expect(dialog.getByRole('row', { name: /Total Sugars/ })).toContainText('0 g');
+      await dialog.getByRole('button', { name: 'Close' }).click();
+      await expect(dialog).toBeHidden();
     });
-    await page.locator('#test-open-facts').click();
-    const dialog = page.getByRole('dialog', { name: 'Supplement Facts' });
-    await expect(dialog).toBeVisible();
-    await expect(dialog).toContainText('Preliminary');
-    await expect(dialog.getByRole('row', { name: /Total Sugars/ })).toContainText('0 g');
-    await dialog.getByRole('button', { name: 'Close' }).click();
-    await expect(dialog).toBeHidden();
+  }
+
+  test('the three panels differ and every % DV matches its amount', async ({ consented: page }) => {
+    await page.goto('/');
+    const seen: string[] = [];
+    for (const line of LINES) {
+      const rows = await page.locator(`#supplement-facts-${line.id} tbody tr`).evaluateAll((trs) =>
+        trs.map((tr) => [...tr.querySelectorAll('th, td')].map((cell) => cell.textContent?.trim() ?? '')),
+      );
+      seen.push(JSON.stringify(rows));
+      const b12 = rows.find((row) => row[0]?.startsWith('Vitamin B12'));
+      expect(b12, line.name).toBeTruthy();
+      const amount = Number.parseFloat(b12![1]!);
+      expect(b12![2]).toBe(`${Math.round((amount / 2.4) * 100)}%`);
+    }
+    expect(new Set(seen).size).toBe(3);
   });
 });
 

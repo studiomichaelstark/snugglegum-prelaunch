@@ -66,6 +66,17 @@ const lines: Record<ProductId, { ages: string; teaser: string }> = {
             </h3>
             <p class="label-caps mt-3 text-sm">{lines[product.id].ages}</p>
             <p class="mt-4 text-lg leading-normal">{lines[product.id].teaser}</p>
+            <div class="mt-auto pt-6">
+              <button
+                type="button"
+                data-dialog-open={`supplement-facts-${product.id}`}
+                aria-haspopup="dialog"
+                class="label-caps inline-flex cursor-pointer items-center gap-3 self-start rounded-full border-2 border-dashed border-current px-5 py-3 text-[14px] transition duration-200 hover:-translate-y-0.5 hover:border-solid hover:bg-ink hover:text-white"
+              >
+                Supplement Facts
+                <span aria-hidden="true" class="text-xl font-black">+</span>
+              </button>
+            </div>
           </li>
         ))
       }

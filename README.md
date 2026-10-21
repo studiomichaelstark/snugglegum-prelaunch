@@ -67,7 +67,7 @@ Every home page section is the component with the same name as its `id`, in the 
 | `#join` | `components/home/Join.astro` |
 | `#faq` | `components/home/Faq.astro` |
 | `#newsletter-home` | `components/home/Newsletter.astro` |
-| `#supplement-facts` (dialog) | `components/home/SupplementFacts.astro` |
+| `#supplement-facts-gen-z`, `-millennials`, `-boomer` (dialogs, opened from the cards in `#lines`) | `components/home/SupplementFacts.astro` |
 | `#footer` | `components/sections/Footer.astro` |
 
 ## Editing copy
