@@ -82,7 +82,7 @@ test.describe('home: pre-launch page', () => {
     expect(types).toContain('Organization');
     expect(types).toContain('Brand');
     expect(graph.filter((node) => node['@type'] === 'Product').map((node) => node.name)).toEqual(LINES.map((line) => `Snugglegum™ Multivitamin for ${line.name}`));
-    expect(graph.find((node) => node['@type'] === 'Brand')?.slogan).toBe('Sweet Vitamins for Generations');
+    expect(graph.find((node) => node['@type'] === 'Brand')?.slogan).toBe('Sweet Vitamin Gummies');
   });
 });
 

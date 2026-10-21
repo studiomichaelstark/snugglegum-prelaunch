@@ -3,7 +3,7 @@ import { siteConfig } from '@/config/site';
 const LOGO_PATH = '/android-chrome-512x512.png';
 
 /** Brand claim, used in title, meta description and JSON-LD. */
-export const CLAIM = 'Sweet Vitamins for Generations';
+export const CLAIM = 'Sweet Vitamin Gummies';
 
 export interface ProductLineMeta {
   /** Line name, e.g. "Gen Z". */

@@ -5,7 +5,7 @@ export const GET: APIRoute = ({ site }) => {
   const origin = (site?.toString() ?? '').replace(/\/+$/, '');
   const body = `# Snugglegum™
 
-> Snugglegum™: Sweet Vitamins for Generations. A pre-launch brand of sugar-free multivitamin gummies with a liquid center that bursts when you bite. Not yet available. Signing up as a founding member is open.
+> Snugglegum™: Sweet Vitamin Gummies. A pre-launch brand of sugar-free multivitamin gummies with a liquid center that bursts when you bite. Not yet available. Signing up as a founding member is open.
 
 ## Facts
 
