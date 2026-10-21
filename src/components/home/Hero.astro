@@ -1,7 +1,7 @@
 ---
 /**
  * Homepage hero: logo, the brand claim as the h1, the tagline and a bursting gummy (liquid center).
- * On phones the gummy comes first, above the headline, and the note is a plain line under the serving text (the circle is md and up). The gummy is an illustrative visual (from md up it overlaps the headline on purpose), so the note
+ * On phones (portrait) the gummy and its note are left out, so the headline carries the hero; landscape phones and md up show them. The gummy is an illustrative visual (from md up it overlaps the headline on purpose), so the note
  * under it says the final look may differ. Stacking: parallax backdrop (HeroParallax) < headline (z-20)
  * < burst gummy (z-30), so the gummy and its syrup sit in front of the h1 on purpose. Only the backdrop moves (heroParallax.ts).
  * The serving note stays neutral until the Supplement Facts are confirmed.
@@ -35,9 +35,8 @@ import HeroParallax from "@/components/home/HeroParallax.astro";
           <ButtonLink href="#newsletter-home">Become a founding member</ButtonLink>
         </div>
         <p class="mt-6 text-base">Serving size and daily gummies: see Supplement Facts (coming with launch).</p>
-        <p class="mt-3 text-base md:hidden land:hidden">Illustration. The final gummies may look different.</p>
       </div>
-      <div data-hero-gummy class="pointer-events-none relative z-30 max-md:order-first land:order-none land:-mt-[clamp(110px,18vw,300px)] land:-ml-[12%] md:-mt-[clamp(140px,18vw,300px)] 2xl:-mr-[clamp(20px,7vw,140px)] md:-ml-[12%] lg:-mt-[clamp(390px,38vw,610px)] lg:-ml-[38%]">
+      <div data-hero-gummy class="pointer-events-none relative z-30 max-md:hidden land:block land:order-none land:-mt-[clamp(110px,18vw,300px)] land:-ml-[12%] md:-mt-[clamp(140px,18vw,300px)] 2xl:-mr-[clamp(20px,7vw,140px)] md:-ml-[12%] lg:-mt-[clamp(390px,38vw,610px)] lg:-ml-[38%]">
         <div class="relative mx-auto w-[84%] max-w-[780px] sm:w-full md:mr-0 land:mr-0 lg:max-w-[790px]">
           <Picture
             src={heroGummy}

@@ -53,11 +53,11 @@ const footLink = "inline-flex min-h-11 cursor-pointer items-center text-[15px] u
     </p>
   </div>
 
-  <!-- Fixed to the viewport corner on every page, whatever the scroll position. Ink fill + pink ring so it reads on pink, white and green sections alike. -->
+  <!-- Fixed to the viewport corner on every page, whatever the scroll position. Quiet on purpose: a small translucent white disc with an indigo arrow and a thin outline, readable on pink, white, charcoal and indigo sections alike. -->
   <a
     href="#top"
     aria-label="Back to top"
-    class="fixed right-[max(1rem,env(safe-area-inset-right))] bottom-[max(1rem,env(safe-area-inset-bottom))] z-40 inline-flex size-[50px] items-center justify-center rounded-full border-2 border-pink bg-ink text-pink no-underline shadow-[0_8px_20px_color-mix(in_srgb,var(--color-brand-ink)_32%,transparent)] transition duration-200 hover:-translate-y-[3px] hover:scale-[1.03] hover:border-green hover:bg-white hover:text-green md:right-6 md:bottom-6"
+    class="fixed right-[max(1rem,env(safe-area-inset-right))] bottom-[max(1rem,env(safe-area-inset-bottom))] z-40 inline-flex size-11 items-center justify-center rounded-full border border-green/40 bg-white/75 text-green no-underline shadow-[0_4px_12px_color-mix(in_srgb,var(--color-brand-ink)_16%,transparent)] transition duration-200 hover:-translate-y-[3px] hover:scale-[1.03] hover:border-green hover:bg-white hover:text-green md:right-6 md:bottom-6"
   >
     <ArrowUpIcon />
   </a>
