@@ -15,10 +15,12 @@ const badgeClass = 'bg-pink text-ink';
 ---
 
 <section id="faq" aria-labelledby="faq-heading" class="section-px section-py bg-white text-green">
-  <div class="mx-auto max-w-[900px]">
+  <div class="container-lg">
     <h2 id="faq-heading" class="display-word stretch-display text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88]">Questions, answered</h2>
 
-    <div class="mt-[clamp(40px,5vw,64px)] grid gap-[clamp(40px,5vw,64px)]">
+    <!-- Desktop: two columns by theme. Left: the product and the founding-member sign-up. Right: gummy supplements in general. One column below lg. -->
+    <div class="mt-[clamp(40px,5vw,64px)] grid gap-[clamp(40px,5vw,64px)] lg:grid-cols-2 lg:items-start lg:gap-x-[clamp(48px,6vw,96px)]">
+      <div class="grid gap-[clamp(40px,5vw,64px)]">
       <FaqGroup badgeClass={badgeClass}>
         <span slot="badge">
           <Brand />
@@ -50,13 +52,25 @@ const badgeClass = 'bg-pink text-ink';
 
         <details name="faq-brand" class:list={[item]}>
           <summary class:list={[question]}>
+            <span>What's with the name?</span>
+            <span aria-hidden="true" class:list={[plus]}>+</span>
+          </summary>
+          <p class:list={[answer]}><strong>Snuggle</strong> is the cozy part. <strong>Gum</strong> is how you take it. Put them together and you get <strong><Brand /></strong>.</p>
+        </details>
+      </FaqGroup>
+
+      <FaqGroup badgeClass={badgeClass}>
+        <span slot="badge">Founding member &amp; launch</span>
+
+        <details name="faq-signup" class:list={[item]}>
+          <summary class:list={[question]}>
             <span>What do I get for signing up now?</span>
             <span aria-hidden="true" class:list={[plus]}>+</span>
           </summary>
           <p class:list={[answer]}>The first 500 founding members help pick the first flavor: Pineapple, Energy, or a flavor of your own. You can choose it right in the sign-up form. You confirm your email address once (double opt-in), and you can unsubscribe anytime.</p>
         </details>
 
-        <details name="faq-brand" class:list={[item]}>
+        <details name="faq-signup" class:list={[item]}>
           <summary class:list={[question]}>
             <span>When does <Brand /> launch?</span>
             <span aria-hidden="true" class:list={[plus]}>+</span>
@@ -64,7 +78,7 @@ const badgeClass = 'bg-pink text-ink';
           <p class:list={[answer]}>Soon. Join the list and you'll hear first.</p>
         </details>
 
-        <details name="faq-brand" class:list={[item]}>
+        <details name="faq-signup" class:list={[item]}>
           <summary class:list={[question]}>
             <span>Where will <Brand /> be available?</span>
             <span aria-hidden="true" class:list={[plus]}>+</span>
@@ -72,22 +86,16 @@ const badgeClass = 'bg-pink text-ink';
           <p class:list={[answer]}>The USA first.</p>
         </details>
 
-        <details name="faq-brand" class:list={[item]}>
+        <details name="faq-signup" class:list={[item]}>
           <summary class:list={[question]}>
             <span>Will you spam me?</span>
             <span aria-hidden="true" class:list={[plus]}>+</span>
           </summary>
           <p class:list={[answer]}>No. Launch news and the occasional bad joke. Unsubscribe anytime.</p>
         </details>
-
-        <details name="faq-brand" class:list={[item]}>
-          <summary class:list={[question]}>
-            <span>What's with the name?</span>
-            <span aria-hidden="true" class:list={[plus]}>+</span>
-          </summary>
-          <p class:list={[answer]}><strong>Snuggle</strong> is the cozy part. <strong>Gum</strong> is how you take it. Put them together and you get <strong><Brand /></strong>.</p>
-        </details>
       </FaqGroup>
+
+      </div>
 
       <FaqGroup badgeClass={badgeClass}>
         <span slot="badge">About gummy supplements</span>
