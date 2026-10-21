@@ -52,7 +52,7 @@ const steps = [
       {
         steps.map((step, index) => (
           <li class:list={["how-step group relative", step.card]} data-how-step>
-            <div class="relative">
+            <div class="relative md:mt-3">
               <span aria-hidden="true" data-decorative-text class="how-number display-word stretch-wide pointer-events-none absolute top-[-0.12em] left-[-0.04em] z-0 text-[clamp(6.5rem,12vw,10.5rem)] leading-[0.8] select-none">
                 {String(index + 1).padStart(2, "0")}
               </span>
