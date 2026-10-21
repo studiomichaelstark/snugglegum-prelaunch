@@ -60,4 +60,16 @@ import { backgroundSources, MAX_OFFSET_RATIO, parallaxLayers, sceneCanvas } from
     aspect-ratio: 2576 / 1438;
     translate: -50% -50%;
   }
+
+  /*
+   * Phones: the hero is narrow and tall, so only a slice of the wide scene shows, and the middle is the quiet part.
+   * Anchor the scene's right edge to the hero's right edge instead (still keeping the right overscan, 2.83 / 105.66
+   * = 2.678 % of the scene's width, so moving layers never show an edge).
+   */
+  @media (max-width: 47.99rem) {
+    .hero-parallax-scene {
+      left: 100%;
+      translate: -97.322% -50%;
+    }
+  }
 </style>
