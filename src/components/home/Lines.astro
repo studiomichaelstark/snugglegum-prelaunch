@@ -26,10 +26,11 @@ const pouches: Record<ProductId, ImageMetadata> = {
 };
 
 // Each pouch turns a little on hover, in alternating directions. Literal classes so Tailwind sees them.
+// On touch screens a tap does the same (pouchConfetti.ts sets data-popped for a moment).
 const tilt: Record<ProductId, string> = {
-  "gen-z": "hover:-rotate-6",
-  millennials: "hover:rotate-4",
-  boomer: "hover:-rotate-4",
+  "gen-z": "hover:-rotate-6 data-popped:-rotate-6",
+  millennials: "hover:rotate-4 data-popped:rotate-4",
+  boomer: "hover:-rotate-4 data-popped:-rotate-4",
 };
 
 const lines: Record<ProductId, { ages: string; teaser: string }> = {
@@ -58,7 +59,7 @@ const lines: Record<ProductId, { ages: string; teaser: string }> = {
               loading="lazy"
               decoding="async"
               data-pouch
-              class:list={["pouch relative mx-auto mt-6 h-auto w-[min(70%,300px)] origin-center transition duration-300 ease-out hover:z-20 hover:scale-150", tilt[product.id]]}
+              class:list={["pouch relative mx-auto mt-6 h-auto w-[min(70%,300px)] origin-center transition duration-300 ease-out hover:z-20 hover:scale-150 data-popped:z-20 data-popped:scale-150", tilt[product.id]]}
             />
             <h3 class="mt-8 text-[clamp(1.5rem,2.2vw,2rem)] leading-[1] font-black uppercase stretch-tight">
               <Brand /> Multivitamin <span class="underline decoration-[0.07em] underline-offset-[0.12em]">for {product.name}</span>

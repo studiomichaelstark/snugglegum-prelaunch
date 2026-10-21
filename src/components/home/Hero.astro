@@ -1,7 +1,7 @@
 ---
 /**
  * Homepage hero: logo, the brand claim as the h1, the tagline and a bursting gummy (liquid center).
- * The gummy is an illustrative visual (from md up it overlaps the headline on purpose), so the note
+ * On phones the gummy comes first, above the headline. The gummy is an illustrative visual (from md up it overlaps the headline on purpose), so the note
  * under it says the final look may differ. Stacking: parallax backdrop (HeroParallax) < headline (z-20)
  * < burst gummy (z-30), so the gummy and its syrup sit in front of the h1 on purpose. Only the backdrop moves (heroParallax.ts).
  * The serving note stays neutral until the Supplement Facts are confirmed.
@@ -22,7 +22,7 @@ import HeroParallax from "@/components/home/HeroParallax.astro";
     </div>
     <div class="mt-[clamp(32px,5vw,64px)] grid items-center gap-x-[clamp(32px,5vw,72px)] gap-y-8 text-center grid-cols-[minmax(0,1fr)] md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:text-left">
       <div class="relative z-20 md:col-span-2">
-        <p class="label-caps text-sm">Pre-launch · USA</p>
+        <p class="label-caps text-sm">Pre-launch</p>
         <h1 class="display-word stretch-hero mt-3 max-w-[14ch] text-[clamp(2.1rem,7.6vw,7rem)] leading-[0.88] text-balance max-md:mx-auto">Poppin’ <span class="md:block">Vitamin Gummies.</span></h1>
       </div>
       <div>
@@ -35,7 +35,7 @@ import HeroParallax from "@/components/home/HeroParallax.astro";
         </div>
         <p class="mt-6 text-base">Serving size and daily gummies: see Supplement Facts (coming with launch).</p>
       </div>
-      <div class="pointer-events-none relative z-30 md:-mt-[clamp(140px,18vw,300px)] 2xl:-mr-[clamp(20px,7vw,140px)] md:-ml-[12%] lg:-mt-[clamp(260px,26vw,420px)] lg:-ml-[50%]">
+      <div class="pointer-events-none relative z-30 max-md:order-first md:-mt-[clamp(140px,18vw,300px)] 2xl:-mr-[clamp(20px,7vw,140px)] md:-ml-[12%] lg:-mt-[clamp(260px,26vw,420px)] lg:-ml-[50%]">
         <div class="relative mx-auto w-[84%] max-w-[780px] sm:w-full md:mr-0 lg:max-w-[880px]">
           <Picture
             src={heroGummy}

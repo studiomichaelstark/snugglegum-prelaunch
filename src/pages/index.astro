@@ -13,6 +13,7 @@ import Lines from '@/components/home/Lines.astro';
 import Marquee from '@/components/home/Marquee.astro';
 import Newsletter from '@/components/home/Newsletter.astro';
 import Footer from '@/components/sections/Footer.astro';
+import Brand from '@/components/ui/Brand.astro';
 import Base from '@/layouts/Base.astro';
 import { productLineMeta } from '@/lib/lines';
 
@@ -38,7 +39,7 @@ const description =
       <h2 slot="heading" class="display-word stretch-display mt-6 text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88] text-balance">
         Join the first 500 founding members.
       </h2>
-      <p slot="subline" class="mx-auto mt-5 max-w-[40ch] text-xl leading-normal">Help us pick our first flavor.</p>
+      <p slot="subline" class="mx-auto mt-5 max-w-[40ch] text-xl leading-normal">Sign up for the <Brand /> newsletter and help us pick our first flavor.</p>
     </Newsletter>
   </main>
   <SupplementFacts />

@@ -43,7 +43,7 @@ test.describe('home: pre-launch page', () => {
     await page.goto('/');
     const signup = page.locator('#newsletter-home');
     await expect(signup).toContainText('Join the first 500 founding members.');
-    await expect(signup).toContainText('Help us pick our first flavor.');
+    await expect(signup).toContainText('newsletter and help us pick our first flavor.');
     await expect(page.locator('#vote')).toHaveCount(0);
     const callout = page.locator('#join');
     await expect(callout).toContainText('Be one of the first 500.');

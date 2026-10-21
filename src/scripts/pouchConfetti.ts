@@ -6,7 +6,8 @@
  * smooth. The canvas is created once and reused for every burst: a new full-screen canvas per burst
  * adds up in Safari, which frees them late and then refuses the next one. It is in the page only
  * while pieces are flying. Colors come from the palette tokens in colors.css (read at runtime, so no
- * color literal lives here). Fine pointers only for the pouches, never under reduced motion.
+ * color literal lives here). Mouse: hover. Touch: a tap enlarges the pouch for a moment (data-popped) and
+ * bursts confetti from the finger. Never under reduced motion.
  */
 
 // One big blast right away, then two follow-up waves that keep it raining for a moment.
@@ -16,6 +17,8 @@ const WAVES = [
   { pieces: 160, delay: 200 },
 ] as const;
 const COOLDOWN_MS = 700;
+/** How long a tapped pouch stays big on touch screens. */
+const POPPED_MS = 2600;
 const GRAVITY = 1800; // px/s², pulls the pieces down after the blast
 const PALETTE_TOKENS = [
   '--color-brand-pink',
@@ -181,17 +184,38 @@ export function confettiAt(originX: number, originY: number): void {
 }
 
 export function initPouchConfetti(): void {
-  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const pouches = document.querySelectorAll<HTMLElement>('#lines [data-pouch]');
 
-  document.querySelectorAll<HTMLElement>('#lines [data-pouch]').forEach((pouch) => {
-    let last = Number.NEGATIVE_INFINITY;
-    pouch.addEventListener('pointerenter', (event) => {
-      if (event.pointerType !== 'mouse') return;
-      const now = performance.now();
-      if (now - last < COOLDOWN_MS) return;
-      last = now;
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    pouches.forEach((pouch) => {
+      let last = Number.NEGATIVE_INFINITY;
+      pouch.addEventListener('pointerenter', (event) => {
+        if (event.pointerType !== 'mouse') return;
+        const now = performance.now();
+        if (now - last < COOLDOWN_MS) return;
+        last = now;
+        confettiAt(event.clientX, event.clientY);
+      });
+    });
+    return;
+  }
+
+  // Touch screens: no hover, so a tap pops the pouch (big, tilted, confetti) and it settles back after a moment.
+  // A tap elsewhere (or on another pouch) settles it right away.
+  let timer = 0;
+  const settle = () => {
+    window.clearTimeout(timer);
+    pouches.forEach((pouch) => pouch.removeAttribute('data-popped'));
+  };
+  pouches.forEach((pouch) => {
+    pouch.addEventListener('click', (event) => {
+      event.stopPropagation();
+      settle();
+      pouch.setAttribute('data-popped', '');
       confettiAt(event.clientX, event.clientY);
+      timer = window.setTimeout(settle, POPPED_MS);
     });
   });
+  document.addEventListener('click', settle);
 }
