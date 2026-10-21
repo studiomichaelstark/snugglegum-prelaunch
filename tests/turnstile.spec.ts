@@ -1,4 +1,4 @@
-import { expect, jsonResponse, test } from './fixtures';
+import { expect, jsonResponse, pickRequired, test } from './fixtures';
 
 // The optional bot check is built in only when PUBLIC_TURNSTILE_SITE_KEY is set at build time:
 //   PUBLIC_TURNSTILE_SITE_KEY=1x00000000000000000000AA SKIP_FIREFOX=1 pnpm exec playwright test tests/turnstile.spec.ts
@@ -33,6 +33,7 @@ test.describe('Turnstile bot check (when switched on)', () => {
     expect(scriptRequests).toBe(0);
     await expect(page.locator('[data-turnstile]').first()).toHaveAttribute('data-sitekey', /.+/);
 
+    await pickRequired(page);
     await page.locator('#newsletter-email-home').fill('anna@example.com');
     await page.locator('#newsletter-consent-home').check();
     await page.locator('form:has(#newsletter-email-home) button[type="submit"]').click();
@@ -45,6 +46,7 @@ test.describe('Turnstile bot check (when switched on)', () => {
     await page.route(API, (route) => route.fulfill({ status: 200, contentType: 'text/javascript', body: STUB }));
     await page.route('**/api/signup', (route) => jsonResponse(route, { ok: false, error: 'x', challenge: true }, 403));
     await page.goto('/');
+    await pickRequired(page);
     await page.locator('#newsletter-email-home').fill('anna@example.com');
     await page.locator('#newsletter-consent-home').check();
     await page.locator('form:has(#newsletter-email-home) button[type="submit"]').click();
@@ -60,6 +62,7 @@ test.describe('Turnstile bot check (when switched on)', () => {
       return jsonResponse(route, { ok: false, error: 'x', challenge: true }, 403);
     });
     await page.goto('/');
+    await pickRequired(page);
     await page.locator('#newsletter-email-home').fill('anna@example.com');
     await page.locator('#newsletter-consent-home').check();
     await page.locator('form:has(#newsletter-email-home) button[type="submit"]').click();

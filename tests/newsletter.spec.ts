@@ -1,4 +1,4 @@
-import { expect, jsonResponse, LANDING_ROUTES, mockMailerLite, test, trackExternalRequests } from './fixtures';
+import { expect, jsonResponse, LANDING_ROUTES, mockMailerLite, pickRequired, test, trackExternalRequests } from './fixtures';
 
 const EMAIL_FIELD = '#newsletter-email-home';
 const CONSENT_FIELD = '#newsletter-consent-home';
@@ -7,6 +7,7 @@ test.describe('newsletter form', () => {
   test('sends nothing before submit', async ({ consented: page, baseURL }) => {
     const external = trackExternalRequests(page, baseURL!);
     await page.goto('/');
+    await pickRequired(page);
     await page.locator(EMAIL_FIELD).fill('anna@example.com');
     await page.locator(CONSENT_FIELD).check();
     await page.waitForLoadState('networkidle');
@@ -24,6 +25,7 @@ test.describe('newsletter form', () => {
   test('validates the email address and stays on the field', async ({ consented: page }) => {
     const calls = await mockMailerLite(page, (route) => jsonResponse(route, { success: true }));
     await page.goto('/');
+    await pickRequired(page);
     await page.locator(EMAIL_FIELD).fill('not-an-email');
     await page.locator(CONSENT_FIELD).check();
     await page.locator('form:has(#newsletter-email-home) button[type="submit"]').click();
@@ -39,6 +41,7 @@ test.describe('newsletter form', () => {
   test('requires consent', async ({ consented: page }) => {
     const calls = await mockMailerLite(page, (route) => jsonResponse(route, { success: true }));
     await page.goto('/');
+    await pickRequired(page);
     await page.locator(EMAIL_FIELD).fill('anna@example.com');
     await page.locator('form:has(#newsletter-email-home) button[type="submit"]').click();
 
@@ -55,6 +58,7 @@ test.describe('newsletter form', () => {
       await jsonResponse(route, { success: true });
     });
     await page.goto('/');
+    await pickRequired(page);
     await page.locator(EMAIL_FIELD).fill('anna@example.com');
     await page.locator(CONSENT_FIELD).check();
     await page.locator('form:has(#newsletter-email-home) button[type="submit"]').click();
@@ -76,6 +80,7 @@ test.describe('newsletter form', () => {
   test('a filled honeypot looks like success but sends nothing', async ({ consented: page }) => {
     const calls = await mockMailerLite(page, (route) => jsonResponse(route, { success: true }));
     await page.goto('/');
+    await pickRequired(page);
     await page.locator(EMAIL_FIELD).fill('bot@example.com');
     await page.locator(CONSENT_FIELD).check();
     await page.locator('#newsletter-website-home').evaluate((el: HTMLInputElement) => {
@@ -118,6 +123,7 @@ test.describe('newsletter form', () => {
     test(`error state: ${failure.name}`, async ({ consented: page }) => {
       await mockMailerLite(page, failure.respond);
       await page.goto('/');
+      await pickRequired(page);
       await page.locator(EMAIL_FIELD).fill('anna@example.com');
       await page.locator(CONSENT_FIELD).check();
       await page.locator('form:has(#newsletter-email-home) button[type="submit"]').click();
@@ -129,6 +135,7 @@ test.describe('newsletter form', () => {
   test('error state: network failure', async ({ consented: page }) => {
     await mockMailerLite(page, (route) => route.abort('failed'));
     await page.goto('/');
+    await pickRequired(page);
     await page.locator(EMAIL_FIELD).fill('anna@example.com');
     await page.locator(CONSENT_FIELD).check();
     await page.locator('form:has(#newsletter-email-home) button[type="submit"]').click();
@@ -143,16 +150,41 @@ test.describe('newsletter form', () => {
     await expect(page.locator('#newsletter-error-home')).toHaveAttribute('role', 'alert');
   });
 
-  test('the product-line interest is optional', async ({ consented: page }) => {
+  test('a version is required and comes first', async ({ consented: page }) => {
     const calls = await mockMailerLite(page, (route) => jsonResponse(route, { success: true }));
     await page.goto('/');
-    const form = page.locator('[data-newsletter-form]').first();
-    await form.locator('input[type="email"]').fill('anna@example.com');
-    await form.locator('input[name="consent"]').check();
-    await form.locator('button[type="submit"]').click();
+    await page.locator('#newsletter-home input[data-flavor="pineapple"]').check();
+    await page.locator(EMAIL_FIELD).fill('anna@example.com');
+    await page.locator(CONSENT_FIELD).check();
+    await page.locator('form:has(#newsletter-email-home) button[type="submit"]').click();
 
+    await expect(page.locator('#newsletter-error-home')).toHaveText('Please pick at least one version.');
+    await expect(page.locator('#newsletter-home input[data-interest]').first()).toBeFocused();
+    expect(calls).toHaveLength(0);
+  });
+
+  test('a flavor, or a suggestion of your own, is required', async ({ consented: page }) => {
+    const calls = await mockMailerLite(page, (route) => jsonResponse(route, { success: true }));
+    await page.goto('/');
+    await page.locator('#newsletter-home input[data-interest]').first().check();
+    await page.locator(EMAIL_FIELD).fill('anna@example.com');
+    await page.locator(CONSENT_FIELD).check();
+    await page.locator('form:has(#newsletter-email-home) button[type="submit"]').click();
+
+    await expect(page.locator('#newsletter-error-home')).toHaveText('Please pick a flavor or suggest your own.');
+    expect(calls).toHaveLength(0);
+
+    // A suggestion of your own is enough.
+    await page.locator('#newsletter-home input[data-flavor-other]').fill('Mango');
+    await page.locator('form:has(#newsletter-email-home) button[type="submit"]').click();
     await expect.poll(() => calls.length).toBe(1);
-    expect(calls[0]?.body ?? '').not.toContain('product_interest');
+  });
+
+  test('both questions say they are required instead of optional', async ({ consented: page }) => {
+    await page.goto('/');
+    const legends = page.locator('#newsletter-home fieldset legend');
+    await expect(legends).toHaveCount(2);
+    for (const legend of await legends.all()) await expect(legend).not.toContainText('optional');
   });
 
   for (const route of LANDING_ROUTES) {
@@ -177,6 +209,7 @@ test.describe('newsletter form', () => {
     const THANK_YOU = /\/thank-you-newsletter$/;
     const submit = async (page: import('@playwright/test').Page) => {
       await page.goto('/');
+      await pickRequired(page);
       await page.locator(EMAIL_FIELD).fill('anna@example.com');
       await page.locator(CONSENT_FIELD).check();
       await page.locator('form:has(#newsletter-email-home) button[type="submit"]').click();

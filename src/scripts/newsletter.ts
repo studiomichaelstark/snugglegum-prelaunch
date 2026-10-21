@@ -5,7 +5,7 @@
 
 import { createChallenge } from '@/scripts/turnstile';
 
-type ErrorKind = 'invalid-email' | 'consent' | 'server' | 'already' | 'network' | 'rate-limit' | 'challenge';
+type ErrorKind = 'invalid-email' | 'lines' | 'flavor' | 'consent' | 'server' | 'already' | 'network' | 'rate-limit' | 'challenge';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const REQUEST_TIMEOUT_MS = 15_000;
@@ -43,7 +43,7 @@ function showError(root: HTMLElement, form: HTMLFormElement, kind: ErrorKind, fo
   if (!error) return;
   error.textContent = messageFor(root, kind);
   error.hidden = false;
-  form.querySelectorAll<HTMLInputElement>('input[name="fields[email]"], input[name="consent"]').forEach((input) => {
+  form.querySelectorAll<HTMLInputElement>('input[name="fields[email]"], input[name="consent"], input[data-interest], input[data-flavor], input[data-flavor-other]').forEach((input) => {
     input.removeAttribute('aria-invalid');
   });
   focusTarget?.setAttribute('aria-invalid', 'true');
@@ -249,7 +249,18 @@ function bind(root: HTMLElement): void {
     event.preventDefault();
     if (submitting || !emailInput || !consentInput) return;
 
-    // Fields are validated in the order they appear: email, consent. The product-line interest is optional.
+    // Fields are validated in the order they appear: version, flavor, email, consent. Version and flavor are required:
+    // a founding member picks at least one version and either a flavor or a suggestion of their own.
+    const firstInterest = interestInputs[0];
+    if (!readInterests(form).length) {
+      showError(root, form, 'lines', firstInterest);
+      return;
+    }
+    const flavorChoice = readFlavors(form);
+    if (!flavorChoice.picked.length && !flavorChoice.other) {
+      showError(root, form, 'flavor', form.querySelector<HTMLInputElement>('input[data-flavor]') ?? undefined);
+      return;
+    }
     const email = emailInput.value.trim();
     if (!EMAIL_PATTERN.test(email)) {
       showError(root, form, 'invalid-email', emailInput);
@@ -270,7 +281,7 @@ function bind(root: HTMLElement): void {
 
     submitting = true;
     setBusy(form, true);
-    const { outcome: result, number } = await subscribe(endpoint, email, readInterests(form), readFlavors(form), (await challenge?.token()) ?? null);
+    const { outcome: result, number } = await subscribe(endpoint, email, readInterests(form), flavorChoice, (await challenge?.token()) ?? null);
 
     if (result === 'success') {
       // Stay busy (button disabled, no second submit) while the browser moves on to the thank-you page.

@@ -46,7 +46,9 @@ export const GROUPS = {
 
 export const COUNTER_KEY = 'total';
 const CONNECT_URL = 'https://connect.mailerlite.com/api/subscribers';
-const SELECTABLE_GROUPS = ['gen_z', 'millennials', 'boomer', 'pineapple', 'energy'];
+const LINE_GROUPS = ['gen_z', 'millennials', 'boomer'];
+const FLAVOR_GROUPS = ['pineapple', 'energy'];
+const SELECTABLE_GROUPS = [...LINE_GROUPS, ...FLAVOR_GROUPS];
 const MAX_BODY_BYTES = 8 * 1024;
 const MAX_KEYS = 40;
 const MAX_KEY_LENGTH = 100;
@@ -290,6 +292,16 @@ export async function handleSignup(request, env, fetchImpl = fetch, cache = defa
     return json({ ok: false, error: 'Please confirm you are 18 or older and agree to the emails.' }, 400);
   }
 
+  // Founding members pick at least one version and a flavor (or suggest one). The form checks this too; this is the lock.
+  const picked = selectedGroups(values);
+  const flavorText = cleanFreeText(first(values, 'flavor_suggestion', 'fields[flavor_other]', 'flavor_other'), MAX_FLAVOR_LENGTH);
+  if (!picked.some((id) => LINE_GROUPS.includes(id))) {
+    return json({ ok: false, error: 'Please pick at least one version.' }, 400);
+  }
+  if (!picked.some((id) => FLAVOR_GROUPS.includes(id)) && !flavorText) {
+    return json({ ok: false, error: 'Please pick a flavor or suggest your own.' }, 400);
+  }
+
   // The same address again within the window (double click, reload, mail bombing): already done, same number.
   // Case-insensitive on purpose: MailerLite treats A@x.com and a@x.com as one subscriber.
   const emailId = await digest(email.toLowerCase());
@@ -307,8 +319,7 @@ export async function handleSignup(request, env, fetchImpl = fetch, cache = defa
     consent_age_18: 'yes',
     signup_source: 'founding-member-form',
   };
-  const flavor = cleanFreeText(first(values, 'flavor_suggestion', 'fields[flavor_other]', 'flavor_other'), MAX_FLAVOR_LENGTH);
-  if (flavor) fields.flavor_suggestion = flavor;
+  if (flavorText) fields.flavor_suggestion = flavorText;
   for (const name of ['utm_source', 'utm_campaign']) {
     const value = cleanTag(first(values, name, `fields[${name}]`));
     if (value) fields[name] = value;
@@ -317,7 +328,7 @@ export async function handleSignup(request, env, fetchImpl = fetch, cache = defa
   // Groups come only from our own list of ids: nothing the visitor sends can name another group.
   const payload = {
     email,
-    groups: [GROUPS.founding_member, ...selectedGroups(values).map((id) => GROUPS[id])],
+    groups: [GROUPS.founding_member, ...picked.map((id) => GROUPS[id])],
     fields,
   };
 

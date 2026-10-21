@@ -54,7 +54,7 @@ const mailerLite = (status = 201, responseBody: unknown = { data: { id: '1' } })
   return { calls, impl };
 };
 
-const GOOD = { 'fields[email]': 'a@example.com', consent: 'on' };
+const GOOD = { 'fields[email]': 'a@example.com', consent: 'on', 'fields[product_interest]': 'gen-z', 'fields[flavor_vote]': 'pineapple' };
 
 test.describe('POST /api/signup', () => {
   test('sends the right request to the MailerLite Connect API', async () => {
@@ -85,12 +85,26 @@ test.describe('POST /api/signup', () => {
     expect(sent.fields.utm_medium).toBeUndefined();
   });
 
-  test('founding_member is always there; nothing else without a checked box; empty extras are omitted', async () => {
+  test('founding_member is always there, plus the picked version and flavor; empty extras are omitted', async () => {
     const ml = mailerLite();
     await handleSignup(formRequest(GOOD), envWith(new FakeKv()), ml.impl);
     const sent = JSON.parse(ml.calls[0]!.init.body);
-    expect(sent.groups).toEqual([GROUPS.founding_member]);
+    expect(sent.groups).toEqual([GROUPS.founding_member, GROUPS.gen_z, GROUPS.pineapple]);
     expect(Object.keys(sent.fields).sort()).toEqual(['consent_age_18', 'consent_at', 'signup_source']);
+  });
+
+  test('a version and a flavor (or a suggestion of your own) are required', async () => {
+    const ml = mailerLite();
+    const base = { 'fields[email]': 'a@example.com', consent: 'on' };
+    const noVersion = await handleSignup(formRequest({ ...base, 'fields[flavor_vote]': 'pineapple' }), envWith(new FakeKv()), ml.impl);
+    expect(noVersion.status).toBe(400);
+    const noFlavor = await handleSignup(formRequest({ ...base, 'fields[product_interest]': 'boomer' }), envWith(new FakeKv()), ml.impl);
+    expect(noFlavor.status).toBe(400);
+    expect(ml.calls).toHaveLength(0);
+    // A suggestion of your own is enough for the flavor.
+    const own = await handleSignup(formRequest({ ...base, 'fields[product_interest]': 'boomer', 'fields[flavor_other]': 'Mango' }), envWith(new FakeKv()), ml.impl);
+    expect(own.status).toBe(200);
+    expect(JSON.parse(ml.calls[0]!.init.body).groups).toEqual([GROUPS.founding_member, GROUPS.boomer]);
   });
 
   test('maps the form\'s own names (gen-z, fields[flavor_other], fields[email], consent) to the same groups and fields', async () => {
@@ -291,7 +305,7 @@ test.describe('POST /api/signup, hardening', () => {
       ml,
     );
     const sent = JSON.parse(ml.calls[0]!.init.body);
-    expect(sent.groups).toEqual([GROUPS.founding_member, GROUPS.gen_z]);
+    expect(sent.groups).toEqual([GROUPS.founding_member, GROUPS.gen_z, GROUPS.pineapple]);
     expect(Object.keys(sent).sort()).toEqual(['email', 'fields', 'groups']);
     expect(Object.keys(sent.fields).sort()).toEqual(['consent_age_18', 'consent_at', 'signup_source']);
   });

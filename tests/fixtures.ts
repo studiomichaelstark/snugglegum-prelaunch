@@ -73,3 +73,9 @@ export const test = base.extend<{ consented: Page }>({
     await use(page);
   },
 });
+
+/** Ticks what the sign-up form requires besides email and consent: one version and one flavor. */
+export async function pickRequired(page: Page): Promise<void> {
+  await page.locator('#newsletter-home input[data-interest]').first().check();
+  await page.locator('#newsletter-home input[data-flavor="pineapple"]').check();
+}

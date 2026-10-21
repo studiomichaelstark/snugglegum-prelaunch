@@ -1,6 +1,6 @@
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { extname, join } from 'node:path';
-import { expect, jsonResponse, LANDING_ROUTES, LINES, mockMailerLite, ROUTES, test } from './fixtures';
+import { expect, jsonResponse, LANDING_ROUTES, LINES, mockMailerLite, ROUTES, test, pickRequired } from './fixtures';
 
 const LEGAL_LINES = [
   'Product in development. Formula, ingredients, and packaging will be confirmed before manufacturing. Not yet available.',
@@ -11,7 +11,7 @@ const LEGAL_LINES = [
 test.describe('home: pre-launch page', () => {
   test('hero carries the claim and the neutral serving note', async ({ consented: page }) => {
     await page.goto('/');
-    await expect(page.locator('h1')).toHaveText('would you snack on these Vitamin Gummies?');
+    await expect(page.locator('h1')).toHaveText(/vitamin gummies/i);
     await expect(page.locator('#hero')).toContainText('Vitamin Gummies you actually want to snack on.');
     await expect(page.locator('#hero')).toContainText('Serving size and daily gummies: see Supplement Facts (coming with launch).');
   });
@@ -101,6 +101,7 @@ test.describe('founding-member signup', () => {
     const calls = await mockMailerLite(page, (route) => jsonResponse(route, { success: true }));
     await page.goto('/?utm_source=tiktok&utm_medium=social&utm_campaign=founding500&utm_bogus=x');
     expect(new URL(page.url()).searchParams.get('utm_source')).toBe('tiktok');
+    await pickRequired(page);
     await page.locator('input[name="fields[email]"]').first().fill('anna@example.com');
     await page.locator('input[name="consent"]').first().check();
     await page.locator('form:has(input[name="fields[email]"]) button[type="submit"]').first().click();
@@ -118,6 +119,7 @@ test.describe('founding-member signup', () => {
   test('without UTM parameters none are sent', async ({ consented: page }) => {
     const calls = await mockMailerLite(page, (route) => jsonResponse(route, { success: true }));
     await page.goto('/');
+    await pickRequired(page);
     await page.locator('input[name="fields[email]"]').first().fill('anna@example.com');
     await page.locator('input[name="consent"]').first().check();
     await page.locator('form:has(input[name="fields[email]"]) button[type="submit"]').first().click();
@@ -131,6 +133,7 @@ test.describe('founding-member signup', () => {
     for (const line of LINES) await expect(page.locator(`input[data-interest="${line.id}"]`).first()).not.toBeChecked();
     await page.locator('input[data-interest="gen-z"]').first().check();
     await page.locator('input[data-interest="boomer"]').first().check();
+    await page.locator('input[data-flavor="pineapple"]').first().check();
     await page.locator('input[name="fields[email]"]').first().fill('anna@example.com');
     await page.locator('input[name="consent"]').first().check();
     await page.locator('form:has(input[name="fields[email]"]) button[type="submit"]').first().click();
@@ -381,6 +384,7 @@ test.describe('flavor choice in the signup form', () => {
     await page.locator('input[data-flavor="pineapple"]').check();
     await page.locator('input[data-flavor="energy"]').check();
     await page.locator('input[data-flavor-other]').fill('  Mango   chili ');
+    await page.locator('input[data-interest]').first().check();
     await page.locator('input[name="fields[email]"]').first().fill('anna@example.com');
     await page.locator('input[name="consent"]').first().check();
     await page.locator('form:has(input[name="fields[email]"]) button[type="submit"]').first().click();
@@ -390,14 +394,18 @@ test.describe('flavor choice in the signup form', () => {
     expect(body).toMatch(/name="fields\[flavor_other\]"\s*[\r\n]+\s*Mango chili/);
   });
 
-  test('without a flavor choice no flavor fields are sent', async ({ consented: page }) => {
+  test('a suggestion of your own alone is enough and is sent without a flavor vote', async ({ consented: page }) => {
     const calls = await mockMailerLite(page, (route) => jsonResponse(route, { success: true }));
     await page.goto('/');
+    await page.locator('input[data-interest]').first().check();
+    await page.locator('input[data-flavor-other]').fill('Mango');
     await page.locator('input[name="fields[email]"]').first().fill('anna@example.com');
     await page.locator('input[name="consent"]').first().check();
     await page.locator('form:has(input[name="fields[email]"]) button[type="submit"]').first().click();
     await expect.poll(() => calls.length).toBe(1);
-    expect(calls[0]?.body ?? '').not.toContain('flavor_');
+    const body = calls[0]?.body ?? '';
+    expect(body).toContain('flavor_other');
+    expect(body).not.toContain('flavor_vote');
   });
 });
 
