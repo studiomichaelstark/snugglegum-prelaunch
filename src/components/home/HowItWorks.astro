@@ -32,7 +32,7 @@ const steps = [
   },
   {
     word: "Vitamins",
-    body: "Your vitamins, in a snack you actually look forward to.",
+    body: "Multivitamin complexes matched to your generation and age group, in a snack you actually look forward to.",
     image: blue,
     card: "md:mt-[clamp(16px,2vw,32px)]",
     bob: "animate-[sg-bob_6s_ease-in-out_-2.8s_infinite]",
@@ -52,7 +52,7 @@ const steps = [
       {
         steps.map((step, index) => (
           <li class:list={["how-step group relative", step.card]} data-how-step>
-            <div class="relative md:mt-3">
+            <div class="relative mt-10">
               <span aria-hidden="true" data-decorative-text class="how-number display-word stretch-wide pointer-events-none absolute top-[-0.12em] left-[-0.04em] z-0 text-[clamp(6.5rem,12vw,10.5rem)] leading-[0.8] select-none">
                 {String(index + 1).padStart(2, "0")}
               </span>

@@ -89,7 +89,7 @@ export function buildJsonLd({ title, description, path, productLines }: PageMeta
       '@type': 'Product',
       '@id': `${pageUrl}#${line.name.toLowerCase().replace(/\s+/g, '-')}`,
       name: `${siteConfig.name} Multivitamin for ${line.name}`,
-      description: `${siteConfig.name} Multivitamin for ${line.name}: sugar-free multivitamin gummies with a liquid center. Coming soon.`,
+      description: `${siteConfig.name} Multivitamin for ${line.name}: sugar-free multivitamin gummies with a liquid center, formulated for its generation. Coming soon.`,
       url: pageUrl,
       category: 'Multivitamin gummies',
       brand: { '@id': brandId },

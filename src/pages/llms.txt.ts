@@ -11,7 +11,7 @@ export const GET: APIRoute = ({ site }) => {
 
 - Brand: Snugglegum™, always written with the trademark sign.
 - Idea: poppin’ vitamins you actually want to snack on: multivitamin gummies. Sugar-free (sweetened with sweeteners), with a liquid center.
-- Product: Snugglegum™ Multivitamin, in three versions, each with its own formula (teasers, all "coming soon", no prices yet):
+- Product: Snugglegum™ Multivitamin, in three versions, each with its own formula matched to a generation and age group (teasers, all "coming soon", no prices yet):
   - Snugglegum™ Multivitamin for Gen Z (ages 18 to 29)
   - Snugglegum™ Multivitamin for Millennials (ages 30 to 45)
   - Snugglegum™ Multivitamin for Boomer (ages 62 to 80)
