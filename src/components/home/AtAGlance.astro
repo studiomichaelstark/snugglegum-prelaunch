@@ -12,11 +12,12 @@ import IconNoSugar from "@/components/icons/IconNoSugar.astro";
 import IconPineapple from "@/components/icons/IconPineapple.astro";
 import IconZinc from "@/components/icons/IconZinc.astro";
 
+// Each icon bobs a little, out of step with its neighbors. Literal classes so Tailwind sees them.
 const features = [
-  { Icon: IconZinc, title: "With Multivitamins", note: "Vitamin formulas tailored to the needs of every generation" },
-  { Icon: IconLiquidCenter, title: "Liquid center", note: "Bursts in your mouth" },
-  { Icon: IconNoSugar, title: "Sugar-free", note: "Sweetened with sweeteners" },
-  { Icon: IconPineapple, title: "Pineapple flavor", note: "One of the flavors in the vote" },
+  { Icon: IconZinc, title: "With Multivitamins", note: "Vitamin formulas tailored to the needs of every generation", bob: "animate-[sg-bob-soft_4.8s_ease-in-out_infinite]" },
+  { Icon: IconLiquidCenter, title: "Liquid center", note: "Bursts in your mouth", bob: "animate-[sg-bob-soft_4.2s_ease-in-out_-1.3s_infinite]" },
+  { Icon: IconNoSugar, title: "Sugar-free", note: "Sweetened with sweeteners", bob: "animate-[sg-bob-soft_5.4s_ease-in-out_-2.6s_infinite]" },
+  { Icon: IconPineapple, title: "Pineapple flavor", note: "One of the flavors in the vote", bob: "animate-[sg-bob-soft_4.6s_ease-in-out_-0.7s_infinite]" },
 ];
 ---
 
@@ -34,16 +35,18 @@ const features = [
   />
   <div class="container-lg text-center">
     <p class="label-caps text-[17px]">At a glance</p>
-    <h2 id="at-a-glance-heading" class="display-word stretch-display mt-3 text-[clamp(2.2rem,5vw,4.25rem)] leading-[0.88]">Liquid-filled gummies</h2>
-    <ul class="glance-icons mt-[clamp(40px,5vw,72px)] grid grid-cols-2 gap-x-6 gap-y-[clamp(40px,5vw,56px)] lg:grid-cols-4">
+    <h2 id="at-a-glance-heading" class="display-word stretch-display mt-3 text-[clamp(2.6rem,7vw,5.75rem)] leading-[0.88]">Vitamin-filled<br>gummies</h2>
+    <ul class="glance-icons mt-[clamp(40px,5vw,72px)] grid grid-cols-1 gap-x-6 gap-y-5 md:grid-cols-2 md:gap-y-[clamp(24px,3vw,40px)] lg:grid-cols-4">
       {
-        features.map(({ Icon, title, note }) => (
-          <li class="group flex flex-col items-center">
-            <span class="flex h-[clamp(96px,11vw,140px)] items-end justify-center transition duration-300 group-hover:-translate-y-1.5 group-hover:-rotate-3">
-              <Icon class="h-full w-auto drop-shadow-lg" />
+        features.map(({ Icon, title, note, bob }) => (
+          <li class="group flex flex-col items-center rounded-card bg-white/65 px-5 pt-8 pb-7 max-md:flex-row max-md:gap-5 max-md:py-5 shadow-[0_10px_28px_color-mix(in_srgb,var(--color-brand-ink)_10%,transparent)] backdrop-blur-[2px] transition duration-300 hover:-translate-y-1 hover:bg-white/80">
+            <span class="flex h-[clamp(96px,11vw,140px)] items-end justify-center transition duration-300 group-hover:-translate-y-1.5 group-hover:-rotate-3 max-md:w-24 max-md:flex-none max-md:items-center">
+              <Icon class={`h-full w-auto drop-shadow-lg ${bob}`} />
             </span>
-            <h3 class="mt-6 text-[clamp(1.25rem,2vw,1.6rem)] leading-[1.05] font-black uppercase stretch-hero">{title}</h3>
-            <p class="mt-2 max-w-[22ch] text-base leading-snug font-medium">{note}</p>
+            <div class="text-center max-md:text-left">
+              <h3 class="mt-6 text-[clamp(1.25rem,2vw,1.6rem)] leading-[1.05] font-black uppercase stretch-hero max-md:mt-0 max-md:text-base">{title}</h3>
+              <p class="mx-auto mt-2 max-w-[24ch] text-[19px] leading-snug font-medium max-md:mx-0 max-md:max-w-none">{note}</p>
+            </div>
           </li>
         ))
       }

@@ -272,6 +272,17 @@
   }
 }
 
+/* A gentler bob for small icons (the "At a glance" cards). */
+@keyframes sg-bob-soft {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-9px) rotate(2deg);
+  }
+}
+
 @keyframes sg-bob {
   0%,
   100% {
