@@ -3,8 +3,8 @@
  * their speed (far 0.3, mid 0.55, near 1). The burst gummy illustration stays still on purpose.
  *
  * Fine pointer (mouse): the layers follow the pointer, eased with requestAnimationFrame.
- * Touch: the backdrop layers get a subtle vertical scroll parallax via GSAP ScrollTrigger (loaded
- * only there). Motion pauses while the hero is out of view, and nothing moves under reduced motion.
+ * Touch: the backdrop layers get a subtle vertical scroll parallax (passive scroll listener). Motion
+ * pauses while the hero is out of view, and nothing moves under reduced motion.
  * Transforms are set through the CSSOM (element.style), which the strict CSP allows.
  */
 
@@ -80,21 +80,41 @@ function followPointer(parts: Scene): void {
   }).observe(hero);
 }
 
-async function scrollParallax(parts: Scene): Promise<void> {
+/**
+ * Touch: the backdrop sinks a little while the hero scrolls out of view (0 at the top of the page, the full
+ * offset when the hero's bottom reaches the top of the screen). A plain passive scroll listener, no
+ * scroll library: those re-measure the page on every resize (address bar) and can throw a phone back to the top.
+ */
+function scrollParallax(parts: Scene): void {
   const { hero, layers } = parts;
   if (!layers.length) return;
-  const [{ gsap }, { ScrollTrigger }] = await Promise.all([import('gsap'), import('gsap/ScrollTrigger')]);
-  gsap.registerPlugin(ScrollTrigger);
+  let frame = 0;
+  let visible = true;
+  let maxOffset = maxOffsetPx(parts);
 
-  for (const layer of layers) {
-    // Scrubbed between "hero top at viewport top" and "hero bottom at viewport top": ScrollTrigger
-    // only updates inside that range, so the backdrop is idle while the hero is out of view.
-    gsap.to(layer, {
-      y: () => -maxOffsetPx(parts) * speedOf(layer),
-      ease: 'none',
-      scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true, invalidateOnRefresh: true },
-    });
-  }
+  const render = () => {
+    frame = 0;
+    const rect = hero.getBoundingClientRect();
+    const progress = Math.max(0, Math.min(1, -rect.top / Math.max(rect.height, 1)));
+    for (const layer of layers) {
+      layer.style.transform = `translate3d(0, ${(-progress * maxOffset * speedOf(layer)).toFixed(2)}px, 0)`;
+    }
+  };
+  const schedule = () => {
+    if (!frame && visible) frame = requestAnimationFrame(render);
+  };
+
+  window.addEventListener('scroll', schedule, { passive: true });
+  new ResizeObserver(() => {
+    maxOffset = maxOffsetPx(parts);
+    schedule();
+  }).observe(hero);
+  // Nothing to do while the hero is off screen.
+  new IntersectionObserver(([entry]) => {
+    visible = entry?.isIntersecting ?? true;
+    if (visible) schedule();
+  }).observe(hero);
+  schedule();
 }
 
 export function initHeroParallax(): void {
@@ -113,6 +133,6 @@ export function initHeroParallax(): void {
   if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
     followPointer(parts);
   } else {
-    void scrollParallax(parts);
+    scrollParallax(parts);
   }
 }

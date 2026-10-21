@@ -260,7 +260,18 @@ test.describe('hero burst gummy', () => {
 });
 
 test.describe('hero illustration note', () => {
+  test('phones: a plain line under the serving text instead of the circle', async ({ consented: page }) => {
+    test.skip((page.viewportSize()?.width ?? 0) >= 768, 'The circle shows from 768 px up.');
+    await page.goto('/');
+    await expect(page.locator('#hero [data-hero-note]')).toBeHidden();
+    const line = page.locator('#hero').getByText('Illustration. The final gummies may look different.', { exact: true });
+    await expect(line).toBeVisible();
+    const serving = page.locator('#hero').getByText('Serving size and daily gummies');
+    expect((await line.boundingBox())!.y).toBeGreaterThan((await serving.boundingBox())!.y);
+  });
+
   test('runs around the gummy at 16 px, readable to screen readers, and stays on screen', async ({ consented: page }) => {
+    test.skip((page.viewportSize()?.width ?? 0) < 768, 'Phones get a plain line instead of the circle.');
     await page.goto('/');
     const note = page.locator('#hero [data-hero-note]');
     await expect(note).toHaveAttribute('role', 'img');

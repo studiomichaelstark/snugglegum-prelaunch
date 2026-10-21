@@ -6,8 +6,8 @@
  * smooth. The canvas is created once and reused for every burst: a new full-screen canvas per burst
  * adds up in Safari, which frees them late and then refuses the next one. It is in the page only
  * while pieces are flying. Colors come from the palette tokens in colors.css (read at runtime, so no
- * color literal lives here). Mouse: hover. Touch: a tap enlarges the pouch for a moment (data-popped) and
- * bursts confetti from the finger. Never under reduced motion.
+ * color literal lives here). Mouse: hover (with confetti). Touch: a tap only enlarges the pouch smoothly for a
+ * moment (data-popped), no confetti. Never under reduced motion.
  */
 
 // One big blast right away, then two follow-up waves that keep it raining for a moment.
@@ -201,7 +201,7 @@ export function initPouchConfetti(): void {
     return;
   }
 
-  // Touch screens: no hover, so a tap pops the pouch (big, tilted, confetti) and it settles back after a moment.
+  // Touch screens: no hover, so a tap enlarges the pouch (big, tilted) and it settles back after a moment.
   // A tap elsewhere (or on another pouch) settles it right away.
   let timer = 0;
   const settle = () => {
@@ -213,7 +213,6 @@ export function initPouchConfetti(): void {
       event.stopPropagation();
       settle();
       pouch.setAttribute('data-popped', '');
-      confettiAt(event.clientX, event.clientY);
       timer = window.setTimeout(settle, POPPED_MS);
     });
   });

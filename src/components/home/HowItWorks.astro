@@ -48,7 +48,7 @@ const steps = [
       Snack. Burst. Vitamins.
     </h2>
     <p class="mt-4 max-w-[40ch] text-[clamp(1.2rem,1.9vw,1.5rem)] leading-[1.4] font-medium">Snack and burst poppin’ vitamin gummies.</p>
-    <ol class="mt-[clamp(32px,4vw,56px)] grid gap-x-[clamp(24px,3vw,40px)] gap-y-[clamp(48px,6vw,64px)] md:grid-cols-3">
+    <ol class="mt-[clamp(32px,4vw,56px)] grid gap-x-[clamp(24px,3vw,40px)] gap-y-[clamp(48px,6vw,64px)] md:grid-cols-3 short:grid-cols-3 short:gap-x-4">
       {
         steps.map((step, index) => (
           <li class:list={["how-step group relative", step.card]} data-how-step>
@@ -56,7 +56,7 @@ const steps = [
               <span aria-hidden="true" data-decorative-text class="how-number display-word stretch-wide pointer-events-none absolute top-[-0.12em] left-[-0.04em] z-0 text-[clamp(6.5rem,12vw,10.5rem)] leading-[0.8] select-none">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <div class="how-gummy relative z-10 ml-auto w-[78%] transition duration-500 ease-out">
+              <div class="how-gummy relative z-10 ml-auto w-[78%] transition duration-500 ease-out short:w-[85%]">
                 <div class:list={["transition duration-500 ease-out", step.tilt, "group-hover:scale-110"]}>
                   <Picture
                     src={step.image}
@@ -73,8 +73,8 @@ const steps = [
               </div>
             </div>
             <div class="relative z-10 mt-4 border-t-2 border-dashed border-white/20 pt-[clamp(16px,2vw,24px)]">
-              <h3 class="text-[clamp(2.2rem,4vw,3.4rem)] leading-[0.95] font-black uppercase stretch-hero">{step.word}</h3>
-              <p class="mt-3.5 max-w-[34ch] text-xl leading-normal">{step.body}</p>
+              <h3 class="text-[clamp(2.2rem,4vw,3.4rem)] leading-[0.95] font-black uppercase stretch-hero short:text-[1.6rem]">{step.word}</h3>
+              <p class="mt-3.5 max-w-[34ch] text-xl leading-normal short:text-base">{step.body}</p>
             </div>
           </li>
         ))

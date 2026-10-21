@@ -47,6 +47,9 @@
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
+    /* Decorative layers (hero backdrop, marquee) reach past the screen edge; they must never widen the page itself,
+       or iOS Safari shrinks the whole page and leaves white strips left and right. */
+    overflow-x: clip;
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -72,6 +75,7 @@
 
   body {
     margin: 0;
+    overflow-x: clip;
     background: var(--color-surface);
     color: var(--color-text);
     font-family: var(--font-sans);
@@ -441,7 +445,7 @@ dialog[data-dialog='supplement-facts']::backdrop {
  * from md up, 30% larger (54.6%) on phones. (420px = the original 600px base, shrunk 30%.)
  */
 @utility logo-hero {
-  width: min(60%, 450px);
+  width: min(60%, 480px);
 
   @media (min-width: 48rem) {
     width: min(70%, 550px);

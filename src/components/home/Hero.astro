@@ -1,7 +1,7 @@
 ---
 /**
  * Homepage hero: logo, the brand claim as the h1, the tagline and a bursting gummy (liquid center).
- * On phones the gummy comes first, above the headline. The gummy is an illustrative visual (from md up it overlaps the headline on purpose), so the note
+ * On phones the gummy comes first, above the headline, and the note is a plain line under the serving text (the circle is md and up). The gummy is an illustrative visual (from md up it overlaps the headline on purpose), so the note
  * under it says the final look may differ. Stacking: parallax backdrop (HeroParallax) < headline (z-20)
  * < burst gummy (z-30), so the gummy and its syrup sit in front of the h1 on purpose. Only the backdrop moves (heroParallax.ts).
  * The serving note stays neutral until the Supplement Facts are confirmed.
@@ -34,6 +34,7 @@ import HeroParallax from "@/components/home/HeroParallax.astro";
           <ButtonLink href="#newsletter-home">Become a founding member</ButtonLink>
         </div>
         <p class="mt-6 text-base">Serving size and daily gummies: see Supplement Facts (coming with launch).</p>
+        <p class="mt-3 text-base md:hidden">Illustration. The final gummies may look different.</p>
       </div>
       <div class="pointer-events-none relative z-30 max-md:order-first md:-mt-[clamp(140px,18vw,300px)] 2xl:-mr-[clamp(20px,7vw,140px)] md:-ml-[12%] lg:-mt-[clamp(260px,26vw,420px)] lg:-ml-[50%]">
         <div class="relative mx-auto w-[84%] max-w-[780px] sm:w-full md:mr-0 lg:max-w-[880px]">
@@ -53,7 +54,7 @@ import HeroParallax from "@/components/home/HeroParallax.astro";
             role="img"
             aria-label="Illustration. The final gummies may look different."
             viewBox="0 0 1000 666"
-            class="pointer-events-none absolute inset-0 size-full overflow-visible text-green"
+            class="pointer-events-none absolute inset-0 size-full overflow-visible text-green max-md:hidden"
           >
             <defs>
               <path id="hero-note-circle" d="M 685 -10 a 352 352 0 1 1 -0.1 0" fill="none"></path>

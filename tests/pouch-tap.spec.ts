@@ -5,7 +5,7 @@ test.describe('pouch tap on touch screens', () => {
     test.skip(!isMobile, 'Touch screens only; the desktop uses hover (csp.spec.ts).');
   });
 
-  test('a tap enlarges the pouch, bursts confetti and settles back', async ({ consented: page }) => {
+  test('a tap enlarges the pouch (no confetti) and settles back', async ({ consented: page }) => {
     await page.emulateMedia({ reducedMotion: 'no-preference' });
     await page.goto('/');
     const pouch = page.locator('#lines [data-pouch]').first();
@@ -14,7 +14,7 @@ test.describe('pouch tap on touch screens', () => {
 
     await pouch.tap();
     await expect(pouch).toHaveAttribute('data-popped', '');
-    await expect(page.locator('canvas[data-confetti]').first()).toBeAttached();
+    await expect(page.locator('canvas[data-confetti]')).toHaveCount(0);
     await expect.poll(async () => (await pouch.boundingBox())!.width).toBeGreaterThan(small * 1.4);
 
     await expect(pouch).not.toHaveAttribute('data-popped', '', { timeout: 6000 });
