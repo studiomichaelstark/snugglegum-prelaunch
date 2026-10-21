@@ -12,7 +12,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { GROUPS } from '../functions/api/signup.js';
 
 const API = 'https://connect.mailerlite.com/api';
-const REQUIRED_FIELDS = ['consent_at', 'consent_age_18', 'signup_source', 'flavor_suggestion', 'utm_source', 'utm_campaign'];
+const REQUIRED_FIELDS = ['consent_at', 'consent_age_18', 'signup_source', 'flavor_suggestion', 'utm_source', 'utm_campaign', 'message'];
 
 function readDevVars(path = '.dev.vars') {
   if (!existsSync(path)) return {};

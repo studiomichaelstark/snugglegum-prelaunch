@@ -180,6 +180,32 @@ test.describe('newsletter form', () => {
     await expect.poll(() => calls.length).toBe(1);
   });
 
+  test('the message to the team is optional, capped, and travels as a plain field', async ({ consented: page }) => {
+    const calls = await mockMailerLite(page, (route) => jsonResponse(route, { success: true }));
+    await page.goto('/');
+    const message = page.locator('#newsletter-home textarea[data-message]');
+    await expect(message).toHaveAttribute('maxlength', '500');
+    await expect(page.locator('label[for="newsletter-message-home"]')).toContainText('optional');
+    await message.fill('  Please add a mint flavor.  ');
+    await pickRequired(page);
+    await page.locator(EMAIL_FIELD).fill('anna@example.com');
+    await page.locator(CONSENT_FIELD).check();
+    await page.locator('form:has(#newsletter-email-home) button[type="submit"]').click();
+    await expect.poll(() => calls.length).toBe(1);
+    expect(calls[0]?.body ?? '').toMatch(/name="fields\[message\]"\s*[\r\n]+\s*Please add a mint flavor\./);
+  });
+
+  test('without a message no message field is sent', async ({ consented: page }) => {
+    const calls = await mockMailerLite(page, (route) => jsonResponse(route, { success: true }));
+    await page.goto('/');
+    await pickRequired(page);
+    await page.locator(EMAIL_FIELD).fill('anna@example.com');
+    await page.locator(CONSENT_FIELD).check();
+    await page.locator('form:has(#newsletter-email-home) button[type="submit"]').click();
+    await expect.poll(() => calls.length).toBe(1);
+    expect(calls[0]?.body ?? '').not.toContain('fields[message]');
+  });
+
   test('both questions say they are required instead of optional', async ({ consented: page }) => {
     await page.goto('/');
     const legends = page.locator('#newsletter-home fieldset legend');

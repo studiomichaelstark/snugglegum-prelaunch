@@ -44,6 +44,8 @@ const flavors = [
   { id: "energy", label: "Energy" },
 ] as const;
 const FLAVOR_OTHER_MAX_LENGTH = 40;
+const MESSAGE_MAX_LENGTH = 500;
+const messageId = `newsletter-message-${id}`;
 const flavorOtherId = `newsletter-flavor-other-${id}`;
 const errorId = `newsletter-error-${id}`;
 const emailId = `newsletter-email-${id}`;
@@ -107,6 +109,23 @@ const consentId = `newsletter-consent-${id}`;
         />
       </div>
     </fieldset>
+
+    <div class="mb-5">
+      <label for={messageId} class="label-caps mx-auto block text-center text-[clamp(1rem,1.6vw,1.2rem)] leading-[1.3]">
+        A message for us <span class="font-normal normal-case tracking-normal">(optional)</span>
+      </label>
+      <textarea
+        id={messageId}
+        name="fields[message]"
+        data-message
+        rows="3"
+        maxlength={MESSAGE_MAX_LENGTH}
+        autocomplete="off"
+        spellcheck="true"
+        placeholder="Anything you want us to know? Plain text, no links."
+        class:list={["mt-3 block min-h-24 w-full resize-y rounded-3xl border-2 bg-white px-6 py-3.5 text-[19px] leading-snug text-green", isDark ? "border-lime" : "border-green"]}
+      ></textarea>
+    </div>
 
     <label for={emailId} class="label-caps mb-3 block text-center text-[clamp(1rem,1.6vw,1.2rem)] leading-[1.3]">
       Your email for the newsletter

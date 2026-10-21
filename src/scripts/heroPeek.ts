@@ -9,21 +9,43 @@
  */
 
 const OPAQUE = 16; // alpha (0 to 255) from which a pixel counts as part of the illustration
+const MASK_WIDTH = 320; // the picture is sampled once at this width; plenty to tell the gummy from the empty corners
 
-/** Whether the pixel of `image` under the viewport point (x, y) is visible. */
-function isOpaqueAt(image: HTMLImageElement, x: number, y: number, probe: CanvasRenderingContext2D): boolean {
+interface Mask {
+  width: number;
+  height: number;
+  alpha: Uint8ClampedArray;
+}
+
+/** Decodes the picture once and keeps its alpha channel, so a press is a lookup, not a read from a possibly undecoded image. */
+async function buildMask(image: HTMLImageElement): Promise<Mask | null> {
+  try {
+    await image.decode();
+    const width = Math.min(MASK_WIDTH, image.naturalWidth);
+    const height = Math.max(1, Math.round((width * image.naturalHeight) / image.naturalWidth));
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext('2d', { willReadFrequently: true });
+    if (!context) return null;
+    context.drawImage(image, 0, 0, width, height);
+    const { data } = context.getImageData(0, 0, width, height);
+    const alpha = new Uint8ClampedArray(width * height);
+    for (let i = 0; i < alpha.length; i++) alpha[i] = data[i * 4 + 3] ?? 0;
+    return { width, height, alpha };
+  } catch {
+    return null; // not decodable or not readable: fall back to the picture's box
+  }
+}
+
+/** Whether the pixel of `image` under the viewport point (x, y) is part of the illustration. */
+function isOpaqueAt(image: HTMLImageElement, mask: Mask | null, x: number, y: number): boolean {
   const rect = image.getBoundingClientRect();
   if (x < rect.left || x > rect.right || y < rect.top || y > rect.bottom) return false;
-  if (!image.complete || !image.naturalWidth) return true; // not decoded yet: trust the box
-  const sx = Math.min(image.naturalWidth - 1, Math.floor(((x - rect.left) / rect.width) * image.naturalWidth));
-  const sy = Math.min(image.naturalHeight - 1, Math.floor(((y - rect.top) / rect.height) * image.naturalHeight));
-  try {
-    probe.clearRect(0, 0, 1, 1);
-    probe.drawImage(image, sx, sy, 1, 1, 0, 0, 1, 1);
-    return (probe.getImageData(0, 0, 1, 1).data[3] ?? 0) >= OPAQUE;
-  } catch {
-    return true; // pixels not readable: fall back to the box
-  }
+  if (!mask) return true;
+  const mx = Math.min(mask.width - 1, Math.floor(((x - rect.left) / rect.width) * mask.width));
+  const my = Math.min(mask.height - 1, Math.floor(((y - rect.top) / rect.height) * mask.height));
+  return (mask.alpha[my * mask.width + mx] ?? 0) >= OPAQUE;
 }
 
 export function initHeroPeek(): void {
@@ -31,11 +53,13 @@ export function initHeroPeek(): void {
   const hero = document.querySelector<HTMLElement>('#hero');
   const gummy = hero?.querySelector<HTMLElement>('[data-hero-gummy]');
   const image = gummy?.querySelector<HTMLImageElement>('img');
-  const probe = document.createElement('canvas');
-  probe.width = 1;
-  probe.height = 1;
-  const context = probe.getContext('2d', { willReadFrequently: true });
-  if (!hero || !gummy || !image || !context) return;
+  if (!hero || !gummy || !image) return;
+
+  let mask: Mask | null = null;
+  void buildMask(image).then((built) => {
+    mask = built;
+    gummy.dataset.peekReady = '';
+  });
 
   const show = () => {
     gummy.style.visibility = '';
@@ -43,7 +67,7 @@ export function initHeroPeek(): void {
 
   hero.addEventListener('pointerdown', (event) => {
     if (event.pointerType !== 'mouse' || event.button !== 0) return;
-    if (!isOpaqueAt(image, event.clientX, event.clientY, context)) return;
+    if (!isOpaqueAt(image, mask, event.clientX, event.clientY)) return;
     // No text selection or image drag from this press.
     event.preventDefault();
     gummy.style.visibility = 'hidden';

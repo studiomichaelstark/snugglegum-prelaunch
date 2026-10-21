@@ -84,6 +84,8 @@ function readInterests(form: HTMLFormElement): ProductInterest[] {
 }
 
 const FLAVOR_OTHER_MAX_LENGTH = 40;
+/** Longest optional message to the team. The server caps it again. */
+const MESSAGE_MAX_LENGTH = 500;
 
 interface FlavorChoice {
   /** Ids of the ticked flavor checkboxes, e.g. ["pineapple", "energy"]. */
@@ -105,6 +107,11 @@ function readFlavors(form: HTMLFormElement): FlavorChoice {
   return { picked, other };
 }
 
+/** The optional message to the team, trimmed and length-capped. Empty when none. */
+function readMessage(form: HTMLFormElement): string {
+  return (form.querySelector<HTMLTextAreaElement>('textarea[data-message]')?.value ?? '').replace(/\s+/g, ' ').trim().slice(0, MESSAGE_MAX_LENGTH);
+}
+
 /** Campaign parameters recorded with a sign-up, so MailerLite can attribute it to a campaign. */
 const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'] as const;
 const UTM_MAX_LENGTH = 120;
@@ -120,7 +127,7 @@ export function readUtm(search: string): Record<string, string> {
   return found;
 }
 
-async function subscribe(endpoint: string, email: string, interests: ProductInterest[], flavors: FlavorChoice, challengeToken: string | null): Promise<SubscribeResult> {
+async function subscribe(endpoint: string, email: string, interests: ProductInterest[], flavors: FlavorChoice, message: string, challengeToken: string | null): Promise<SubscribeResult> {
   const failed = (outcome: ErrorKind): SubscribeResult => ({ outcome, number: null });
 
   const body = new FormData();
@@ -153,6 +160,7 @@ async function subscribe(endpoint: string, email: string, interests: ProductInte
   // Plain fields, so no MailerLite Group is needed to read the vote.
   if (flavors.picked.length) body.set('fields[flavor_vote]', flavors.picked.join(','));
   if (flavors.other) body.set('fields[flavor_other]', flavors.other);
+  if (message) body.set('fields[message]', message);
 
   const controller = new AbortController();
   const timer = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
@@ -281,7 +289,7 @@ function bind(root: HTMLElement): void {
 
     submitting = true;
     setBusy(form, true);
-    const { outcome: result, number } = await subscribe(endpoint, email, readInterests(form), flavorChoice, (await challenge?.token()) ?? null);
+    const { outcome: result, number } = await subscribe(endpoint, email, readInterests(form), flavorChoice, readMessage(form), (await challenge?.token()) ?? null);
 
     if (result === 'success') {
       // Stay busy (button disabled, no second submit) while the browser moves on to the thank-you page.

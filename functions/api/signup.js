@@ -54,6 +54,7 @@ const MAX_KEYS = 40;
 const MAX_KEY_LENGTH = 100;
 const MAX_VALUE_LENGTH = 1000;
 const MAX_FLAVOR_LENGTH = 200;
+export const MAX_MESSAGE_LENGTH = 500;
 const MAX_TAG_LENGTH = 100;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const TRUTHY = new Set(['on', 'yes', 'true', '1']);
@@ -132,6 +133,21 @@ export function cleanFreeText(value, max) {
     .trim()
     .slice(0, max)
     .trim();
+}
+
+/** Links and bare domains: spam and phishing ride on them, and a note to the team has no use for them. */
+const LINK = /(?:[a-z][a-z0-9+.-]*:\/\/|\bwww\.|\b[a-z0-9-]+\.(?:com|net|org|io|co|ru|cn|xyz|top|info|biz|link|click|shop|site|online|app|dev|me|ly|to)\b)/i;
+
+/**
+ * The optional message to the team: cleaned like any free text (one line, no HTML, no formula starter) and capped.
+ * A message that carries a link is dropped as a whole (the sign-up still goes through), as is one that is empty after cleaning.
+ */
+export function cleanMessage(value, max = MAX_MESSAGE_LENGTH) {
+  // Compatibility forms (full-width letters, ligatures) first, so "ｗｗｗ．evil．ｃｏｍ" cannot slip past the link check.
+  const plain = value.normalize('NFKC');
+  if (LINK.test(plain)) return '';
+  const text = cleanFreeText(plain, max);
+  return text.length >= 2 ? text : '';
 }
 
 /** A campaign tag (utm_*): letters, digits and a few separators only. */
@@ -320,6 +336,8 @@ export async function handleSignup(request, env, fetchImpl = fetch, cache = defa
     signup_source: 'founding-member-form',
   };
   if (flavorText) fields.flavor_suggestion = flavorText;
+  const message = cleanMessage(first(values, 'message', 'fields[message]'));
+  if (message) fields.message = message;
   for (const name of ['utm_source', 'utm_campaign']) {
     const value = cleanTag(first(values, name, `fields[${name}]`));
     if (value) fields[name] = value;
@@ -332,13 +350,26 @@ export async function handleSignup(request, env, fetchImpl = fetch, cache = defa
     fields,
   };
 
-  let upstream;
-  try {
-    upstream = await fetchImpl(CONNECT_URL, {
+  const send = (body) =>
+    fetchImpl(CONNECT_URL, {
       method: 'POST',
       headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(body),
     });
+
+  let upstream;
+  try {
+    upstream = await send(payload);
+    // The message is a bonus. If the account has no "message" custom field yet, MailerLite refuses the whole call:
+    // try once more without the message so the sign-up itself never fails because of it.
+    if (upstream.status === 422 && message) {
+      const refusedFields = await upstream.clone().json().then((data) => Object.keys(data?.errors ?? {}), () => []);
+      if (refusedFields.some((name) => name.includes('message'))) {
+        console.error('signup: the "message" custom field is missing in MailerLite; sent the sign-up without it');
+        const { message: _dropped, ...withoutMessage } = payload.fields;
+        upstream = await send({ ...payload, fields: withoutMessage });
+      }
+    }
   } catch {
     console.error('signup: MailerLite could not be reached');
     return json({ ok: false, error: 'We could not reach the list. Please try again.', status: 502 }, 502);

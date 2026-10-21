@@ -10,7 +10,7 @@ test.describe('hero illustration: hidden while the mouse button is held', () => 
     const gummy = page.locator('#hero [data-hero-gummy]');
     const image = gummy.locator('img');
     await image.evaluate((el) => el.scrollIntoView({ block: 'center', behavior: 'instant' }));
-    await expect.poll(() => image.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0)).toBe(true);
+    await expect(gummy).toHaveAttribute('data-peek-ready', '');
     const before = (await gummy.boundingBox())!;
     const box = (await image.boundingBox())!;
     // The middle of the gummy ball (right of center in the picture).
@@ -33,7 +33,7 @@ test.describe('hero illustration: hidden while the mouse button is held', () => 
     const gummy = page.locator('#hero [data-hero-gummy]');
     const image = gummy.locator('img');
     await image.evaluate((el) => el.scrollIntoView({ block: 'center', behavior: 'instant' }));
-    await expect.poll(() => image.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0)).toBe(true);
+    await expect(gummy).toHaveAttribute('data-peek-ready', '');
     const box = (await image.boundingBox())!;
 
     await page.mouse.move(box.x + box.width * 0.02, box.y + box.height * 0.97);

@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { cleanEmail, cleanFreeText, cleanTag, COUNTER_KEY, EMAIL_WINDOW_SECONDS, GROUPS, handleSignup, IP_LIMIT, MIN_FORM_AGE_MS } from '../../functions/api/signup.js';
+import { cleanEmail, cleanFreeText, cleanMessage, cleanTag, MAX_MESSAGE_LENGTH, COUNTER_KEY, EMAIL_WINDOW_SECONDS, GROUPS, handleSignup, IP_LIMIT, MIN_FORM_AGE_MS } from '../../functions/api/signup.js';
 import { handleCount } from '../../functions/api/count.js';
 
 class FakeKv {
@@ -404,5 +404,57 @@ test.describe('GET /api/count', () => {
     kv.store.set(COUNTER_KEY, '1234');
     expect(await (await handleCount({ SIGNUPS: kv })).json()).toEqual({ count: 1234 });
     expect(await (await handleCount({})).json()).toEqual({ count: 0 });
+  });
+});
+
+test.describe('the optional message to the team', () => {
+  test('is cleaned, capped and sent as the "message" custom field; no message, no field', async () => {
+    const ml = mailerLite();
+    await handleSignup(formRequest({ ...GOOD, 'fields[message]': '  =Love the idea!\n\n=SUM(A1) <b>please</b> \u202e ' }), envWith(new FakeKv()), ml.impl);
+    expect(JSON.parse(ml.calls[0]!.init.body).fields.message).toBe('Love the idea! =SUM(A1) bplease/b');
+
+    const none = mailerLite();
+    await handleSignup(formRequest({ ...GOOD, 'fields[message]': '   ' }), envWith(new FakeKv()), none.impl);
+    expect(JSON.parse(none.calls[0]!.init.body).fields.message).toBeUndefined();
+
+    const long = mailerLite();
+    await handleSignup(formRequest({ ...GOOD, 'fields[message]': 'a'.repeat(5000) }), envWith(new FakeKv()), long.impl);
+    expect(JSON.parse(long.calls[0]!.init.body).fields.message).toHaveLength(MAX_MESSAGE_LENGTH);
+  });
+
+  test('a message with a link is dropped, the sign-up still goes through', () => {
+    for (const bad of ['see https://evil.example/x', 'visit www.evil.example', 'mail me at evil.com', 'ftp://x', '\uff57\uff57\uff57\uff0eevil\uff0ecom', 'hxxp://a.b is not the same but javascript://x']) {
+      expect(cleanMessage(bad), bad).toBe('');
+    }
+    expect(cleanMessage('Can you add a mint flavor, please?')).toBe('Can you add a mint flavor, please?');
+    expect(cleanMessage('a')).toBe('');
+  });
+
+  test('the sign-up works when the account has no "message" field yet: one retry without it, nothing leaks', async () => {
+    const calls: { body: string }[] = [];
+    const impl = (async (_url: string, init: { body: string }) => {
+      calls.push({ body: init.body });
+      return calls.length === 1 ? new Response(JSON.stringify({ errors: { 'fields.message': ['unknown'] } }), { status: 422 }) : new Response('{}', { status: 201 });
+    }) as unknown as typeof fetch;
+    const response = await handleSignup(formRequest({ ...GOOD, 'fields[message]': 'Hello team' }), envWith(new FakeKv()), impl);
+    expect(response.status).toBe(200);
+    expect(calls).toHaveLength(2);
+    expect(JSON.parse(calls[0]!.body).fields.message).toBe('Hello team');
+    expect(JSON.parse(calls[1]!.body).fields.message).toBeUndefined();
+  });
+
+  test('other refusals are not retried, and the message is never logged', async () => {
+    const logged: string[] = [];
+    const original = console.error;
+    console.error = (...args: unknown[]) => void logged.push(args.join(' '));
+    try {
+      const ml = mailerLite(422, { errors: { 'fields.consent_at': ['x'] } });
+      const response = await handleSignup(formRequest({ ...GOOD, 'fields[message]': 'secret note' }), envWith(new FakeKv()), ml.impl);
+      expect(response.status).toBe(500);
+      expect(ml.calls).toHaveLength(1);
+      expect(logged.join('\n')).not.toContain('secret note');
+    } finally {
+      console.error = original;
+    }
   });
 });
