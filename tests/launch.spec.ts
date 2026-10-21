@@ -11,8 +11,8 @@ const LEGAL_LINES = [
 test.describe('home: pre-launch page', () => {
   test('hero carries the claim and the neutral serving note', async ({ consented: page }) => {
     await page.goto('/');
-    await expect(page.locator('h1')).toHaveText('Poppin’ Vitamin Gummies.');
-    await expect(page.locator('#hero')).toContainText('Vitamins you actually want to snack on.');
+    await expect(page.locator('h1')).toHaveText('would you snack on these Vitamin Gummies?');
+    await expect(page.locator('#hero')).toContainText('Vitamin Gummies you actually want to snack on.');
     await expect(page.locator('#hero')).toContainText('Serving size and daily gummies: see Supplement Facts (coming with launch).');
   });
 
