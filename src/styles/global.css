@@ -443,14 +443,14 @@ dialog[data-dialog='supplement-facts']::backdrop {
 }
 
 /*
- * Hero wordmark size, identical on the home page and every product page: 42% of the column up to 420px
- * from md up, 30% larger (54.6%) on phones. (420px = the original 600px base, shrunk 30%.)
+ * Hero wordmark size: 81% of the column up to 648px on phones (35% larger than before: 60% / 480px) and
+ * 84% up to 660px from md up (20% larger than before: 70% / 550px).
  */
 @utility logo-hero {
-  width: min(60%, 480px);
+  width: min(81%, 648px);
 
   @media (min-width: 48rem) {
-    width: min(70%, 550px);
+    width: min(84%, 660px);
   }
 }
 
