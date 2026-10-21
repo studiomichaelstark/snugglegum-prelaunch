@@ -23,6 +23,8 @@
 
 /* Short viewports (phones in landscape): `short:` utilities apply below 520px height. */
 @custom-variant short (@media (max-height: 520px));
+/* Phones in landscape that are narrower than the md breakpoint (768px), e.g. an iPhone with its safe-area strips: 600 to 767px wide and short. */
+@custom-variant land (@media (min-width: 37.5rem) and (max-width: 47.99rem) and (max-height: 520px));
 
 /* Only tokens from colors.css are available as color utilities. */
 @theme {
