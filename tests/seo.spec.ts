@@ -77,9 +77,14 @@ test.describe('SEO', () => {
     const robots = await request.get('/robots.txt');
     expect(robots.ok()).toBe(true);
     const robotsText = await robots.text();
-    expect(robotsText).toContain('Sitemap: https://snugglegum.example/sitemap-index.xml');
-    for (const bot of ['Googlebot', 'GPTBot', 'ClaudeBot', 'PerplexityBot']) expect(robotsText).toContain(`User-agent: ${bot}`);
-    expect(robotsText).not.toMatch(/Disallow: \/\s*$/m);
+    if (process.env.PUBLIC_ALLOW_INDEXING !== 'true') {
+      expect(robotsText).toMatch(/User-agent: \*\s+Disallow: \/\s*$/m);
+      expect(robotsText).not.toContain('Allow: /');
+    } else {
+      expect(robotsText).toContain('Sitemap: https://snugglegum.example/sitemap-index.xml');
+      for (const bot of ['Googlebot', 'GPTBot', 'ClaudeBot', 'PerplexityBot']) expect(robotsText).toContain(`User-agent: ${bot}`);
+      expect(robotsText).not.toMatch(/Disallow: \/\s*$/m);
+    }
 
     const llms = await request.get('/llms.txt');
     expect(llms.ok()).toBe(true);

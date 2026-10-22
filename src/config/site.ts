@@ -19,6 +19,8 @@ export interface SiteConfig {
   readonly subscriberCount: number;
   /** Minimum subscriberCount before the social-proof line renders. From PUBLIC_PROOF_THRESHOLD. */
   readonly proofThreshold: number;
+  /** false (default) = pre-launch: robots.txt blocks every bot, pages get noindex, no sitemap. From PUBLIC_ALLOW_INDEXING=true. */
+  readonly allowIndexing: boolean;
 }
 
 export const siteConfig: SiteConfig = {
@@ -30,6 +32,7 @@ export const siteConfig: SiteConfig = {
   discountLabel: (import.meta.env.PUBLIC_DISCOUNT_LABEL ?? '').trim(),
   subscriberCount: parseCount(import.meta.env.PUBLIC_SUBSCRIBER_COUNT, 0),
   proofThreshold: parseCount(import.meta.env.PUBLIC_PROOF_THRESHOLD, 250),
+  allowIndexing: import.meta.env.PUBLIC_ALLOW_INDEXING === 'true',
 };
 
 /**

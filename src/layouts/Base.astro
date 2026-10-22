@@ -11,7 +11,9 @@ import { absoluteUrl, buildJsonLd, type PageMeta } from "@/lib/seo";
 
 type Props = PageMeta;
 
-const { title, description, path, productLines, noindex = false } = Astro.props;
+const { title, description, path, productLines, noindex: pageNoindex = false } = Astro.props;
+// Pre-launch: every page is noindex until PUBLIC_ALLOW_INDEXING=true.
+const noindex = pageNoindex || !siteConfig.allowIndexing;
 const canonical = absoluteUrl(path);
 const ogImage = `${siteConfig.url}/og-image.png`;
 const ogImageAlt = "Snugglegum™: Poppin' Vitamin Gummies. An illustrated gummy bursts open and spills its liquid center.";

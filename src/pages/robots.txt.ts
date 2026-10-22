@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { siteConfig } from '@/config/site';
 
 /**
  * Search and AI crawlers that are explicitly allowed. To block one, remove it from `allowed`
@@ -26,6 +27,11 @@ const blocked: string[] = [];
 const group = (agent: string, rule: 'Allow' | 'Disallow') => `User-agent: ${agent}\n${rule}: /\n`;
 
 export const GET: APIRoute = ({ site }) => {
+  // Pre-launch: keep every bot out, search and AI alike. Set PUBLIC_ALLOW_INDEXING=true at launch.
+  if (!siteConfig.allowIndexing) {
+    const body = ['# robots.txt for Snugglegum™ (not launched yet: no crawling)', '', group('*', 'Disallow'), ''].join('\n');
+    return new Response(body, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
+  }
   const origin = (site?.toString() ?? '').replace(/\/+$/, '');
   const body = [
     '# robots.txt for Snugglegum™',
