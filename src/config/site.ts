@@ -32,7 +32,7 @@ export const siteConfig: SiteConfig = {
   discountLabel: (import.meta.env.PUBLIC_DISCOUNT_LABEL ?? '').trim(),
   subscriberCount: parseCount(import.meta.env.PUBLIC_SUBSCRIBER_COUNT, 0),
   proofThreshold: parseCount(import.meta.env.PUBLIC_PROOF_THRESHOLD, 250),
-  allowIndexing: import.meta.env.PUBLIC_ALLOW_INDEXING === 'true',
+  allowIndexing: import.meta.env.PUBLIC_ALLOW_INDEXING === 'false',
 };
 
 /**
